@@ -1,0 +1,12 @@
+{
+  "id": "nilovelez-1qres",
+  "title": "1qr.es",
+  "description": "Privacy-oriented QR code generator and URL shortener.",
+  "status": "planned",
+  "status_text": "Project decided but not started: no code yet. Next step is to define the scope of the QR code generator and the URL shortener.",
+  "last_update": "2026-10-23 01:32:22 +0200",
+  "last_update_unix": 1792711942,
+  "url": "https://github.com/nilovelez/1qres",
+  "status_url": "https://raw.githubusercontent.com/nilovelez/1qres/main/guppy/STATUS.md",
+  "icon": null
+}
