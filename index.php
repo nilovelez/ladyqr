@@ -1,0 +1,149 @@
+<?php
+/**
+ * LadyQR: the QR code editor page.
+ *
+ * PHP only generates the page, with the interface in the configured language.
+ * The QR code itself is made in the visitor's browser, and a strict
+ * Content-Security-Policy stops the page from talking to any server.
+ */
+
+define( 'LADYQR', true );
+require __DIR__ . '/includes/config.php';
+require __DIR__ . '/includes/i18n.php';
+
+$ladyqr_config = ladyqr_config();
+ladyqr_load_textdomain( $ladyqr_config['language'] );
+
+header( 'Content-Type: text/html; charset=utf-8' );
+header(
+	"Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; " .
+	"connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+);
+header( 'X-Content-Type-Options: nosniff' );
+header( 'Referrer-Policy: no-referrer' );
+
+/**
+ * Returns an asset path with its modification time, so browsers fetch a new
+ * copy when the file changes.
+ */
+function ladyqr_asset( $path ) {
+	$file = __DIR__ . '/' . $path;
+	return htmlspecialchars( $path . ( is_file( $file ) ? '?v=' . filemtime( $file ) : '' ), ENT_QUOTES, 'UTF-8' );
+}
+
+// Strings the browser-side code needs.
+$ladyqr_js_strings = array(
+	'empty'    => __( 'Your QR code will appear here', 'ladyqr' ),
+	'tooLong'  => __( 'This text is too long for a QR code. Try a shorter one.', 'ladyqr' ),
+	'qrAlt'    => __( 'QR code', 'ladyqr' ),
+);
+
+$ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
+?>
+<!doctype html>
+<html lang="<?php echo htmlspecialchars( $ladyqr_lang, ENT_QUOTES, 'UTF-8' ); ?>">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="color-scheme" content="light dark">
+	<title>LadyQR</title>
+	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>">
+	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/css/app.css' ); ?>">
+</head>
+<body>
+
+<button class="help" id="help-open" type="button" aria-label="<?php echo esc_attr__( 'Help', 'ladyqr' ); ?>">
+	<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5"/><circle cx="12" cy="17.8" r=".6" fill="currentColor"/></svg>
+	<span><?php esc_html_e( 'Help', 'ladyqr' ); ?></span>
+</button>
+
+<dialog id="help-dialog" aria-labelledby="help-title">
+	<div class="dialog-body">
+		<div class="dialog-head">
+			<img alt="" src="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>" width="40" height="40">
+			<h2 id="help-title"><?php esc_html_e( 'About LadyQR', 'ladyqr' ); ?></h2>
+			<button class="dialog-close" id="help-close" type="button" aria-label="<?php echo esc_attr__( 'Close', 'ladyqr' ); ?>">&times;</button>
+		</div>
+		<p><?php esc_html_e( 'LadyQR makes QR codes entirely in your browser. What you type is never sent to a server, and the page loads nothing from outside.', 'ladyqr' ); ?></p>
+		<h3><?php esc_html_e( 'How to use it', 'ladyqr' ); ?></h3>
+		<ol>
+			<li><?php esc_html_e( 'Type or paste a link or some text in the big field.', 'ladyqr' ); ?></li>
+			<li><?php esc_html_e( 'The QR code updates as you type. Scan it with your phone to check it.', 'ladyqr' ); ?></li>
+			<li><?php esc_html_e( 'Press Download for a 500 px PNG, or open the arrow for a 1000 px PNG or a vector SVG.', 'ladyqr' ); ?></li>
+			<li><?php esc_html_e( 'Open Settings to change the error correction, margin and colors.', 'ladyqr' ); ?></li>
+		</ol>
+		<h3><?php esc_html_e( 'Which format?', 'ladyqr' ); ?></h3>
+		<p><?php esc_html_e( 'Use PNG for screens and documents. Use SVG when you will print it large or resize it: it stays sharp at any size.', 'ladyqr' ); ?></p>
+		<small><?php esc_html_e( 'Free software, GPL-2.0-or-later', 'ladyqr' ); ?> · github.com/nilovelez/ladyqr</small>
+	</div>
+</dialog>
+
+<main>
+	<div class="card">
+		<input class="field" id="content" type="text" placeholder="<?php echo esc_attr__( 'Type or paste a link or text', 'ladyqr' ); ?>" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="<?php echo esc_attr__( 'Text or URL', 'ladyqr' ); ?>">
+
+		<details class="settings">
+			<summary><?php esc_html_e( 'Settings', 'ladyqr' ); ?></summary>
+			<div class="settings-body">
+				<div>
+					<span class="label"><?php esc_html_e( 'Error correction', 'ladyqr' ); ?></span>
+					<div class="segmented" id="ecc" role="group" aria-label="<?php echo esc_attr__( 'Error correction', 'ladyqr' ); ?>">
+						<button type="button" aria-pressed="false" data-level="L">L<small>7%</small></button>
+						<button type="button" aria-pressed="true" data-level="M">M<small>15%</small></button>
+						<button type="button" aria-pressed="false" data-level="Q">Q<small>25%</small></button>
+						<button type="button" aria-pressed="false" data-level="H">H<small>30%</small></button>
+					</div>
+				</div>
+				<div>
+					<label class="label" for="margin"><?php esc_html_e( 'Margin (modules)', 'ladyqr' ); ?></label>
+					<div class="range">
+						<input id="margin" type="range" min="0" max="8" step="1" value="4">
+						<output id="margin-value" for="margin">4</output>
+					</div>
+				</div>
+				<div class="colors">
+					<div>
+						<label class="label" for="fg"><?php esc_html_e( 'Module color', 'ladyqr' ); ?></label>
+						<input id="fg" type="color" value="#1d1a1b">
+					</div>
+					<div>
+						<label class="label" for="bg"><?php esc_html_e( 'Background color', 'ladyqr' ); ?></label>
+						<input id="bg" type="color" value="#ffffff">
+					</div>
+				</div>
+			</div>
+		</details>
+
+		<div class="qr" id="qr" role="img" aria-live="polite"></div>
+
+		<div class="download">
+			<button class="download-main" id="download-png-500" type="button" disabled>
+				<?php esc_html_e( 'Download', 'ladyqr' ); ?> <small>PNG 500px</small>
+			</button>
+			<button class="download-more" id="download-more" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="download-menu" aria-label="<?php echo esc_attr__( 'More download formats', 'ladyqr' ); ?>" disabled>
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+			</button>
+			<div class="download-menu" id="download-menu" hidden>
+				<button type="button" id="download-png-1000">PNG <span>1000px</span></button>
+				<button type="button" id="download-svg">SVG <span><?php esc_html_e( 'vector', 'ladyqr' ); ?></span></button>
+			</div>
+		</div>
+	</div>
+</main>
+
+<footer>
+	<a href="https://github.com/nilovelez/ladyqr" target="_blank" rel="noopener">
+		<img alt="" src="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>" width="22" height="22">
+		<span>
+			<?php
+			/* translators: %s: the product name, LadyQR. */
+			echo sprintf( esc_html__( 'Made with %s, get yours free', 'ladyqr' ), '<b>LadyQR</b>' );
+			?>
+		</span>
+	</a>
+</footer>
+
+<script type="application/json" id="ladyqr-i18n"><?php echo json_encode( $ladyqr_js_strings, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE ); ?></script>
+<script type="module" src="<?php echo ladyqr_asset( 'assets/js/app.js' ); ?>"></script>
+</body>
+</html>
