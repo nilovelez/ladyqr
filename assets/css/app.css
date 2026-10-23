@@ -5,7 +5,8 @@
 	--surface: #ffffff;
 	--ink: #1d1a1b;
 	--muted: #6d6869;
-	--line: #e3e0de;
+	--line: #d3cfce;
+	--border: #847e7f;
 	--accent: #d9261c;
 	--accent-ink: #ffffff;
 	--accent-deep: #b81d14;
@@ -21,7 +22,8 @@
 		--surface: #1d1a1b;
 		--ink: #f1eeed;
 		--muted: #a29b9c;
-		--line: #342f30;
+		--line: #4a4445;
+		--border: #7e7879;
 		--accent: #ef4a40;
 		--accent-ink: #141213;
 		--accent-deep: #d93a30;
@@ -59,7 +61,7 @@ main {
 
 .card {
 	background: var(--surface);
-	border: 1px solid var(--line);
+	border: 1px solid var(--border);
 	border-radius: 24px;
 	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
 }
@@ -103,7 +105,7 @@ input:focus-visible {
 	font-weight: 500;
 	color: var(--ink);
 	background: var(--bg);
-	border: 2px solid var(--line);
+	border: 2px solid var(--border);
 	border-radius: 14px;
 }
 
@@ -194,7 +196,7 @@ input:focus-visible {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	overflow: hidden;
-	border: 1px solid var(--line);
+	border: 1px solid var(--border);
 	border-radius: 10px;
 }
 
@@ -209,7 +211,7 @@ input:focus-visible {
 	color: var(--ink);
 	background: var(--bg);
 	border: 0;
-	border-right: 1px solid var(--line);
+	border-right: 1px solid var(--border);
 	cursor: pointer;
 }
 
@@ -230,7 +232,6 @@ input:focus-visible {
 
 .segmented button[aria-pressed="true"] small {
 	color: inherit;
-	opacity: 0.85;
 }
 
 .range {
@@ -263,7 +264,7 @@ input:focus-visible {
 	height: 38px;
 	padding: 2px;
 	background: var(--bg);
-	border: 1px solid var(--line);
+	border: 1px solid var(--border);
 	border-radius: 8px;
 }
 
@@ -275,7 +276,7 @@ input:focus-visible {
 	max-width: 360px;
 	aspect-ratio: 1;
 	overflow: hidden;
-	border: 1px solid var(--line);
+	border: 1px solid var(--border);
 	border-radius: 12px;
 }
 
@@ -304,7 +305,7 @@ input:focus-visible {
 	font-weight: 600;
 	color: var(--ink);
 	background: transparent;
-	border: 1px solid var(--line);
+	border: 1px solid var(--border);
 	border-radius: 10px;
 	cursor: pointer;
 }
@@ -364,7 +365,6 @@ input:focus-visible {
 .download-main small {
 	margin-left: 6px;
 	font-weight: 500;
-	opacity: 0.85;
 }
 
 .download-more {
@@ -406,7 +406,7 @@ input:focus-visible {
 	z-index: 5;
 	overflow: hidden;
 	background: var(--surface);
-	border: 1px solid var(--line);
+	border: 1px solid var(--border);
 	border-radius: 12px;
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
 }
@@ -462,7 +462,7 @@ input:focus-visible {
 	font-weight: 600;
 	color: var(--muted);
 	background: var(--surface);
-	border: 1px solid var(--line);
+	border: 1px solid var(--border);
 	border-radius: 99px;
 	cursor: pointer;
 	transition: gap 0.18s, padding 0.18s, color 0.18s, border-color 0.18s;
@@ -499,7 +499,7 @@ dialog {
 	padding: 0;
 	color: var(--ink);
 	background: var(--surface);
-	border: 1px solid var(--line);
+	border: 1px solid var(--border);
 	border-radius: 20px;
 }
 
@@ -537,7 +537,7 @@ dialog::backdrop {
 	line-height: 1;
 	color: var(--muted);
 	background: transparent;
-	border: 1px solid var(--line);
+	border: 1px solid var(--border);
 	border-radius: 99px;
 	cursor: pointer;
 }
