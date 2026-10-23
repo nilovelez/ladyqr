@@ -49,6 +49,36 @@ The base of the project, not a throwaway: it lives at the repository root and is
 - Done when a list of inputs (short and long URLs, accents, emoji) produces codes a real reader decodes, and it is published on `1qr.es`.
 - At the end, decide whether writing the encoder ourselves was worth it or a minimal library should be vendored instead.
 
+**Status: built, verified and merged into `main`.** Still to do: publish it on the author's own `1qr.es`, which needs the hosting from M1.
+
+**Decision on the encoder:** writing it ourselves was worth it. It is about 400 lines with no dependencies, and it was verified against an independent implementation, so there is no reason to vendor a library.
+
+**Verification** (done with throwaway scripts outside the repository, with `qrcode`, `jsqr` and `puppeteer-core` as test-only tools):
+
+- The module matrix is identical to the `qrcode` npm package's for 328 inputs that cover all 40 versions at the four error correction levels, forcing byte mode and the same version and mask.
+- `jsqr` decodes 346 of 348 symbols back to the original text. The two it fails on (level L, version 23) fail in the same way on the reference implementation's own symbol, so the decoder is at fault, not the encoder. ZXing was also tried; on the inputs where it was compared directly, it behaved the same with our symbols and the reference's.
+- In headless Chrome, the 500 px PNG, the 1000 px PNG and the SVG that the editor downloads decode to the exact text, with accents and emoji, also with custom colors, margin and error correction.
+- With the CSP active there are no console errors and no requests outside the page's own origin.
+- Not tested: a real hosting plan (M1), Firefox, Safari, touch devices, screen readers, and PHP versions before 8.5.
+
+Automated tests are still planned for M2.
+
+**Findings worth keeping:**
+
+- Borders were 1.31:1 against the card, far below the 3:1 that WCAG asks for the edges of controls. Measuring them, and measuring text with the same contrast function the editor uses, also found small button labels at 3.89:1 because of an 85% opacity. See `DESIGN.md`.
+- The JSON block for translated strings avoids the need for CSP hashes or nonces for inline scripts.
+- GitHub Pages cannot send HTTP headers, so the demo carries its policy in a `<meta>` tag, which cannot use `frame-ancestors`.
+
+## Public website
+
+A landing page and a live demo of the editor are published at https://ladyqr.nilovelez.com/ with GitHub Pages.
+
+- **Source:** the landing page is in `site/` (static HTML and CSS, no JavaScript, with its own `<meta>` CSP). It uses the same tokens as the editor.
+- **Demo:** `tools/build-site.php` renders `index.php` in English to static HTML under `/try/`, because GitHub Pages cannot run PHP.
+- **Deployment:** `.github/workflows/pages.yml` builds `_site/` and deploys it on every push to `main`. Pages is set to the "GitHub Actions" source with `ladyqr.nilovelez.com` as the custom domain; the DNS record is a `CNAME` to `nilovelez.github.io`. No `CNAME` file is needed with this kind of deployment.
+- **The QR code** on the landing page and in the README (`site/qr.svg`) is made with the project's own encoder: `node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg M 4`.
+- First version. The demo is in English only for now.
+
 ### M1. Hosting spike
 
 Verify what the target hosting allows before building the shortener: `Redirect` and `ErrorDocument 404` in `.htaccess`, PHP rewriting a block of `.htaccess`, `Header` for the CSP, available PHP version and HTTPS. Part of this comes for free from deploying M0. If something fails, redesign the shortener before writing it.

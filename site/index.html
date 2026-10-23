@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="color-scheme" content="light dark">
+	<meta name="description" content="LadyQR makes QR codes entirely in your browser, as you type. Nothing is uploaded. Free software, with PNG and SVG downloads.">
+	<title>LadyQR</title>
+	<link rel="icon" type="image/png" href="img/icon-128.png">
+	<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+	<a class="brand" href="./">
+		<img src="img/icon-128.png" alt="" width="36" height="36">
+		<span>LadyQR</span>
+	</a>
+	<nav aria-label="Main">
+		<a href="try/">Try it</a>
+		<a href="#verify">Verify</a>
+		<a href="#run-your-own">Run your own</a>
+		<a href="https://github.com/nilovelez/ladyqr">GitHub</a>
+	</nav>
+</header>
+
+<main id="main">
+
+	<section class="hero">
+		<div class="hero-text">
+			<h1>QR codes that never leave your browser.</h1>
+			<p class="lead">Type a link and the QR code appears as you type. Download it as a PNG or a vector SVG. Nothing is uploaded, nothing is tracked and there is nothing to install.</p>
+			<p class="actions">
+				<a class="button primary" href="try/">Try it now</a>
+				<a class="button" href="https://github.com/nilovelez/ladyqr">View on GitHub</a>
+			</p>
+		</div>
+		<figure class="hero-qr">
+			<img src="qr.svg" alt="QR code that opens ladyqr.nilovelez.com" width="240" height="240">
+			<figcaption>Scan me. This code was made with LadyQR.</figcaption>
+		</figure>
+	</section>
+
+	<section class="band">
+		<h2>What you get</h2>
+		<ul class="features">
+			<li>
+				<h3>Private by construction</h3>
+				<p>The QR code is computed in your browser. The page sends a strict Content Security Policy that forbids any network request, so it could not upload what you type even by mistake.</p>
+			</li>
+			<li>
+				<h3>Instant</h3>
+				<p>The code updates on every keystroke. There is no generate button and no waiting.</p>
+			</li>
+			<li>
+				<h3>PNG and SVG</h3>
+				<p>Download a 500 px or 1000 px PNG, or a vector SVG that stays sharp at any size, for print or signage.</p>
+			</li>
+			<li>
+				<h3>Made to be scanned</h3>
+				<p>Choose the error correction level, the margin and the colors. LadyQR warns you about low contrast and inverted colors, the two most common reasons a code fails to scan.</p>
+			</li>
+			<li>
+				<h3>Small and dependency-free</h3>
+				<p>It has its own QR encoder, with no libraries and no build step. PHP only generates the page, so it runs on the cheapest shared hosting.</p>
+			</li>
+			<li>
+				<h3>Accessible and translatable</h3>
+				<p>High-contrast borders, full keyboard use, light and dark themes. Translations work like WordPress, with standard <code>.po</code> files. English and Spanish are included.</p>
+			</li>
+		</ul>
+	</section>
+
+	<section class="shots" aria-labelledby="shots-title">
+		<h2 id="shots-title">One screen, one job</h2>
+		<p>A text field, the QR code and a download button. Everything else is one click away in the settings.</p>
+		<figure>
+			<picture>
+				<source srcset="img/editor-dark.png" media="(prefers-color-scheme: dark)">
+				<img src="img/editor-light.png" alt="The LadyQR editor: a collapsed Settings bar, a text field containing a web address, the QR code for it, and a large red Download button." width="560" height="649">
+			</picture>
+		</figure>
+	</section>
+
+	<section class="band" id="verify">
+		<h2>Don't take our word for it</h2>
+		<p>Privacy claims are cheap, so LadyQR makes them easy to check.</p>
+		<ol class="steps">
+			<li>Open the <a href="try/">live editor</a> and your browser's developer tools, on the Network tab.</li>
+			<li>Type anything. No request is made: the page can only load its own files.</li>
+			<li>Look at the page's policy. <code>connect-src 'none'</code> tells the browser to refuse any connection, whatever the code tries to do:</li>
+		</ol>
+		<pre><code>default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self';
+connect-src 'none'; base-uri 'none'; form-action 'none'</code></pre>
+		<p>The encoder is about 400 lines in <a href="https://github.com/nilovelez/ladyqr/blob/main/assets/js/qr.js"><code>assets/js/qr.js</code></a>, and the only thing the page remembers is your settings, in your own browser. What you type is never stored.</p>
+	</section>
+
+	<section class="band" id="run-your-own">
+		<h2>Run your own</h2>
+		<p>LadyQR is a handful of files. It needs a web server that can run PHP (Apache is the target) and nothing else, not even a database.</p>
+		<ol class="steps">
+			<li><a href="https://github.com/nilovelez/ladyqr">Download the repository</a> or clone it.</li>
+			<li>Upload it to the root of your site.</li>
+			<li>Optionally, copy <code>ladyqr-config.sample.php</code> to <code>ladyqr-config.php</code> and set the interface language.</li>
+		</ol>
+		<p>The <a href="https://github.com/nilovelez/ladyqr#readme">README</a> has the details, and <a href="https://github.com/nilovelez/ladyqr/blob/main/DESIGN.md">DESIGN.md</a> explains how it looks and why.</p>
+	</section>
+
+	<section class="band" id="roadmap">
+		<h2>Where it is going</h2>
+		<ul class="roadmap">
+			<li class="done"><strong>Done:</strong> the QR code generator, with PNG and SVG, settings, warnings, dark mode and translations.</li>
+			<li><strong>Next:</strong> test it on a real 100 MB shared hosting plan, then add a private, single-user URL shortener that writes its redirects into <code>.htaccess</code> so Apache serves them without running PHP.</li>
+			<li><strong>Later:</strong> installation guide and a release you can upload by FTP.</li>
+		</ul>
+		<p>The full plan is in <a href="https://github.com/nilovelez/ladyqr/blob/main/docs/PLAN.md">docs/PLAN.md</a>.</p>
+	</section>
+
+</main>
+
+<footer class="bottom">
+	<img src="img/ladybug.webp" alt="" width="140" height="90">
+	<p>LadyQR is free software, released under the GPL-2.0-or-later license.<br>
+	<a href="https://github.com/nilovelez/ladyqr">Source code</a> · <a href="https://github.com/nilovelez/ladyqr/issues">Report an issue</a> · <a href="try/">Try it</a></p>
+</footer>
+
+</body>
+</html>
