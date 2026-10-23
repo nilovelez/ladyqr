@@ -94,11 +94,15 @@ function options() {
 	return { margin: Number(margin.value), fg: fg.value, bg: bg.value };
 }
 
+// Shows a message over the idealized QR code drawing.
 function showMessage(text) {
-	const message = document.createElement('div');
+	const empty = document.createElement('div');
+	empty.className = 'qr-empty';
+	const message = document.createElement('p');
 	message.className = 'qr-message';
 	message.textContent = text;
-	qr.replaceChildren(message);
+	empty.append($('qr-skeleton').content.cloneNode(true), message);
+	qr.replaceChildren(empty);
 	qr.setAttribute('aria-label', text);
 }
 

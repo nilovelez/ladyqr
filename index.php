@@ -42,6 +42,33 @@ $ladyqr_js_strings = array(
 	'lowContrastInverted' => __( 'Low contrast and inverted colors. QR code might be hard to read', 'ladyqr' ),
 );
 
+/**
+ * Returns the path of an idealized QR code for the empty preview: three finder
+ * patterns, an alignment pattern and scattered modules. It is a drawing, not a
+ * valid code, so nobody can scan it by mistake. The grid is 25 x 25 modules
+ * with a 2 module margin, which makes the viewBox 29 x 29.
+ */
+function ladyqr_skeleton_path() {
+	$size = 25;
+	$seed = 7;
+	$path = 'M2 2h7v7h-7zM3 3v5h5v-5zM4 4h3v3h-3z'
+		. 'M20 2h7v7h-7zM21 3v5h5v-5zM22 4h3v3h-3z'
+		. 'M2 20h7v7h-7zM3 21v5h5v-5zM4 22h3v3h-3z'
+		. 'M18 18h5v5h-5zM19 19v3h3v-3zM20 20h1v1h-1z';
+
+	for ( $y = 0; $y < $size; $y++ ) {
+		for ( $x = 0; $x < $size; $x++ ) {
+			$finder    = ( $x < 8 && $y < 8 ) || ( $x > $size - 9 && $y < 8 ) || ( $x < 8 && $y > $size - 9 );
+			$alignment = $x >= 16 && $x <= 20 && $y >= 16 && $y <= 20;
+			$seed      = ( $seed * 75 + 74 ) % 65537; // Small, portable pseudo-random numbers.
+			if ( ! $finder && ! $alignment && $seed % 100 < 46 ) {
+				$path .= 'M' . ( $x + 2 ) . ' ' . ( $y + 2 ) . 'h1v1h-1z';
+			}
+		}
+	}
+	return $path;
+}
+
 $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 ?>
 <!doctype html>
@@ -81,6 +108,10 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 		<small><?php esc_html_e( 'Free software, GPL-2.0-or-later', 'ladyqr' ); ?> · github.com/nilovelez/ladyqr</small>
 	</div>
 </dialog>
+
+<template id="qr-skeleton">
+	<svg class="qr-skeleton" viewBox="0 0 29 29" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="<?php echo ladyqr_skeleton_path(); ?>"/></svg>
+</template>
 
 <main>
 	<div class="card">

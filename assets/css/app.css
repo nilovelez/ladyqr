@@ -277,7 +277,6 @@ input:focus-visible {
 	aspect-ratio: 1;
 	overflow: hidden;
 	border: 1px solid var(--border);
-	border-radius: 12px;
 }
 
 .qr svg {
@@ -286,11 +285,28 @@ input:focus-visible {
 	height: 100%;
 }
 
-.qr-message {
+/* Empty state: a faint drawing of a QR code with a message on top. */
+
+.qr-empty {
+	position: relative;
 	height: 100%;
 	display: grid;
 	place-items: center;
-	padding: 24px;
+	background: var(--bg);
+}
+
+.qr-skeleton {
+	position: absolute;
+	inset: 0;
+	color: var(--muted);
+	opacity: 0.16;
+}
+
+.qr-message {
+	position: relative;
+	max-width: 80%;
+	margin: 0;
+	padding: 10px 16px;
 	font-size: 0.95rem;
 	text-align: center;
 	color: var(--muted);
