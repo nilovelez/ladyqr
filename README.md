@@ -123,6 +123,7 @@ ladyqr-config.sample.php   Configuration sample
 site/                      The website's landing page
 tools/build-site.php       Builds the website
 tools/make-qr.mjs          Makes a QR code SVG with the encoder
+spike/                     Hosting test package for milestone M1 (temporary)
 docs/PLAN.md               Roadmap and design decisions
 DESIGN.md                  Look, behavior and accessibility
 guppy/                     Project status published to Guppy (the author's project manager)

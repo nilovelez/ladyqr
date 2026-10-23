@@ -81,7 +81,15 @@ A landing page and a live demo of the editor are published at https://ladyqr.nil
 
 ### M1. Hosting spike
 
-Verify what the target hosting allows before building the shortener: `Redirect` and `ErrorDocument 404` in `.htaccess`, PHP rewriting a block of `.htaccess`, `Header` for the CSP, available PHP version and HTTPS. Part of this comes for free from deploying M0. If something fails, redesign the shortener before writing it.
+Verify what the target hosting allows before building the shortener: `Redirect` and `ErrorDocument 404` in `.htaccess`, PHP rewriting a block of `.htaccess`, `Header` for the CSP, available PHP version and HTTPS. If something fails, redesign the shortener before writing it.
+
+**Status: the package is ready (branch `feat-spike`); waiting for the results from the real hosting.**
+
+- `spike/` is a self-contained folder to upload to the hosting. Its dashboard runs 14 checks in the browser and produces a report to paste back. Each feature has its own folder and `.htaccess`, so one failure does not hide the rest.
+- `docs/spike-m1.md` has the instructions: what to upload, what to press, the manual checks, how to read each result and what it decides.
+- The checks cover: redirects with `Redirect`/`RedirectMatch` and with `RewriteRule`; the 404 fallback to a PHP page and its status code; `Header`; blocking a file; HTTPS detection; MIME types for ES modules; the `.htaccess` writer rehearsal (delimited block, atomic write, lock, backup, self-check, deliberate break and rollback, and how soon a change takes effect); sessions; `password_hash`; reading a file above the web root; `flock` across requests; space and limits.
+- It was run locally against Apache 2.4.55 with PHP 8.5 as CGI (10 passes, and the expected failures when `.htaccess` is ignored). The OVH results are what matter.
+- Done when the report is back and each design decision above has been confirmed or changed. The spike folder is then deleted from the hosting and, once its findings are recorded here, from the repository.
 
 ### M2. Consolidate the encoder
 

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex">
+	<title>LadyQR hosting spike</title>
+	<style>
+		body { font: 16px/1.5 system-ui, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1rem; color: #1d1a1b; }
+		h1 { margin-bottom: 0.25rem; }
+		button { font: inherit; font-weight: 600; padding: 0.6rem 1.2rem; border: 0; border-radius: 6px; background: #d9261c; color: #fff; cursor: pointer; }
+		button:disabled { opacity: 0.5; cursor: wait; }
+		button.secondary { background: #fff; color: #1d1a1b; border: 1px solid #847e7f; }
+		table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; }
+		td, th { text-align: left; vertical-align: top; padding: 0.5rem 0.6rem; border-bottom: 1px solid #d3cfce; }
+		td.status { font-weight: 700; white-space: nowrap; }
+		.pass { color: #1a7f37; } .fail { color: #cf222e; } .warn { color: #9a6700; } .info { color: #57606a; } .skip { color: #57606a; }
+		small { color: #57606a; display: block; font-weight: 400; }
+		.banner { background: #fff8c5; border: 1px solid #d4a72c; padding: 0.75rem 1rem; border-radius: 6px; margin: 1rem 0; }
+		textarea { width: 100%; height: 22rem; font: 13px/1.4 ui-monospace, Menlo, Consolas, monospace; }
+		code { background: #f2f0ef; padding: 0.1em 0.3em; border-radius: 3px; }
+	</style>
+</head>
+<body>
+
+<h1>LadyQR hosting spike</h1>
+<p>Milestone M1. This page runs the checks that decide how the URL shortener can be built on this hosting. Read <code>docs/spike-m1.md</code> in the repository first.</p>
+
+<div class="banner" id="path-warning" hidden></div>
+
+<p>
+	<button id="run" type="button">Run all tests</button>
+	<button id="copy" class="secondary" type="button" disabled>Copy the report</button>
+</p>
+
+<table>
+	<thead><tr><th>Result</th><th>Test</th></tr></thead>
+	<tbody id="results"></tbody>
+</table>
+
+<h2>Report</h2>
+<p>Copy this and send it back. It includes server paths, so redact anything you do not want to share.</p>
+<textarea id="report" readonly placeholder="Run the tests to get the report."></textarea>
+
+<p><small>When you have finished, delete the whole <code>spike</code> folder from the hosting. Its test endpoints can rewrite a file inside it.</small></p>
+
+<script src="runner.js"></script>
+</body>
+</html>

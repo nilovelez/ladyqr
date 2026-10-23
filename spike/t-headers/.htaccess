@@ -1,0 +1,4 @@
+# Test 4: mod_headers, to send the Content-Security-Policy and other headers from Apache.
+<IfModule mod_headers.c>
+Header set X-Spike-Header "mod_headers"
+</IfModule>

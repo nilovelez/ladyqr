@@ -1,0 +1,4 @@
+# Test 7b: can AddType fix a wrong MIME type? Only matters if test 7 fails.
+AddType application/javascript .js
+AddType text/css .css
+AddType image/svg+xml .svg

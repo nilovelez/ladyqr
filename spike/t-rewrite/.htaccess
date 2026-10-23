@@ -1,0 +1,5 @@
+# Test 2: mod_rewrite. The same redirects written as rewrite rules.
+RewriteEngine On
+RewriteBase /spike/t-rewrite/
+RewriteRule ^go$ /spike/target.php?via=RewriteRule [R=302,L]
+RewriteRule ^m/([a-z0-9-]+)$ /spike/target.php?via=RewriteRule&slug=$1 [R=302,L]

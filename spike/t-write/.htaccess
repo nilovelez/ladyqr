@@ -1,0 +1,4 @@
+# Test 8: PHP rewrites only the block below.
+# This line must survive every write.
+# BEGIN spike-redirects
+# END spike-redirects

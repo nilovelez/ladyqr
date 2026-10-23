@@ -1,0 +1,16 @@
+# Test 6: can .htaccess tell that a request came over HTTPS?
+# Many hosts end TLS in a proxy, so %{HTTPS} can be off even on an https:// page.
+# A redirect loop here is a failure, and it is a useful one.
+RewriteEngine On
+RewriteBase /spike/t-https/
+
+# Uses only %{HTTPS}.
+RewriteCond %{HTTPS} !=on
+RewriteRule ^check$ https://%{HTTP_HOST}%{REQUEST_URI} [R=302,L]
+RewriteRule ^check$ ok.txt [L]
+
+# Also accepts the X-Forwarded-Proto header that proxies add.
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^check-either$ https://%{HTTP_HOST}%{REQUEST_URI} [R=302,L]
+RewriteRule ^check-either$ ok.txt [L]
