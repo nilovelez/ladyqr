@@ -2,7 +2,7 @@
 //
 // Usage: node tools/make-qr.mjs <text> <output.svg> [level] [margin]
 //
-// Example: node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg M 4
+// Example: node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg L 4
 
 import { writeFileSync } from 'node:fs';
 import { encode } from '../assets/js/qr.js';

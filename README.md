@@ -164,7 +164,7 @@ and open http://localhost:8080/.
 **Make a QR code** as an SVG with the project's own encoder, for example the one on the website:
 
 ```
-node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg M 4
+node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg L 4
 ```
 
 **Build the website** into `_site/`, which is ignored by Git:
