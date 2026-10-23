@@ -1,0 +1,103 @@
+# Spanish (Spain) translation of LadyQR.
+# This file is distributed under the same license as LadyQR.
+msgid ""
+msgstr ""
+"Project-Id-Version: LadyQR\n"
+"Report-Msgid-Bugs-To: https://github.com/nilovelez/ladyqr/issues\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: ladyqr\n"
+
+msgid "Your QR code will appear here"
+msgstr "Aquí aparecerá tu código QR"
+
+msgid "This text is too long for a QR code. Try a shorter one."
+msgstr "Este texto es demasiado largo para un código QR. Prueba con uno más corto."
+
+msgid "QR code"
+msgstr "Código QR"
+
+msgid "Help"
+msgstr "Ayuda"
+
+msgid "About LadyQR"
+msgstr "Acerca de LadyQR"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "LadyQR makes QR codes entirely in your browser. What you type is never sent to a server, and the page loads nothing from outside."
+msgstr "LadyQR crea los códigos QR por completo en tu navegador. Lo que escribes nunca se envía a un servidor, y la página no carga nada de fuera."
+
+msgid "How to use it"
+msgstr "Cómo se usa"
+
+msgid "Type or paste a link or some text in the big field."
+msgstr "Escribe o pega un enlace o un texto en el campo grande."
+
+msgid "The QR code updates as you type. Scan it with your phone to check it."
+msgstr "El código QR se actualiza mientras escribes. Escanéalo con el móvil para comprobarlo."
+
+msgid "Press Download for a 500 px PNG, or open the arrow for a 1000 px PNG or a vector SVG."
+msgstr "Pulsa Descargar para obtener un PNG de 500 px, o abre la flecha para un PNG de 1000 px o un SVG vectorial."
+
+msgid "Open Settings to change the error correction, margin and colors. They are remembered in this browser only."
+msgstr "Abre Ajustes para cambiar la corrección de errores, el margen y los colores. Solo se recuerdan en este navegador."
+
+msgid "Low contrast. QR code might be hard to read"
+msgstr "Poco contraste. El código QR podría ser difícil de leer"
+
+msgid "Inverted colors. QR code might be hard to read"
+msgstr "Colores invertidos. El código QR podría ser difícil de leer"
+
+msgid "Low contrast and inverted colors. QR code might be hard to read"
+msgstr "Poco contraste y colores invertidos. El código QR podría ser difícil de leer"
+
+msgid "Reset settings"
+msgstr "Restablecer ajustes"
+
+msgid "Which format?"
+msgstr "¿Qué formato elegir?"
+
+msgid "Use PNG for screens and documents. Use SVG when you will print it large or resize it: it stays sharp at any size."
+msgstr "Usa PNG para pantallas y documentos. Usa SVG si vas a imprimirlo en grande o cambiarle el tamaño: se ve nítido a cualquier tamaño."
+
+msgid "Free software, GPL-2.0-or-later"
+msgstr "Software libre, GPL-2.0 o posterior"
+
+msgid "Type or paste a link or text"
+msgstr "Escribe o pega un enlace o un texto"
+
+msgid "Text or URL"
+msgstr "Texto o URL"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Error correction"
+msgstr "Corrección de errores"
+
+msgid "Margin (modules)"
+msgstr "Margen (módulos)"
+
+msgid "Module color"
+msgstr "Color de los módulos"
+
+msgid "Background color"
+msgstr "Color de fondo"
+
+msgid "Download"
+msgstr "Descargar"
+
+msgid "More download formats"
+msgstr "Más formatos de descarga"
+
+msgid "vector"
+msgstr "vectorial"
+
+#. translators: %s: the product name, LadyQR.
+msgid "Made with %s, get yours free"
+msgstr "Hecho con %s, consigue el tuyo gratis"
