@@ -1,0 +1,34 @@
+# LadyQR: the fixed rules for Apache.
+#
+# Every directive here is wrapped or chosen so that, on a host that does not
+# allow it, the site keeps working instead of answering with an error.
+
+DirectoryIndex index.php index.html
+
+# Do not list the contents of folders. Each folder has a blank index.html, so a
+# visitor gets an empty page, and this hides the entries if one is ever missing.
+<IfModule mod_autoindex.c>
+IndexIgnore *
+</IfModule>
+
+# The configuration file is only ever read by PHP, never served.
+# Apache 2.4 and 2.2 use different syntax, so both are given.
+<FilesMatch "^ladyqr-config(\.sample)?\.php$">
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+Order allow,deny
+Deny from all
+</IfModule>
+</FilesMatch>
+
+# Force HTTPS. Uncomment these lines once the site has an SSL certificate.
+# They are off by default because on a server without SSL they would make the
+# site unreachable.
+#
+# <IfModule mod_rewrite.c>
+# RewriteEngine On
+# RewriteCond %{HTTPS} !=on
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# </IfModule>

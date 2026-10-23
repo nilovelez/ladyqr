@@ -15,7 +15,7 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
 ## Design decisions
 
 - **Outputs:** PNG and SVG.
-- **Configuration file:** a PHP file that returns an array. It is looked up in the web root first and, if missing, one level above, like `wp-config.php`. The file is called `ladyqr-config.php`; a `.gitignore` entry keeps the real one out of the repository and `ladyqr-config.sample.php` documents it. Reading a file above the web root works on the target hosting.
+- **Configuration file:** a PHP file that returns an array. It is looked up in the web root first and, if missing, one level above, like `wp-config.php`. The file is called `ladyqr-config.php`; a `.gitignore` entry keeps the real one out of the repository and `ladyqr-config.sample.php` documents it. Reading a file above the web root works on the target hosting. As in WordPress plugins, the file starts with `defined( 'LADYQR' ) || exit;`: `index.php` defines `LADYQR` before reading it, so a direct request prints nothing and the file is safe in the web root. `.htaccess` also blocks it.
 - **Authentication:** a single user, written in-house.
   - The password is checked with `password_hash` and `password_verify`, and forms carry a CSRF token.
   - **Native PHP sessions, with nothing configured by us:** no custom storage path and no cookie of our own, because many shared hosts do not allow it. PHP's session cookie is the only cookie, and it is a session cookie.
@@ -92,15 +92,19 @@ Verified what the target hosting allows before building the shortener. The full 
 - The one failure, `flock`, and two surprises (no automatic HTTP to HTTPS redirect, and no SSL certificate for the bare domain yet) are covered by the decisions above and by M2.
 - Also found: the hosting's FTP server does not support TLS, so uploads go over SFTP.
 
-### M2. Publish the editor on `1qr.es`
+### M2. Publish the editor on `1qr.es` — done
 
-Take what exists to the author's domain.
+Take what exists to the author's domain. Details and measurements are in [`hosting.md`](hosting.md).
 
-- **Before:** the author sets up the SSL certificate for the bare domain `1qr.es` in the OVH panel (today only `www.1qr.es` has one), and decides which of the two is the canonical address, with the other redirecting to it.
-- Upload `index.php`, `includes/`, `assets/` and `languages/` over SFTP, and the configuration file above the web root. `www/old` holds the previous site and is not touched.
-- A fixed `.htaccess` in the web root that forces HTTPS with a `%{HTTPS}` rule and sets nothing that could break the site.
-- Check it in production: the CSP, no outside requests, the PNG and SVG downloads, and the translation file loading.
-- Done when `https://1qr.es/` shows the editor and `http://1qr.es/` redirects to it.
+- The author set up the SSL certificate for the bare domain in the OVH panel. **The bare domain `1qr.es` is the canonical address**, to keep short links short, and `www` redirects to it.
+- Uploaded over SFTP: `index.php`, `includes/`, `assets/`, `languages/` and `.htaccess`. `www/old` holds the previous site and is not touched.
+- `.htaccess` is now part of the repository. It blocks direct access to the configuration file, and has the HTTPS rule **commented out**, because on a server without SSL it would make the site unreachable. The server's copy has that block enabled, plus the `www` redirect.
+- **Folder listings:** every folder has a blank `index.html` (the WordPress way), and `DirectoryIndex` includes it, so a folder never shows its contents.
+- The sample configuration file carries the `defined( 'LADYQR' ) || exit;` guard.
+- Checked in production: `http://` and `www` both reach `https://1qr.es/` in one hop; the CSP and security headers; the PNG and SVG downloads decode to the exact text; no console errors and no requests outside the site; the configuration file is found above the web root, takes precedence when it is in the web root, and is blocked from direct access.
+- No configuration file is on the server, so the language is English. A file with `'language' => 'es_ES'` above the web root switches it to Spanish.
+- **Found:** files uploaded or deleted over SFTP take between 3 and 16 seconds to be seen by PHP, because of the shared network storage. It does not affect files that PHP writes itself.
+- Done: `https://1qr.es/` shows the editor and `http://1qr.es/` redirects to it.
 
 ### M3. Configuration and authentication
 
@@ -142,3 +146,4 @@ Things that are wanted but not urgent, in no particular order.
 - **The website's demo in Spanish.**
 - **A manual light/dark switch.**
 - **Confirm the real disk quota** (100 MB) in the OVH panel: PHP only sees the disk of the whole cluster.
+- **A script for the SFTP deployment**, which M2 did by hand.
