@@ -61,10 +61,12 @@ The QR code itself needs a modern browser: ES modules, `<dialog>`, and `localSto
 ## Installation
 
 1. Download this repository or clone it.
-2. Upload it to the root of your site. The files the page needs are `index.php`, `includes/`, `assets/` and `languages/`. Everything else is for development and can stay out.
+2. Upload it to the root of your site. The files the page needs are `index.php`, `.htaccess`, `includes/`, `assets/` and `languages/`. Everything else is for development and can stay out, and so can `assets/icon-full.png`, which is large and not used by the page. Remember that `.htaccess` is a hidden file, and many FTP clients skip those unless you ask them to show hidden files.
 3. Optionally, create a configuration file (see below).
 
 Open the site in a browser and it works.
+
+**HTTPS.** The repository's `.htaccess` has the rule that forces HTTPS commented out, because on a server without SSL it would make the site unreachable. If your site has a certificate, uncomment those lines. See [docs/hosting.md](docs/hosting.md) for what is done on the author's own hosting.
 
 ## Configuration
 
@@ -110,6 +112,7 @@ PHP generates the page, in the configured language, and what reaches the browser
 
 ```
 index.php                  The editor page, and the CSP header
+.htaccess                  Fixed Apache rules (the HTTPS rule is commented out)
 includes/config.php        Configuration loader
 includes/i18n.php          Translation functions and the .mo reader
 assets/js/qr.js            The QR code encoder

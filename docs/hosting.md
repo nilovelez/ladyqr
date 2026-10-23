@@ -65,6 +65,35 @@ For now there is no lock, because this is a personal single-user tool. A lock ba
 - **Sessions are stored in the shared `/tmp`**, and the cookie is neither `HttpOnly` nor `SameSite` by default. LadyQR uses the native session and sets only the standard cookie parameters, and `Secure` only over HTTPS.
 - **The FTP server does not support TLS.** `AUTH TLS` is not implemented, so plain FTP would send the password in the clear. SFTP works on port 22 of the same host name, with the same user and password.
 
+## Publishing on `1qr.es` (M2)
+
+The editor was uploaded on 2026-10-24 and checked in production.
+
+- **What is uploaded:** `index.php`, `includes/`, `assets/` (without `icon-full.png`, which the page does not use), `languages/` and `.htaccess`. Nothing else, and nothing is touched in `www/old`, where the author's previous site lives.
+- **The server's `.htaccess`** is the repository's file with the HTTPS block enabled and `www` sent to the bare domain. The bare domain `1qr.es` is the canonical address, which keeps short links short:
+
+  ```
+  RewriteCond %{HTTP_HOST} ^www\.1qr\.es$ [NC]
+  RewriteRule ^ https://1qr.es%{REQUEST_URI} [R=301,L]
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+  ```
+
+  `http://1qr.es/`, `http://www.1qr.es/` and `https://www.1qr.es/` all end at `https://1qr.es/` in a single hop, keeping the path and the query string.
+- **Certificates:** both `1qr.es` and `www.1qr.es` have their own Let's Encrypt certificate (set up in the OVH panel).
+- **Checked in production:** the page and its CSP and security headers, the MIME types, the PNG (500 and 1000 px) and SVG downloads decoding to the exact text, no console errors, no requests outside the site, and the configuration file blocked by `.htaccess` (403).
+- **The configuration file is found above the web root**, and the one in the web root wins over it when both exist. With `language` set to `es_ES`, the page came out in Spanish, which also proves that the `.mo` translation loads in production.
+
+### Changes take a few seconds to show
+
+Files uploaded or deleted over SFTP are not seen by PHP at once, because the storage is a network disk shared with the web servers. Measured: a new file shows after about 3 to 16 seconds, and a deleted one disappears after about 16 seconds. OPcache is not the cause (`validate_timestamps` is on and `revalidate_freq` is 2 s). `realpath_cache_ttl` is 300 s, which was not observed to matter.
+
+Files written by PHP itself on the server are seen at once, as the spike showed (a new redirect worked after 61 ms). So this matters when deploying and when editing the configuration file by hand, not for the shortener.
+
+### Folders show an empty "Index of" page
+
+Apache's directory listing is on, and `IndexIgnore *` hides every entry, so a folder such as `/assets/` shows an empty "Index of /assets" page. It exposes nothing. `Options -Indexes` would answer 403 instead, but it was not tried: on a host that does not allow `Options` in `.htaccess` it would make the whole site answer with an error.
+
 ## Uploading with SFTP from Windows
 
 The `sftp` client that comes with Windows is awkward to automate with a password:
