@@ -296,6 +296,30 @@ input:focus-visible {
 	background: var(--bg);
 }
 
+.reset {
+	align-self: flex-start;
+	padding: 8px 14px;
+	font: inherit;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--ink);
+	background: transparent;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.reset:hover:not(:disabled) {
+	border-color: var(--accent);
+	color: var(--accent);
+}
+
+.reset:disabled {
+	color: var(--muted);
+	opacity: 0.6;
+	cursor: default;
+}
+
 .warning {
 	display: flex;
 	align-items: center;

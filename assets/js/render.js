@@ -10,21 +10,31 @@ function checkColor(color) {
 	return color;
 }
 
+// WCAG relative luminance of a #rrggbb color, from 0 (black) to 1 (white).
+function luminance(color) {
+	const [r, g, b] = [1, 3, 5].map((i) => {
+		const channel = parseInt(checkColor(color).slice(i, i + 2), 16) / 255;
+		return channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+	});
+	return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
 /**
  * Returns the WCAG contrast ratio between two #rrggbb colors, from 1 (no
  * contrast) to 21 (black on white).
  */
 export function contrastRatio(colorA, colorB) {
-	const luminance = (color) => {
-		const [r, g, b] = [1, 3, 5].map((i) => {
-			const channel = parseInt(checkColor(color).slice(i, i + 2), 16) / 255;
-			return channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
-		});
-		return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-	};
 	const a = luminance(colorA);
 	const b = luminance(colorB);
 	return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+}
+
+/**
+ * True when the modules are lighter than the background. Many scanners expect
+ * dark modules on a light background and fail on the opposite.
+ */
+export function isInverted(moduleColor, backgroundColor) {
+	return luminance(moduleColor) > luminance(backgroundColor);
 }
 
 /**

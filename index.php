@@ -36,6 +36,10 @@ $ladyqr_js_strings = array(
 	'empty'    => __( 'Your QR code will appear here', 'ladyqr' ),
 	'tooLong'  => __( 'This text is too long for a QR code. Try a shorter one.', 'ladyqr' ),
 	'qrAlt'    => __( 'QR code', 'ladyqr' ),
+
+	'lowContrast'         => __( 'Low contrast. QR code might be hard to read', 'ladyqr' ),
+	'inverted'            => __( 'Inverted colors. QR code might be hard to read', 'ladyqr' ),
+	'lowContrastInverted' => __( 'Low contrast and inverted colors. QR code might be hard to read', 'ladyqr' ),
 );
 
 $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
@@ -109,6 +113,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 						<input id="bg" type="color" value="#ffffff">
 					</div>
 				</div>
+				<button class="reset" id="reset" type="button" disabled><?php esc_html_e( 'Reset settings', 'ladyqr' ); ?></button>
 			</div>
 		</details>
 
@@ -119,7 +124,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 
 			<p class="warning" id="contrast-warning" role="status" hidden>
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-				<span><?php esc_html_e( 'Low contrast. QR code might be hard to read', 'ladyqr' ); ?></span>
+				<span id="contrast-warning-text"></span>
 			</p>
 
 			<div class="download">

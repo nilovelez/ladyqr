@@ -2,11 +2,12 @@
 // Everything happens in the browser; nothing is sent anywhere.
 
 import { encode } from './qr.js';
-import { toSvg, toPngBlob, contrastRatio } from './render.js';
+import { toSvg, toPngBlob, contrastRatio, isInverted } from './render.js';
 
 // Colors at or below this contrast ratio get a warning.
 const LOW_CONTRAST = 4;
 const STORAGE_KEY = 'ladyqr-settings';
+const DEFAULTS = { level: 'M', margin: 4, fg: '#1d1a1b', bg: '#ffffff' };
 
 const $ = (id) => document.getElementById(id);
 const strings = JSON.parse($('ladyqr-i18n').textContent);
@@ -36,6 +37,34 @@ function saveSettings() {
 		localStorage.setItem(STORAGE_KEY, JSON.stringify({ level, margin: Number(margin.value), fg: fg.value, bg: bg.value }));
 	} catch {
 		// Storage can be blocked or full; the editor works without it.
+	}
+}
+
+function resetSettings() {
+	setLevel(DEFAULTS.level);
+	margin.value = DEFAULTS.margin;
+	fg.value = DEFAULTS.fg;
+	bg.value = DEFAULTS.bg;
+	try {
+		localStorage.removeItem(STORAGE_KEY);
+	} catch {
+		// Nothing to remove if storage is blocked.
+	}
+	update();
+}
+
+function isDefault() {
+	return level === DEFAULTS.level && Number(margin.value) === DEFAULTS.margin && fg.value === DEFAULTS.fg && bg.value === DEFAULTS.bg;
+}
+
+// One warning for low contrast, inverted colors, or both.
+function updateWarning() {
+	const low = contrastRatio(fg.value, bg.value) <= LOW_CONTRAST;
+	const inverted = isInverted(fg.value, bg.value);
+	const key = low && inverted ? 'lowContrastInverted' : low ? 'lowContrast' : inverted ? 'inverted' : null;
+	$('contrast-warning').hidden = key === null;
+	if (key) {
+		$('contrast-warning-text').textContent = strings[key];
 	}
 }
 
@@ -75,7 +104,8 @@ function showMessage(text) {
 
 function update() {
 	$('margin-value').textContent = margin.value;
-	$('contrast-warning').hidden = contrastRatio(fg.value, bg.value) > LOW_CONTRAST;
+	updateWarning();
+	$('reset').disabled = isDefault();
 	modules = null;
 
 	if (content.value === '') {
@@ -147,6 +177,8 @@ $('ecc').addEventListener('click', (event) => {
 	saveSettings();
 	update();
 });
+
+$('reset').addEventListener('click', resetSettings);
 
 downloadMain.addEventListener('click', () => downloadPng(500));
 $('download-png-1000').addEventListener('click', () => {

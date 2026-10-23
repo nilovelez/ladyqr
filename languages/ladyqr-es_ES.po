@@ -50,6 +50,15 @@ msgstr "Abre Ajustes para cambiar la corrección de errores, el margen y los col
 msgid "Low contrast. QR code might be hard to read"
 msgstr "Poco contraste. El código QR podría ser difícil de leer"
 
+msgid "Inverted colors. QR code might be hard to read"
+msgstr "Colores invertidos. El código QR podría ser difícil de leer"
+
+msgid "Low contrast and inverted colors. QR code might be hard to read"
+msgstr "Poco contraste y colores invertidos. El código QR podría ser difícil de leer"
+
+msgid "Reset settings"
+msgstr "Restablecer ajustes"
+
 msgid "Which format?"
 msgstr "¿Qué formato elegir?"
 

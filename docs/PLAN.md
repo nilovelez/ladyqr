@@ -42,7 +42,8 @@ The base of the project, not a throwaway: it lives at the repository root and is
 - Rendering helpers (`assets/js/render.js`): SVG and PNG output, and conversion of the module matrix to and from an array of `'0'/'1'` strings.
 - The editor from the approved mockup: collapsible settings as the card header (error correction, margin, colors), one text field, the QR code, and a download button for PNG 500 px with PNG 1000 px and SVG in its menu. Help dialog and footer included.
 - The settings are remembered in the browser's `localStorage`, never the text, and nothing is sent anywhere.
-- A small warning under the QR code when the module and background colors have a contrast ratio of 4:1 or less.
+- A button in the settings resets them to the defaults and clears what was remembered.
+- A small warning under the QR code when the module and background colors have a contrast ratio of 4:1 or less, when the colors are inverted (modules lighter than the background), or both, each with its own message.
 - Translations as described above, with English and Spanish (s_ES).
 - No external requests, enforced by a CSP sent by PHP.
 - Done when a list of inputs (short and long URLs, accents, emoji) produces codes a real reader decodes, and it is published on `1qr.es`.
