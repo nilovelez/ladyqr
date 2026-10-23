@@ -80,6 +80,10 @@ Copy `ladyqr-config.sample.php` to `ladyqr-config.php` and change what you need:
 
 `ladyqr-config.php` is ignored by Git, so your settings never end up in the repository.
 
+Keep the line `defined( 'LADYQR' ) || exit;` at the top of the sample, as WordPress plugins do. `index.php` defines `LADYQR` before it reads the file, so if someone requests the configuration file directly it stops and prints nothing. That makes it safe to leave in the web root, and `.htaccess` also blocks it with a 403.
+
+Every folder has a blank `index.html`, so visiting a folder such as `/assets/` shows an empty page instead of a file listing.
+
 ## Translations
 
 All text in the code is written in English with WordPress-style functions: `__()`, `_e()`, `esc_html__()`, `esc_html_e()` and `esc_attr__()`, always with the `ladyqr` text domain. A string without a translation stays in English.

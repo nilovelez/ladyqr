@@ -69,7 +69,7 @@ For now there is no lock, because this is a personal single-user tool. A lock ba
 
 The editor was uploaded on 2026-10-24 and checked in production.
 
-- **What is uploaded:** `index.php`, `includes/`, `assets/` (without `icon-full.png`, which the page does not use), `languages/` and `.htaccess`. Nothing else, and nothing is touched in `www/old`, where the author's previous site lives.
+- **What is uploaded:** `index.php`, `includes/`, `assets/` (without `icon-full.png`, which the page does not use), `languages/` (each folder with its blank `index.html`) and `.htaccess`. Nothing else, and nothing is touched in `www/old`, where the author's previous site lives.
 - **The server's `.htaccess`** is the repository's file with the HTTPS block enabled and `www` sent to the bare domain. The bare domain `1qr.es` is the canonical address, which keeps short links short:
 
   ```
@@ -90,9 +90,11 @@ Files uploaded or deleted over SFTP are not seen by PHP at once, because the sto
 
 Files written by PHP itself on the server are seen at once, as the spike showed (a new redirect worked after 61 ms). So this matters when deploying and when editing the configuration file by hand, not for the shortener.
 
-### Folders show an empty "Index of" page
+### Folder listings
 
-Apache's directory listing is on, and `IndexIgnore *` hides every entry, so a folder such as `/assets/` shows an empty "Index of /assets" page. It exposes nothing. `Options -Indexes` would answer 403 instead, but it was not tried: on a host that does not allow `Options` in `.htaccess` it would make the whole site answer with an error.
+Apache's directory listing is on at OVH. With only `IndexIgnore *`, a folder such as `/assets/` showed an empty "Index of /assets" page: it exposed nothing, but it was still a listing page. The fix, borrowed from WordPress, is a **blank `index.html` in every folder** (`assets/`, `assets/css/`, `assets/js/`, `includes/` and `languages/`), so a visitor gets an empty page. For that to work, `DirectoryIndex` in `.htaccess` has to include `index.html`, and it does (`index.php index.html`). `IndexIgnore *` stays as a second line of defense.
+
+`Options -Indexes` was not used: on a host that does not allow `Options` in `.htaccess` it would make the whole site answer with an error.
 
 ## Uploading with SFTP from Windows
 

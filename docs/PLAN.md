@@ -15,7 +15,7 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
 ## Design decisions
 
 - **Outputs:** PNG and SVG.
-- **Configuration file:** a PHP file that returns an array. It is looked up in the web root first and, if missing, one level above, like `wp-config.php`. The file is called `ladyqr-config.php`; a `.gitignore` entry keeps the real one out of the repository and `ladyqr-config.sample.php` documents it. Reading a file above the web root works on the target hosting.
+- **Configuration file:** a PHP file that returns an array. It is looked up in the web root first and, if missing, one level above, like `wp-config.php`. The file is called `ladyqr-config.php`; a `.gitignore` entry keeps the real one out of the repository and `ladyqr-config.sample.php` documents it. Reading a file above the web root works on the target hosting. As in WordPress plugins, the file starts with `defined( 'LADYQR' ) || exit;`: `index.php` defines `LADYQR` before reading it, so a direct request prints nothing and the file is safe in the web root. `.htaccess` also blocks it.
 - **Authentication:** a single user, written in-house.
   - The password is checked with `password_hash` and `password_verify`, and forms carry a CSRF token.
   - **Native PHP sessions, with nothing configured by us:** no custom storage path and no cookie of our own, because many shared hosts do not allow it. PHP's session cookie is the only cookie, and it is a session cookie.
@@ -98,7 +98,9 @@ Take what exists to the author's domain. Details and measurements are in [`hosti
 
 - The author set up the SSL certificate for the bare domain in the OVH panel. **The bare domain `1qr.es` is the canonical address**, to keep short links short, and `www` redirects to it.
 - Uploaded over SFTP: `index.php`, `includes/`, `assets/`, `languages/` and `.htaccess`. `www/old` holds the previous site and is not touched.
-- `.htaccess` is now part of the repository. It hides folder contents, blocks direct access to the configuration file, and has the HTTPS rule **commented out**, because on a server without SSL it would make the site unreachable. The server's copy has that block enabled, plus the `www` redirect.
+- `.htaccess` is now part of the repository. It blocks direct access to the configuration file, and has the HTTPS rule **commented out**, because on a server without SSL it would make the site unreachable. The server's copy has that block enabled, plus the `www` redirect.
+- **Folder listings:** every folder has a blank `index.html` (the WordPress way), and `DirectoryIndex` includes it, so a folder never shows its contents.
+- The sample configuration file carries the `defined( 'LADYQR' ) || exit;` guard.
 - Checked in production: `http://` and `www` both reach `https://1qr.es/` in one hop; the CSP and security headers; the PNG and SVG downloads decode to the exact text; no console errors and no requests outside the site; the configuration file is found above the web root, takes precedence when it is in the web root, and is blocked from direct access.
 - No configuration file is on the server, so the language is English. A file with `'language' => 'es_ES'` above the web root switches it to Spanish.
 - **Found:** files uploaded or deleted over SFTP take between 3 and 16 seconds to be seen by PHP, because of the shared network storage. It does not affect files that PHP writes itself.
@@ -144,5 +146,4 @@ Things that are wanted but not urgent, in no particular order.
 - **The website's demo in Spanish.**
 - **A manual light/dark switch.**
 - **Confirm the real disk quota** (100 MB) in the OVH panel: PHP only sees the disk of the whole cluster.
-- **Folders answer with an empty "Index of" page.** Try `Options -Indexes` on the author's server to get a 403 instead, and keep it out of the generic `.htaccess` unless it is known to be safe.
 - **A script for the SFTP deployment**, which M2 did by hand.
