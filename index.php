@@ -70,7 +70,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 			<li><?php esc_html_e( 'Type or paste a link or some text in the big field.', 'ladyqr' ); ?></li>
 			<li><?php esc_html_e( 'The QR code updates as you type. Scan it with your phone to check it.', 'ladyqr' ); ?></li>
 			<li><?php esc_html_e( 'Press Download for a 500 px PNG, or open the arrow for a 1000 px PNG or a vector SVG.', 'ladyqr' ); ?></li>
-			<li><?php esc_html_e( 'Open Settings to change the error correction, margin and colors.', 'ladyqr' ); ?></li>
+			<li><?php esc_html_e( 'Open Settings to change the error correction, margin and colors. They are remembered in this browser only.', 'ladyqr' ); ?></li>
 		</ol>
 		<h3><?php esc_html_e( 'Which format?', 'ladyqr' ); ?></h3>
 		<p><?php esc_html_e( 'Use PNG for screens and documents. Use SVG when you will print it large or resize it: it stays sharp at any size.', 'ladyqr' ); ?></p>
@@ -80,8 +80,6 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 
 <main>
 	<div class="card">
-		<input class="field" id="content" type="text" placeholder="<?php echo esc_attr__( 'Type or paste a link or text', 'ladyqr' ); ?>" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="<?php echo esc_attr__( 'Text or URL', 'ladyqr' ); ?>">
-
 		<details class="settings">
 			<summary><?php esc_html_e( 'Settings', 'ladyqr' ); ?></summary>
 			<div class="settings-body">
@@ -114,18 +112,27 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 			</div>
 		</details>
 
-		<div class="qr" id="qr" role="img" aria-live="polite"></div>
+		<div class="card-body">
+			<input class="field" id="content" type="text" placeholder="<?php echo esc_attr__( 'Type or paste a link or text', 'ladyqr' ); ?>" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="<?php echo esc_attr__( 'Text or URL', 'ladyqr' ); ?>">
 
-		<div class="download">
-			<button class="download-main" id="download-png-500" type="button" disabled>
-				<?php esc_html_e( 'Download', 'ladyqr' ); ?> <small>PNG 500px</small>
-			</button>
-			<button class="download-more" id="download-more" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="download-menu" aria-label="<?php echo esc_attr__( 'More download formats', 'ladyqr' ); ?>" disabled>
-				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-			</button>
-			<div class="download-menu" id="download-menu" hidden>
-				<button type="button" id="download-png-1000">PNG <span>1000px</span></button>
-				<button type="button" id="download-svg">SVG <span><?php esc_html_e( 'vector', 'ladyqr' ); ?></span></button>
+			<div class="qr" id="qr" role="img" aria-live="polite"></div>
+
+			<p class="warning" id="contrast-warning" role="status" hidden>
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+				<span><?php esc_html_e( 'Low contrast. QR code might be hard to read', 'ladyqr' ); ?></span>
+			</p>
+
+			<div class="download">
+				<button class="download-main" id="download-png-500" type="button" disabled>
+					<?php esc_html_e( 'Download', 'ladyqr' ); ?> <small>PNG 500px</small>
+				</button>
+				<button class="download-more" id="download-more" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="download-menu" aria-label="<?php echo esc_attr__( 'More download formats', 'ladyqr' ); ?>" disabled>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+				</button>
+				<div class="download-menu" id="download-menu" hidden>
+					<button type="button" id="download-png-1000">PNG <span>1000px</span></button>
+					<button type="button" id="download-svg">SVG <span><?php esc_html_e( 'vector', 'ladyqr' ); ?></span></button>
+				</div>
 			</div>
 		</div>
 	</div>

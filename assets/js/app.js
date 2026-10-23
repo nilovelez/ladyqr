@@ -2,7 +2,11 @@
 // Everything happens in the browser; nothing is sent anywhere.
 
 import { encode } from './qr.js';
-import { toSvg, toPngBlob } from './render.js';
+import { toSvg, toPngBlob, contrastRatio } from './render.js';
+
+// Colors at or below this contrast ratio get a warning.
+const LOW_CONTRAST = 4;
+const STORAGE_KEY = 'ladyqr-settings';
 
 const $ = (id) => document.getElementById(id);
 const strings = JSON.parse($('ladyqr-i18n').textContent);
@@ -19,6 +23,44 @@ const menu = $('download-menu');
 let level = 'M';
 let modules = null;
 
+function setLevel(value) {
+	level = value;
+	for (const button of $('ecc').children) {
+		button.setAttribute('aria-pressed', button.dataset.level === value ? 'true' : 'false');
+	}
+}
+
+// The settings are remembered in this browser only. The text is never stored.
+function saveSettings() {
+	try {
+		localStorage.setItem(STORAGE_KEY, JSON.stringify({ level, margin: Number(margin.value), fg: fg.value, bg: bg.value }));
+	} catch {
+		// Storage can be blocked or full; the editor works without it.
+	}
+}
+
+function loadSettings() {
+	try {
+		const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+		if (!saved || typeof saved !== 'object') {
+			return;
+		}
+		if (['L', 'M', 'Q', 'H'].includes(saved.level)) {
+			setLevel(saved.level);
+		}
+		if (Number.isInteger(saved.margin) && saved.margin >= 0 && saved.margin <= 8) {
+			margin.value = saved.margin;
+		}
+		for (const [input, value] of [[fg, saved.fg], [bg, saved.bg]]) {
+			if (typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value)) {
+				input.value = value.toLowerCase();
+			}
+		}
+	} catch {
+		// Nothing saved, or it could not be read: keep the defaults.
+	}
+}
+
 function options() {
 	return { margin: Number(margin.value), fg: fg.value, bg: bg.value };
 }
@@ -33,6 +75,7 @@ function showMessage(text) {
 
 function update() {
 	$('margin-value').textContent = margin.value;
+	$('contrast-warning').hidden = contrastRatio(fg.value, bg.value) > LOW_CONTRAST;
 	modules = null;
 
 	if (content.value === '') {
@@ -87,8 +130,12 @@ function toggleMenu(open) {
 	downloadMore.setAttribute('aria-expanded', open ? 'true' : 'false');
 }
 
-for (const input of [content, margin, fg, bg]) {
-	input.addEventListener('input', update);
+content.addEventListener('input', update);
+for (const input of [margin, fg, bg]) {
+	input.addEventListener('input', () => {
+		saveSettings();
+		update();
+	});
 }
 
 $('ecc').addEventListener('click', (event) => {
@@ -96,10 +143,8 @@ $('ecc').addEventListener('click', (event) => {
 	if (!button) {
 		return;
 	}
-	level = button.dataset.level;
-	for (const other of $('ecc').children) {
-		other.setAttribute('aria-pressed', other === button ? 'true' : 'false');
-	}
+	setLevel(button.dataset.level);
+	saveSettings();
 	update();
 });
 
@@ -136,4 +181,5 @@ dialog.addEventListener('click', (event) => {
 	}
 });
 
+loadSettings();
 update();

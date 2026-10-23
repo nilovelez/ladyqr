@@ -44,8 +44,11 @@ msgstr "El código QR se actualiza mientras escribes. Escanéalo con el móvil p
 msgid "Press Download for a 500 px PNG, or open the arrow for a 1000 px PNG or a vector SVG."
 msgstr "Pulsa Descargar para obtener un PNG de 500 px, o abre la flecha para un PNG de 1000 px o un SVG vectorial."
 
-msgid "Open Settings to change the error correction, margin and colors."
-msgstr "Abre Ajustes para cambiar la corrección de errores, el margen y los colores."
+msgid "Open Settings to change the error correction, margin and colors. They are remembered in this browser only."
+msgstr "Abre Ajustes para cambiar la corrección de errores, el margen y los colores. Solo se recuerdan en este navegador."
+
+msgid "Low contrast. QR code might be hard to read"
+msgstr "Poco contraste. El código QR podría ser difícil de leer"
 
 msgid "Which format?"
 msgstr "¿Qué formato elegir?"
