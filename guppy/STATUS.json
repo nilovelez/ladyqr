@@ -3,9 +3,9 @@
   "title": "LadyQR",
   "description": "Privacy-oriented QR code generator and URL shortener.",
   "status": "active",
-  "status_text": "Planning is done and the roadmap is in docs/PLAN.md. Next step is milestone 0: a first publishable QR code generator, to be deployed on the author's own domain.",
-  "last_update": "2026-10-23 02:28:57 +0200",
-  "last_update_unix": 1792715337,
+  "status_text": "Milestone 0 is done: the QR code generator is live with a website and demo at ladyqr.nilovelez.com. Next is testing on a real 100 MB shared hosting plan, before the URL shortener.",
+  "last_update": "2026-10-23 09:39:12 +0200",
+  "last_update_unix": 1792741152,
   "url": "https://github.com/nilovelez/ladyqr",
   "status_url": "https://raw.githubusercontent.com/nilovelez/ladyqr/main/guppy/STATUS.md",
   "icon": "https://raw.githubusercontent.com/nilovelez/ladyqr/main/assets/icon-128.png"
