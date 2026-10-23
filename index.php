@@ -15,10 +15,9 @@ $ladyqr_config = ladyqr_config();
 ladyqr_load_textdomain( $ladyqr_config['language'] );
 
 header( 'Content-Type: text/html; charset=utf-8' );
-header(
-	"Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; " .
-	"connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
-);
+$ladyqr_csp = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; " .
+	"connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
+header( 'Content-Security-Policy: ' . $ladyqr_csp );
 header( 'X-Content-Type-Options: nosniff' );
 header( 'Referrer-Policy: no-referrer' );
 
