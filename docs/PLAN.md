@@ -1,0 +1,60 @@
+# LadyQR roadmap
+
+LadyQR is a privacy-oriented QR code generator and URL shortener, built to run on a minimal shared hosting plan (Apache with `.htaccess`, PHP and SSL, about 100 MB) and to be easy for anyone to set up.
+
+## Principles
+
+- Minimal dependencies: ideally none at runtime. No build step.
+- Stage 1, the QR code generator, runs entirely in the browser. Nothing is sent to the server, and a strict CSP guarantees it.
+- Stage 2, the URL shortener, is private and single-user. It is a small PHP admin that writes a delimited block of redirects into `.htaccess`, so redirects are served by Apache without running PHP. When no redirect matches, the QR code generator loads.
+- Anyone must be able to deploy the same thing: one configuration file, our own authentication and bundled documentation.
+- License: GPL-2.0-or-later (see `LICENSE`).
+
+## Design decisions
+
+- **Outputs:** PNG and SVG.
+- **Configuration file:** a PHP file that returns an array. It is looked up in the web root first and, if missing, one level above, like `wp-config.php`. The final file name is pending, because it must not contain the project's old name.
+- **Authentication:** a single user, written in-house: `password_hash`, native PHP sessions, CSRF tokens, login rate limiting, and `HttpOnly`, `Secure` and `SameSite` cookies.
+- **No default password:** until one is configured, `/admin/` does not let anyone in and shows instructions. The only way to enable it is editing the configuration file, never through the web. A browser-based page generates the password hash.
+- **`.htaccess` writes:** only inside a `# BEGIN` / `# END` block, validated, atomic (temporary file plus rename), locked and with a `.bak` copy. A syntax error must never take the site down.
+- **Distribution:** clonable repository first, and later a release `.zip` ready for FTP.
+- **Not now:** migrating the old short links previously used on the author's own `1qr.es` domain.
+
+## Milestones
+
+Work is done one milestone at a time, each in its own branch, and a milestone is only started when explicitly authorized.
+
+### M0. First publishable QR code generator (proof of concept)
+
+The base of the project, not a throwaway: it lives at the repository root and is the first thing published on the author's `1qr.es`.
+
+- Static page: HTML, CSS and JS, no dependencies, no build step.
+- In-house QR encoder: byte mode (text and URLs), automatic version, error correction level and mask.
+- SVG output, and PNG if it fits without complicating the code.
+- No external requests, enforced by a CSP.
+- Done when a list of inputs (short and long URLs, accents, emoji) produces codes a real reader decodes, and it is published on `1qr.es`.
+- At the end, decide whether writing the encoder ourselves was worth it or a minimal library should be vendored instead.
+
+### M1. Hosting spike
+
+Verify what the target hosting allows before building the shortener: `Redirect` and `ErrorDocument 404` in `.htaccess`, PHP rewriting a block of `.htaccess`, `Header` for the CSP, available PHP version and HTTPS. Part of this comes for free from deploying M0. If something fails, redesign the shortener before writing it.
+
+### M2. Consolidate the encoder
+
+Automated tests (Node's built-in runner, development only), all data modes and configurable error correction levels.
+
+### M3. Complete editor
+
+Colors, size, margin, and PNG and SVG downloads.
+
+### M4. Configuration and authentication
+
+Configuration file lookup, the no-password notice, single-user login, and the browser-based hash generator.
+
+### M5. Redirect manager
+
+Create, edit and delete short links, safe `.htaccess` block writes, and the fallback to the QR code generator.
+
+### M6. Documentation and packaging
+
+Installation README, troubleshooting, `config.sample.php` and a release `.zip`.
