@@ -1,2 +1,0 @@
-# Test 3: a missing URL must load a PHP page (later, the QR code editor).
-ErrorDocument 404 /spike/t-errordoc/handler.php

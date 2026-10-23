@@ -24,7 +24,7 @@ You type a link and the QR code appears as you type. You download it as a PNG or
 
 ## Status
 
-The QR code generator (milestone M0) is done and published. The URL shortener is planned. See the [roadmap](docs/PLAN.md) for what comes next.
+The QR code generator (milestone M0) is done, and the target hosting has been tested (milestone M1, see [docs/hosting.md](docs/hosting.md)). The URL shortener is planned. See the [roadmap](docs/PLAN.md) for what comes next.
 
 ## Features
 
@@ -123,7 +123,7 @@ ladyqr-config.sample.php   Configuration sample
 site/                      The website's landing page
 tools/build-site.php       Builds the website
 tools/make-qr.mjs          Makes a QR code SVG with the encoder
-spike/                     Hosting test package for milestone M1 (temporary)
+docs/hosting.md            What the target hosting allows, from the M1 tests
 docs/PLAN.md               Roadmap and design decisions
 DESIGN.md                  Look, behavior and accessibility
 guppy/                     Project status published to Guppy (the author's project manager)
@@ -184,7 +184,7 @@ In the repository settings, Pages uses **GitHub Actions** as its source and `lad
 
 ## Roadmap
 
-See [docs/PLAN.md](docs/PLAN.md). In short: test it on a real 100 MB shared hosting plan, then add a private, single-user URL shortener that writes its redirects into `.htaccess`, so Apache serves them without running PHP, and finally an installation guide and a release you can upload by FTP.
+See [docs/PLAN.md](docs/PLAN.md). In short: publish the editor on the author's domain, then add a private, single-user admin with a login, then a URL shortener that writes its redirects into `.htaccess`, so Apache serves them without running PHP, and finally an installation guide and a release you can upload by FTP.
 
 ## Contributing
 
