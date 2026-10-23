@@ -18,6 +18,7 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
 - **No default password:** until one is configured, `/admin/` does not let anyone in and shows instructions. The only way to enable it is editing the configuration file, never through the web. A browser-based page generates the password hash.
 - **`.htaccess` writes:** only inside a `# BEGIN` / `# END` block, validated, atomic (temporary file plus rename), locked and with a `.bak` copy. A syntax error must never take the site down.
 - **Distribution:** clonable repository first, and later a release `.zip` ready for FTP.
+- **Multilingual:** the interface will be translatable. Translations are plain PHP files that return an array of strings, one file per language, so adding a language means adding one file. Still open: how the language is chosen (browser preference, URL or setting), how the strings reach the browser-side JS, and the milestone where this lands. It implies the editor page is rendered by PHP rather than being purely static HTML.
 - **Not now:** migrating the old short links previously used on the author's own `1qr.es` domain.
 
 ## Milestones
