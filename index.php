@@ -71,7 +71,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 	<meta name="color-scheme" content="light dark">
 	<title>LadyQR</title>
 	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>">
-	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/css/app.css' ); ?>">
+	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css' ); ?>">
 </head>
 <body>
 
@@ -179,6 +179,6 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 </footer>
 
 <script type="application/json" id="ladyqr-i18n"><?php echo json_encode( $ladyqr_js_strings, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE ); ?></script>
-<script type="module" src="<?php echo ladyqr_asset( 'assets/js/app.js' ); ?>"></script>
+<script type="module" src="<?php echo ladyqr_asset( 'assets/app.js' ); ?>"></script>
 </body>
 </html>

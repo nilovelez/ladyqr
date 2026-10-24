@@ -5,8 +5,8 @@
 // Example: node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg L 4
 
 import { writeFileSync } from 'node:fs';
-import { encode } from '../assets/js/qr.js';
-import { toSvg } from '../assets/js/render.js';
+import { encode } from '../assets/qr.js';
+import { toSvg } from '../assets/render.js';
 
 const [text, output, level = 'M', margin = '4'] = process.argv.slice(2);
 if (!text || !output) {

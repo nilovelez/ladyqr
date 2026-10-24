@@ -9,7 +9,7 @@ defined( 'LADYQR' ) || exit;
  * Returns an asset path with its modification time, so browsers fetch a new
  * copy when the file changes. It is escaped for use in an HTML attribute.
  *
- * @param string $path   Path from the web root, such as assets/css/app.css.
+ * @param string $path   Path from the web root, such as assets/app.css.
  * @param string $prefix What to put in front of the path to reach the web root
  *                       from the current page, such as ../ in the admin.
  */

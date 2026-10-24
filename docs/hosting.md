@@ -94,7 +94,7 @@ OPcache is why a hand edit of a PHP file, the configuration file included, can t
 
 ### Folder listings
 
-Apache's directory listing is on at OVH. With only `IndexIgnore *`, a folder such as `/assets/` showed an empty "Index of /assets" page: it exposed nothing, but it was still a listing page. The fix, borrowed from WordPress, is a **blank `index.html` in every folder** (`assets/`, `assets/css/`, `assets/js/`, `includes/` and `languages/`), so a visitor gets an empty page. For that to work, `DirectoryIndex` in `.htaccess` has to include `index.html`, and it does (`index.php index.html`). `IndexIgnore *` stays as a second line of defense.
+Apache's directory listing is on at OVH. With only `IndexIgnore *`, a folder such as `/assets/` showed an empty "Index of /assets" page: it exposed nothing, but it was still a listing page. The fix, borrowed from WordPress, is a **blank `index.html` in every folder** (`assets/`, `includes/` and `languages/`; the live server still has the earlier layout, with `assets/css/` and `assets/js/` each holding one, until the next deployment removes them), so a visitor gets an empty page. For that to work, `DirectoryIndex` in `.htaccess` has to include `index.html`, and it does (`index.php index.html`). `IndexIgnore *` stays as a second line of defense.
 
 `Options -Indexes` was not used: on a host that does not allow `Options` in `.htaccess` it would make the whole site answer with an error.
 

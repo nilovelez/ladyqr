@@ -156,11 +156,11 @@ includes/auth.php          Sessions, login check, CSRF token
 includes/config-writer.php Safely replaces the password in the configuration file
 includes/functions.php     Small shared helpers
 includes/i18n.php          Translation functions and the .mo reader
-assets/js/qr.js            The QR code encoder
-assets/js/render.js        SVG and PNG output, matrix and color helpers
-assets/js/app.js           The editor's behavior
-assets/css/app.css         Styles
-assets/css/admin.css       Styles for the admin
+assets/qr.js               The QR code encoder
+assets/render.js           SVG and PNG output, matrix and color helpers
+assets/app.js              The editor's behavior
+assets/app.css            Styles
+assets/admin.css          Styles for the admin
 assets/icon-128.png        Icon
 assets/icon-full.png       Full size icon
 languages/                 Translation template and translations
@@ -176,11 +176,11 @@ guppy/                     Project status published to Guppy (the author's proje
 
 ### Using the encoder
 
-`assets/js/qr.js` and `assets/js/render.js` are plain ES modules with no dependencies. They also run in Node.js.
+`assets/qr.js` and `assets/render.js` are plain ES modules with no dependencies. They also run in Node.js.
 
 ```js
-import { encode } from './assets/js/qr.js';
-import { toSvg, toPngBlob } from './assets/js/render.js';
+import { encode } from './assets/qr.js';
+import { toSvg, toPngBlob } from './assets/render.js';
 
 const { modules, version, size, mask } = encode('https://example.com/', 'M');
 // modules[y][x] is true for a dark module.

@@ -95,8 +95,8 @@ function ladyqr_icon_warning() {
 	<meta name="robots" content="noindex, nofollow">
 	<title><?php esc_html_e( 'LadyQR admin', 'ladyqr' ); ?></title>
 	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>">
-	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/css/app.css', '../' ); ?>">
-	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/css/admin.css', '../' ); ?>">
+	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css', '../' ); ?>">
+	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/admin.css', '../' ); ?>">
 </head>
 <body class="admin">
 
