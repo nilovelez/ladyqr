@@ -92,7 +92,7 @@ Every folder has a blank `index.html`, so visiting a folder such as `/assets/` s
 
 ## Admin
 
-The admin is at `/admin/`. For now it only has the login; the short links will be managed there in a later version. Nothing on the editor page links to it, and its pages tell search engines not to index them (a `noindex` header and meta tag). There is deliberately no `robots.txt` entry for it: it would stop crawlers from reading the `noindex`, and it would publish the path.
+The admin is at `/admin/`. It has the login and the short links. Nothing on the editor page links to it, and its pages tell search engines not to index them (a `noindex` header and meta tag). There is deliberately no `robots.txt` entry for it: it would stop crawlers from reading the `noindex`, and it would publish the path.
 
 **Setting a user and password.** In the configuration file, write them in plain text:
 
@@ -104,6 +104,14 @@ The admin is at `/admin/`. For now it only has the login; the short links will b
 The first time you log in, LadyQR replaces the password in the file with `password_hash()`'s result (bcrypt, with its own random salt inside), keeping the rest of the file as it was. From then on it is checked with `password_verify()`. To change the password, write the new one in plain text in the file again; it is secured at the next login. Until the first login the password sits in plain text in the file, which is blocked from the web, but do not leave it that way for long. `password_hash()` only uses the first 72 bytes of a password.
 
 The file has to be writable by PHP for this. If it is not, or if the password is written in a form LadyQR cannot edit safely (for example built from several strings), the login still works with the plain password and the admin tells you why it could not secure it. LadyQR checks the new file before putting it in place, and if the check fails it changes nothing.
+
+**Short links.** Once logged in, the admin lists your short links and lets you add, edit and delete them. Each link has a short name (letters, digits and hyphens), an `http` or `https` address it goes to, and a type: temporary (302, the default) or permanent (301, which browsers remember).
+
+The links are stored in one block of the `.htaccess` file, between `# BEGIN LadyQR short links` and `# END LadyQR short links`, as `RedirectMatch` lines. Apache answers them by itself, without starting PHP, so they are as fast as a redirect can be. LadyQR leaves everything else in the file alone. This needs `.htaccess` to be writable by PHP; if it is not, the admin says so.
+
+Every change is made carefully: a copy of the file is kept as `.htaccess.bak`, the new file is put in place in one move, and then LadyQR requests your site to check that it still answers. If it does not, the previous file is put back and the admin tells you, so a mistake cannot leave the site broken. If the check cannot be made on your host, the change is kept and the admin warns you.
+
+Anything that is not a short link answers with a real 404 and a plain page (`404.php`, set with `ErrorDocument 404 /404.php` in `.htaccess`). If you install LadyQR in a subfolder, put the folder in that line, for example `/qr/404.php`.
 
 **Three states**
 
@@ -150,10 +158,13 @@ PHP generates the page, in the configured language, and what reaches the browser
 ```
 index.php                  The editor page, and the CSP header
 .htaccess                  Fixed Apache rules (the HTTPS rule is commented out)
-admin/index.php            The admin: locked, open, login and panel
+admin/index.php            The admin: locked, open, login and the short links
+404.php                    The page for anything that does not exist
 includes/config.php        Configuration loader
 includes/auth.php          Sessions, login check, CSRF token
 includes/config-writer.php Safely replaces the password in the configuration file
+includes/links.php         Short link validation and the managed block
+includes/htaccess.php      Safe writes of .htaccess, with a check and rollback
 includes/functions.php     Small shared helpers
 includes/i18n.php          Translation functions and the .mo reader
 assets/qr.js               The QR code encoder

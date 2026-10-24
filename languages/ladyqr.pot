@@ -7,106 +7,245 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-24T16:18:58+00:00\n"
+"POT-Creation-Date: 2026-10-24T19:08:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ladyqr\n"
 
-#: admin/index.php:96
-#: admin/index.php:115
+#: 404.php:35
+#: 404.php:47
+msgid "Page not found"
+msgstr ""
+
+#: 404.php:49
+msgid "This short link does not exist, or it was removed."
+msgstr ""
+
+#: 404.php:50
+msgid "Make a QR code"
+msgstr ""
+
+#: admin/index.php:191
+msgid "The short name can only have letters, digits and hyphens, up to 64 characters."
+msgstr ""
+
+#: admin/index.php:193
+msgid "That name is reserved, because it is used by a file or a folder of the site."
+msgstr ""
+
+#: admin/index.php:195
+msgid "There is already a short link with that name."
+msgstr ""
+
+#: admin/index.php:197
+msgid "The address must start with http:// or https://, have no spaces, and use only plain ASCII characters (write other characters percent-encoded)."
+msgstr ""
+
+#: admin/index.php:199
+msgid "A short link cannot point to itself."
+msgstr ""
+
+#: admin/index.php:201
+msgid "That short link no longer exists. Reload the list."
+msgstr ""
+
+#: admin/index.php:218
+msgid "Short name"
+msgstr ""
+
+#: admin/index.php:228
+msgid "Goes to"
+msgstr ""
+
+#: admin/index.php:235
+msgid "Type"
+msgstr ""
+
+#: admin/index.php:237
+msgid "Temporary (302)"
+msgstr ""
+
+#: admin/index.php:238
+msgid "Permanent (301)"
+msgstr ""
+
+#: admin/index.php:240
+msgid "Browsers remember permanent links, so a later change may take a long time to show. Use temporary unless the address will never change."
+msgstr ""
+
+#: admin/index.php:253
+msgid "LadyQR cannot write to the .htaccess file. Make it writable (for example, permissions 644 and owned by the web server's user) and try again."
+msgstr ""
+
+#: admin/index.php:255
+msgid "The change made the site stop answering, so it was undone. Nothing was changed."
+msgstr ""
+
+#: admin/index.php:257
+msgid "The .htaccess file could not be saved. Nothing was changed."
+msgstr ""
+
+#: admin/index.php:271
+#: admin/index.php:290
 msgid "LadyQR admin"
 msgstr ""
 
-#: admin/index.php:106
+#: admin/index.php:281
 msgid "No login is required"
 msgstr ""
 
-#: admin/index.php:107
+#: admin/index.php:282
 msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the require_login setting."
 msgstr ""
 
-#: admin/index.php:120
+#: admin/index.php:295
 msgid "The admin is locked"
 msgstr ""
 
-#: admin/index.php:121
+#: admin/index.php:296
 msgid "No user and password are set yet, so nobody can log in. To set them, add these two lines to the configuration file, ladyqr-config.php, which goes in the web root or one level above it:"
 msgstr ""
 
-#: admin/index.php:124
+#: admin/index.php:299
 msgid "Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash."
 msgstr ""
 
-#: admin/index.php:125
+#: admin/index.php:300
 msgid "If you do not have a configuration file yet, copy ladyqr-config.sample.php to ladyqr-config.php."
 msgstr ""
 
-#: admin/index.php:129
+#: admin/index.php:304
 msgid "Sessions do not work on this server, so the admin cannot keep you logged in."
 msgstr ""
 
-#: admin/index.php:133
-#: admin/index.php:156
+#: admin/index.php:308
+#: admin/index.php:331
 msgid "Log in"
 msgstr ""
 
-#: admin/index.php:135
+#: admin/index.php:310
 msgid "Your session expired. Log in again."
 msgstr ""
 
-#: admin/index.php:138
+#: admin/index.php:313
 msgid "Wrong user or password."
 msgstr ""
 
-#: admin/index.php:140
+#: admin/index.php:315
 msgid "The form expired. Try again."
 msgstr ""
 
-#: admin/index.php:146
+#: admin/index.php:321
 msgid "User"
 msgstr ""
 
-#: admin/index.php:150
+#: admin/index.php:325
 msgid "Password"
 msgstr ""
 
-#: admin/index.php:154
+#: admin/index.php:329
 msgid "This connection is not secure: your password would travel unencrypted."
 msgstr ""
 
-#: admin/index.php:161
+#: admin/index.php:336
 msgid "Short links"
 msgstr ""
 
-#: admin/index.php:161
-msgid "You are logged in"
-msgstr ""
-
-#: admin/index.php:163
+#: admin/index.php:338
 msgid "Your password is now stored as a secure hash in the configuration file."
 msgstr ""
 
-#: admin/index.php:165
+#: admin/index.php:340
 msgid "Your password is still stored in plain text, because LadyQR cannot write to the configuration file. Make the file writable and log in again, and it will be secured."
 msgstr ""
 
-#: admin/index.php:167
+#: admin/index.php:342
 msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as 'password' => 'your-password', with plain quotes, and log in again."
 msgstr ""
 
-#: admin/index.php:169
+#: admin/index.php:344
 msgid "Your password could not be secured, because the new configuration file did not pass its safety check. The file was not changed."
 msgstr ""
 
-#: admin/index.php:171
-msgid "The short links will be managed here in a future version."
+#: admin/index.php:354
+msgid "There is no .htaccess file in the site's folder, and the short links are stored in it. Upload the .htaccess file that comes with LadyQR."
 msgstr ""
 
-#: admin/index.php:176
+#: admin/index.php:356
+msgid "The block of short links in the .htaccess file is damaged (a \"BEGIN LadyQR short links\" or \"END LadyQR short links\" line is missing or repeated), so LadyQR will not touch it. Fix it by hand or remove the block."
+msgstr ""
+
+#: admin/index.php:358
+msgid "The .htaccess file cannot be read."
+msgstr ""
+
+#: admin/index.php:370
+msgid "Save changes"
+msgstr ""
+
+#: admin/index.php:371
+#: admin/index.php:388
+msgid "Cancel"
+msgstr ""
+
+#: admin/index.php:379
+msgid "Back to the list"
+msgstr ""
+
+#: admin/index.php:381
+msgid "Delete this short link? Anyone who uses it will no longer be redirected."
+msgstr ""
+
+#: admin/index.php:387
+#: admin/index.php:419
+msgid "Delete"
+msgstr ""
+
+#: admin/index.php:395
+msgid "The short link was added."
+msgstr ""
+
+#: admin/index.php:397
+msgid "The short link was updated."
+msgstr ""
+
+#: admin/index.php:399
+msgid "The short link was deleted."
+msgstr ""
+
+#: admin/index.php:402
+msgid "Saved, but LadyQR could not check that the site still answers. Open your site to make sure it works."
+msgstr ""
+
+#: admin/index.php:407
+msgid "You have no short links yet."
+msgstr ""
+
+#: admin/index.php:416
+msgid "Permanent"
+msgstr ""
+
+#: admin/index.php:416
+msgid "Temporary"
+msgstr ""
+
+#: admin/index.php:418
+msgid "Edit"
+msgstr ""
+
+#: admin/index.php:426
+msgid "Add a short link"
+msgstr ""
+
+#: admin/index.php:431
+msgid "Add short link"
+msgstr ""
+
+#: admin/index.php:440
 msgid "Log out"
 msgstr ""
 
-#: admin/index.php:186
+#: admin/index.php:450
 msgid "Back to the QR code editor"
 msgstr ""
 
@@ -184,48 +323,48 @@ msgid "Free software, GPL-2.0-or-later"
 msgstr ""
 
 #: index.php:111
-msgid "Settings"
-msgstr ""
-
-#: index.php:114
-#: index.php:115
-msgid "Error correction"
-msgstr ""
-
-#: index.php:123
-msgid "Margin (modules)"
-msgstr ""
-
-#: index.php:131
-msgid "Module color"
-msgstr ""
-
-#: index.php:135
-msgid "Background color"
-msgstr ""
-
-#: index.php:139
-msgid "Reset settings"
-msgstr ""
-
-#: index.php:144
 msgid "Type or paste a link or text"
 msgstr ""
 
-#: index.php:144
+#: index.php:111
 msgid "Text or URL"
 msgstr ""
 
-#: index.php:155
+#: index.php:122
 msgid "Download"
 msgstr ""
 
-#: index.php:157
+#: index.php:124
 msgid "More download formats"
 msgstr ""
 
-#: index.php:162
+#: index.php:129
 msgid "vector"
+msgstr ""
+
+#: index.php:135
+msgid "Settings"
+msgstr ""
+
+#: index.php:138
+#: index.php:139
+msgid "Error correction"
+msgstr ""
+
+#: index.php:147
+msgid "Margin (modules)"
+msgstr ""
+
+#: index.php:155
+msgid "Module color"
+msgstr ""
+
+#: index.php:159
+msgid "Background color"
+msgstr ""
+
+#: index.php:163
+msgid "Reset settings"
 msgstr ""
 
 #. translators: %s: the product name, LadyQR.

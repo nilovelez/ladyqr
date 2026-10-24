@@ -116,9 +116,9 @@ Take what exists to the author's domain. Details and measurements are in [`hosti
 - **Found:** files uploaded or deleted over SFTP take between 3 and 16 seconds to be seen by PHP, because of the shared network storage. It does not affect files that PHP writes itself.
 - Done: `https://1qr.es/` shows the editor and `http://1qr.es/` redirects to it.
 
-### M3. Configuration and authentication — built, waiting for approval
+### M3. Configuration and authentication — done
 
-The admin's front door, as decided above. Built and tested locally on branch `feat/m3-admin-login`, with `php -S`; **nothing has been uploaded to `1qr.es`.**
+The admin's front door, as decided above. Built and tested locally with `php -S`; **nothing has been uploaded to `1qr.es`.**
 
 - `/admin/` with a single-user login, native PHP sessions, a CSRF token, a 15 minute idle timeout (setting `session_timeout`), logout, and a one second pause after a wrong attempt.
 - The user and password are written in plain text in the configuration file and secured by the first login, as described above, including the case where the file cannot be written.
@@ -144,14 +144,23 @@ The admin's front door, as decided above. Built and tested locally on branch `fe
 
 Done when the admin cannot be entered without the password unless `require_login` is `false`, with and without HTTPS, the plain password is replaced by its hash at the first login and the file stays valid, and the session expires. All of it holds locally.
 
-### M4. Redirect manager
+### M4. Redirect manager — built, waiting for approval
 
-- List, add, edit and delete short links in the admin.
-- The managed block is the only store: one `Redirect` line per link, which the admin reads back. No database and no extra data file.
-- Validation: slugs of letters, digits and hyphens, with a length limit and a list of reserved names (for example `admin`, `assets`, `includes`, `languages`, `old`); targets must be `http` or `https`, with no spaces or line breaks; no duplicates. Temporary (302) by default.
-- Safe writes as decided: atomic, with a `.bak` copy, a self-request to check the site and a rollback.
-- When no redirect matches, `ErrorDocument 404` loads a PHP page that shows the editor. **Open question:** whether that page answers with status 404 or 200. The spike showed PHP starts with 200 and the script has to set 404 itself.
-- Done when a link created in the admin redirects without PHP and a mistake can never leave the site returning errors.
+The short links, managed in the admin. Built and tested locally on branch `feat/m4-redirect-manager`; **nothing has been uploaded to `1qr.es`.**
+
+- **List, add, edit and delete** in `/admin/`. Without JavaScript: editing and deleting are their own pages, and deleting asks for confirmation.
+- **The managed block is the only store.** It sits between `# BEGIN LadyQR short links` and `# END LadyQR short links` in the root `.htaccess`, one line per link: `RedirectMatch 302 ^/slug$ https://target`. It is `RedirectMatch` with an exact pattern because a plain `Redirect` would also catch everything under the name (`/slug/anything`). The path includes the folder when LadyQR lives in a subfolder. There is no database and no extra data file.
+- **Each link is temporary (302) or permanent (301).** Temporary is the default, and the form explains that browsers remember permanent ones.
+- **Validation:** names of letters, digits and hyphens up to 64 characters, compared without regard to case when looking for duplicates, and not reserved. The reserved names are a fixed list (`admin`, `assets`, `includes`, `languages`, `old`, `index`, `docs`, `site`, `tools`) plus anything that exists in the web root, since a redirect is applied before the file is looked for and would hide it. Targets must be `http` or `https` with a host, in plain ASCII, with no spaces, control characters, quotes, backslashes or angle brackets, so nothing a person types can end the line or start another directive. A dollar sign is written as `%24`, because it is special in a `RedirectMatch` target. A link to itself is refused.
+- **Safe writes:** a copy of the current file is saved as `.htaccess.bak` (Apache never serves `.ht*` files, and it holds nothing secret); the new file is built aside and put in place with one rename (or written in place if the folder is not writable); it is read back and compared; and then the site is requested over HTTP (the blank page of `assets/`). If it answers with an error, the old file is put back and the admin says so. If the request cannot be made (no cURL and no `allow_url_fopen`, or PHP's built-in server), the change is kept and the admin warns that it was not checked.
+- **What is not ours is respected:** anything else in the `.htaccess` is left alone, and a line inside the block that is not a link is kept. If the markers are damaged (one missing or repeated), the admin refuses to touch the file and says so. If there is no `.htaccess`, the forms are hidden and it asks for the one that comes with LadyQR.
+- **Not found:** anything that matches no link and no file answers with a real 404 and a plain page, `404.php` (`ErrorDocument 404 /404.php` in `.htaccess`), with a link to the editor. This closes the open question: the answer is 404, not the editor with status 200. In a subfolder install the path in that line needs the folder in front, and the file says so.
+- **Left to the backlog:** a lock around the write (`flock` does not work on the target host), so two simultaneous saves could lose one.
+- **Also fixed:** at 900 px and wider, the admin card inherited the editor's two-column grid and left a blank column. The admin now has its own single-column card.
+
+**Verification** (local Apache 2.4 with PHP-CGI and `AllowOverride All`, plus the built-in server): 41 checks end to end with a logged-in session. The link redirects with the right status and `Location`, Apache alone answers it (no `X-Powered-By`), `/slug/extra` is a 404, the dollar sign survives, and the list reads the file back. Fourteen kinds of invalid input are refused without touching the file. Rename and type change work, and delete confirms and removes. A wrong or missing CSRF token changes nothing, and neither does an anonymous request. A foreign line inside the block and the rest of the file survive. An invalid directive is rolled back byte for byte and the site keeps answering. Damaged markers and a read-only file are reported. The same flow works from a subfolder (`/sub/hi`). Screenshots in light, dark and phone widths.
+
+Done when a link created in the admin redirects without PHP and a mistake can never leave the site returning errors.
 
 ### M5. Documentation and packaging
 

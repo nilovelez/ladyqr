@@ -143,3 +143,144 @@ pre.code {
 pre.code code {
 	font: inherit;
 }
+
+/* Short links. */
+
+/* The admin has a single column, so it is not the editor's two-column card. */
+body.admin main {
+	max-width: 560px;
+}
+
+body.admin .card {
+	display: flex;
+}
+
+body.admin.admin-panel main {
+	max-width: 720px;
+}
+
+.card-body h3 {
+	margin: 12px 0 0;
+	font-size: 1.05rem;
+}
+
+.empty {
+	color: var(--muted);
+}
+
+.links {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+}
+
+.links li {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: 6px 14px;
+	padding: 12px 16px;
+}
+
+.links li + li {
+	border-top: 1px solid var(--line);
+}
+
+.link-main {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.short {
+	font-weight: 700;
+	color: var(--ink);
+	overflow-wrap: anywhere;
+}
+
+.target {
+	overflow: hidden;
+	color: var(--muted);
+	font-size: 0.9rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.doomed .target {
+	display: inline-block;
+	max-width: 100%;
+	vertical-align: bottom;
+}
+
+.badge {
+	padding: 2px 10px;
+	font-size: 0.8rem;
+	color: var(--muted);
+	border: 1px solid var(--line);
+	border-radius: 999px;
+}
+
+.link-actions {
+	display: flex;
+	gap: 14px;
+}
+
+.link-actions a {
+	color: var(--accent);
+	font-weight: 600;
+}
+
+.slug-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.slug-row .input {
+	width: auto;
+	flex: 1;
+	min-width: 0;
+}
+
+.slug-origin {
+	flex: none;
+	color: var(--muted);
+}
+
+.hint {
+	margin: 6px 0 0;
+	color: var(--muted);
+	font-size: 0.9rem;
+}
+
+.field-error {
+	margin: 6px 0 0;
+	color: var(--accent);
+	font-size: 0.95rem;
+	font-weight: 600;
+}
+
+.input[aria-invalid="true"] {
+	border-color: var(--accent);
+}
+
+a.btn {
+	display: block;
+	box-sizing: border-box;
+	text-align: center;
+	text-decoration: none;
+}
+
+@media (max-width: 560px) {
+	.links li {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.link-actions {
+		grid-column: 1 / -1;
+	}
+}

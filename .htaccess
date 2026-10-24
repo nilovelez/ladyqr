@@ -24,6 +24,12 @@ Deny from all
 </IfModule>
 </FilesMatch>
 
+# Anything that does not exist, and is not a short link, gets the not-found page,
+# which answers with a real 404 status. The path starts at the web root of the
+# domain: if LadyQR lives in a subfolder, put the folder in front, for example
+# /qr/404.php.
+ErrorDocument 404 /404.php
+
 # Force HTTPS. Uncomment these lines once the site has an SSL certificate.
 # They are off by default because on a server without SSL they would make the
 # site unreachable.
