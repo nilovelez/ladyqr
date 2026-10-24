@@ -30,7 +30,7 @@ $ladyqr_base = ladyqr_base_path();
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="color-scheme" content="light dark">
+	<meta name="color-scheme" content="light">
 	<meta name="robots" content="noindex">
 	<title><?php esc_html_e( 'Page not found', 'ladyqr' ); ?></title>
 	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png', $ladyqr_base . '/' ); ?>">

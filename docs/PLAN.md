@@ -162,6 +162,17 @@ The short links, managed in the admin. Built and tested locally; **nothing has b
 
 Done when a link created in the admin redirects without PHP and a mistake can never leave the site returning errors.
 
+### Design revision — built, waiting for approval
+
+A round of design and UX corrections from the author, on branch `design/cleaner-ui`, before M5.
+
+- **Light only.** The dark theme is gone from the editor, the admin, the not-found page and the website. The "manual light/dark switch" leaves the backlog.
+- **A simpler, cleaner look.** Neutral grays, 6 px radius on controls and 10 px on cards, a near-flat card, 44 px controls with labels above them in sentence case, buttons as wide as their text, and fields with an add-on (the site's address before a short name) that line up with the rest.
+- **The short links are a table** with alternating white and soft gray rows, and the code (`301` or `302`) in its own column instead of "Permanent" or "Temporary". The type select reads "301 – Permanent redirect" and "302 – Temporary redirect". Edit and delete have their own headings.
+- **Logging out moved** from a button in the card to a line above it, on the right: "Signed in as admin – Log out", where "Log out" is a link carrying the session's token.
+- **DESIGN.md is now a design system**: tokens with measured contrast, shape and spacing scales, the shared components, each screen, and a consistency checklist. The shared components moved to `assets/app.css`.
+- The website's editor screenshot was retaken, and its roadmap no longer says the admin and the shortener are only planned.
+
 ### M5. Documentation and packaging
 
 Installation guide, troubleshooting based on `hosting.md`, a complete `ladyqr-config.sample.php`, and a release `.zip` ready for FTP.
@@ -181,6 +192,5 @@ Things that are wanted but not urgent, in no particular order.
 - **Real login rate limiting.** It needs somewhere to store attempts, which the "native only" principle avoids; the current answer is a short delay.
 - **More testing:** Firefox, Safari, touch devices, screen readers, and PHP 7.4, which is the stated target but has not been run.
 - **The website's demo in Spanish.**
-- **A manual light/dark switch.**
 - **Confirm the real disk quota** (100 MB) in the OVH panel: PHP only sees the disk of the whole cluster.
 - **A script for the SFTP deployment**, which M2 did by hand.

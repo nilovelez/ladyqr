@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-24T19:08:50+00:00\n"
+"POT-Creation-Date: 2026-10-24T21:46:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ladyqr\n"
@@ -25,227 +25,246 @@ msgstr ""
 msgid "Make a QR code"
 msgstr ""
 
-#: admin/index.php:191
+#: admin/index.php:195
 msgid "The short name can only have letters, digits and hyphens, up to 64 characters."
 msgstr ""
 
-#: admin/index.php:193
+#: admin/index.php:197
 msgid "That name is reserved, because it is used by a file or a folder of the site."
 msgstr ""
 
-#: admin/index.php:195
+#: admin/index.php:199
 msgid "There is already a short link with that name."
 msgstr ""
 
-#: admin/index.php:197
+#: admin/index.php:201
 msgid "The address must start with http:// or https://, have no spaces, and use only plain ASCII characters (write other characters percent-encoded)."
 msgstr ""
 
-#: admin/index.php:199
+#: admin/index.php:203
 msgid "A short link cannot point to itself."
 msgstr ""
 
-#: admin/index.php:201
+#: admin/index.php:205
 msgid "That short link no longer exists. Reload the list."
 msgstr ""
 
-#: admin/index.php:218
+#: admin/index.php:222
 msgid "Short name"
 msgstr ""
 
-#: admin/index.php:228
+#: admin/index.php:232
+#: admin/index.php:438
 msgid "Goes to"
 msgstr ""
 
-#: admin/index.php:235
+#: admin/index.php:239
 msgid "Type"
 msgstr ""
 
-#: admin/index.php:237
-msgid "Temporary (302)"
+#: admin/index.php:241
+msgid "301 – Permanent redirect"
 msgstr ""
 
-#: admin/index.php:238
-msgid "Permanent (301)"
+#: admin/index.php:242
+msgid "302 – Temporary redirect"
 msgstr ""
 
-#: admin/index.php:240
-msgid "Browsers remember permanent links, so a later change may take a long time to show. Use temporary unless the address will never change."
-msgstr ""
-
-#: admin/index.php:253
-msgid "LadyQR cannot write to the .htaccess file. Make it writable (for example, permissions 644 and owned by the web server's user) and try again."
-msgstr ""
-
-#: admin/index.php:255
-msgid "The change made the site stop answering, so it was undone. Nothing was changed."
+#: admin/index.php:244
+msgid "Browsers remember permanent redirects, so a later change may take a long time to show. Use 302 unless the address will never change."
 msgstr ""
 
 #: admin/index.php:257
+msgid "LadyQR cannot write to the .htaccess file. Make it writable (for example, permissions 644 and owned by the web server's user) and try again."
+msgstr ""
+
+#: admin/index.php:259
+msgid "The change made the site stop answering, so it was undone. Nothing was changed."
+msgstr ""
+
+#: admin/index.php:261
 msgid "The .htaccess file could not be saved. Nothing was changed."
 msgstr ""
 
-#: admin/index.php:271
-#: admin/index.php:290
+#: admin/index.php:275
+#: admin/index.php:302
 msgid "LadyQR admin"
 msgstr ""
 
-#: admin/index.php:281
+#: admin/index.php:285
 msgid "No login is required"
 msgstr ""
 
-#: admin/index.php:282
+#: admin/index.php:286
 msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the require_login setting."
 msgstr ""
 
-#: admin/index.php:295
-msgid "The admin is locked"
+#. translators: %s: the user's name.
+#: admin/index.php:292
+#, php-format
+msgid "Signed in as %s"
 msgstr ""
 
-#: admin/index.php:296
-msgid "No user and password are set yet, so nobody can log in. To set them, add these two lines to the configuration file, ladyqr-config.php, which goes in the web root or one level above it:"
-msgstr ""
-
-#: admin/index.php:299
-msgid "Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash."
-msgstr ""
-
-#: admin/index.php:300
-msgid "If you do not have a configuration file yet, copy ladyqr-config.sample.php to ladyqr-config.php."
-msgstr ""
-
-#: admin/index.php:304
-msgid "Sessions do not work on this server, so the admin cannot keep you logged in."
-msgstr ""
-
-#: admin/index.php:308
-#: admin/index.php:331
-msgid "Log in"
-msgstr ""
-
-#: admin/index.php:310
-msgid "Your session expired. Log in again."
-msgstr ""
-
-#: admin/index.php:313
-msgid "Wrong user or password."
-msgstr ""
-
-#: admin/index.php:315
-msgid "The form expired. Try again."
-msgstr ""
-
-#: admin/index.php:321
-msgid "User"
-msgstr ""
-
-#: admin/index.php:325
-msgid "Password"
-msgstr ""
-
-#: admin/index.php:329
-msgid "This connection is not secure: your password would travel unencrypted."
-msgstr ""
-
-#: admin/index.php:336
-msgid "Short links"
-msgstr ""
-
-#: admin/index.php:338
-msgid "Your password is now stored as a secure hash in the configuration file."
-msgstr ""
-
-#: admin/index.php:340
-msgid "Your password is still stored in plain text, because LadyQR cannot write to the configuration file. Make the file writable and log in again, and it will be secured."
-msgstr ""
-
-#: admin/index.php:342
-msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as 'password' => 'your-password', with plain quotes, and log in again."
-msgstr ""
-
-#: admin/index.php:344
-msgid "Your password could not be secured, because the new configuration file did not pass its safety check. The file was not changed."
-msgstr ""
-
-#: admin/index.php:354
-msgid "There is no .htaccess file in the site's folder, and the short links are stored in it. Upload the .htaccess file that comes with LadyQR."
-msgstr ""
-
-#: admin/index.php:356
-msgid "The block of short links in the .htaccess file is damaged (a \"BEGIN LadyQR short links\" or \"END LadyQR short links\" line is missing or repeated), so LadyQR will not touch it. Fix it by hand or remove the block."
-msgstr ""
-
-#: admin/index.php:358
-msgid "The .htaccess file cannot be read."
-msgstr ""
-
-#: admin/index.php:370
-msgid "Save changes"
-msgstr ""
-
-#: admin/index.php:371
-#: admin/index.php:388
-msgid "Cancel"
-msgstr ""
-
-#: admin/index.php:379
-msgid "Back to the list"
-msgstr ""
-
-#: admin/index.php:381
-msgid "Delete this short link? Anyone who uses it will no longer be redirected."
-msgstr ""
-
-#: admin/index.php:387
-#: admin/index.php:419
-msgid "Delete"
-msgstr ""
-
-#: admin/index.php:395
-msgid "The short link was added."
-msgstr ""
-
-#: admin/index.php:397
-msgid "The short link was updated."
-msgstr ""
-
-#: admin/index.php:399
-msgid "The short link was deleted."
-msgstr ""
-
-#: admin/index.php:402
-msgid "Saved, but LadyQR could not check that the site still answers. Open your site to make sure it works."
-msgstr ""
-
-#: admin/index.php:407
-msgid "You have no short links yet."
-msgstr ""
-
-#: admin/index.php:416
-msgid "Permanent"
-msgstr ""
-
-#: admin/index.php:416
-msgid "Temporary"
-msgstr ""
-
-#: admin/index.php:418
-msgid "Edit"
-msgstr ""
-
-#: admin/index.php:426
-msgid "Add a short link"
-msgstr ""
-
-#: admin/index.php:431
-msgid "Add short link"
-msgstr ""
-
-#: admin/index.php:440
+#: admin/index.php:294
 msgid "Log out"
 msgstr ""
 
-#: admin/index.php:450
+#: admin/index.php:307
+msgid "The admin is locked"
+msgstr ""
+
+#: admin/index.php:308
+msgid "No user and password are set yet, so nobody can log in. To set them, add these two lines to the configuration file, ladyqr-config.php, which goes in the web root or one level above it:"
+msgstr ""
+
+#: admin/index.php:311
+msgid "Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash."
+msgstr ""
+
+#: admin/index.php:312
+msgid "If you do not have a configuration file yet, copy ladyqr-config.sample.php to ladyqr-config.php."
+msgstr ""
+
+#: admin/index.php:316
+msgid "Sessions do not work on this server, so the admin cannot keep you logged in."
+msgstr ""
+
+#: admin/index.php:320
+#: admin/index.php:343
+msgid "Log in"
+msgstr ""
+
+#: admin/index.php:322
+msgid "Your session expired. Log in again."
+msgstr ""
+
+#: admin/index.php:325
+msgid "Wrong user or password."
+msgstr ""
+
+#: admin/index.php:327
+msgid "The form expired. Try again."
+msgstr ""
+
+#: admin/index.php:333
+msgid "User"
+msgstr ""
+
+#: admin/index.php:337
+msgid "Password"
+msgstr ""
+
+#: admin/index.php:341
+msgid "This connection is not secure: your password would travel unencrypted."
+msgstr ""
+
+#: admin/index.php:349
+msgid "Edit short link"
+msgstr ""
+
+#: admin/index.php:351
+msgid "Delete short link"
+msgstr ""
+
+#: admin/index.php:353
+msgid "Short links"
+msgstr ""
+
+#: admin/index.php:356
+msgid "Your password is now stored as a secure hash in the configuration file."
+msgstr ""
+
+#: admin/index.php:358
+msgid "Your password is still stored in plain text, because LadyQR cannot write to the configuration file. Make the file writable and log in again, and it will be secured."
+msgstr ""
+
+#: admin/index.php:360
+msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as 'password' => 'your-password', with plain quotes, and log in again."
+msgstr ""
+
+#: admin/index.php:362
+msgid "Your password could not be secured, because the new configuration file did not pass its safety check. The file was not changed."
+msgstr ""
+
+#: admin/index.php:372
+msgid "There is no .htaccess file in the site's folder, and the short links are stored in it. Upload the .htaccess file that comes with LadyQR."
+msgstr ""
+
+#: admin/index.php:374
+msgid "The block of short links in the .htaccess file is damaged (a \"BEGIN LadyQR short links\" or \"END LadyQR short links\" line is missing or repeated), so LadyQR will not touch it. Fix it by hand or remove the block."
+msgstr ""
+
+#: admin/index.php:376
+msgid "The .htaccess file cannot be read."
+msgstr ""
+
+#: admin/index.php:389
+msgid "Save changes"
+msgstr ""
+
+#: admin/index.php:390
+#: admin/index.php:411
+msgid "Cancel"
+msgstr ""
+
+#: admin/index.php:400
+msgid "Back to the list"
+msgstr ""
+
+#: admin/index.php:403
+msgid "Delete this short link? Anyone who uses it will no longer be redirected."
+msgstr ""
+
+#: admin/index.php:410
+#: admin/index.php:452
+msgid "Delete"
+msgstr ""
+
+#: admin/index.php:419
+msgid "The short link was added."
+msgstr ""
+
+#: admin/index.php:421
+msgid "The short link was updated."
+msgstr ""
+
+#: admin/index.php:423
+msgid "The short link was deleted."
+msgstr ""
+
+#: admin/index.php:426
+msgid "Saved, but LadyQR could not check that the site still answers. Open your site to make sure it works."
+msgstr ""
+
+#: admin/index.php:431
+msgid "You have no short links yet."
+msgstr ""
+
+#: admin/index.php:437
+msgid "Short link"
+msgstr ""
+
+#: admin/index.php:439
+msgid "Code"
+msgstr ""
+
+#: admin/index.php:440
+msgid "Actions"
+msgstr ""
+
+#: admin/index.php:451
+msgid "Edit"
+msgstr ""
+
+#: admin/index.php:462
+msgid "Add a short link"
+msgstr ""
+
+#: admin/index.php:468
+msgid "Add short link"
+msgstr ""
+
+#: admin/index.php:480
 msgid "Back to the QR code editor"
 msgstr ""
 

@@ -1,33 +1,22 @@
-/* LadyQR website. Same tokens as the editor; see DESIGN.md. */
+/* LadyQR website. Same tokens as the app (assets/app.css); see DESIGN.md. */
 
 :root {
-	--bg: #f5f4f3;
+	--bg: #f4f4f5;
 	--surface: #ffffff;
-	--ink: #1d1a1b;
-	--muted: #6d6869;
-	--line: #d3cfce;
-	--border: #847e7f;
+	--zebra: #f7f7f8;
+	--ink: #18181b;
+	--muted: #5f5f66;
+	--line: #e4e4e7;
+	--border: #8a8a93;
 	--accent: #d9261c;
 	--accent-ink: #ffffff;
 	--accent-deep: #b81d14;
+	--radius-sm: 4px;
+	--radius: 6px;
+	--radius-lg: 10px;
 	--font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	--mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 	color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--bg: #141213;
-		--surface: #1d1a1b;
-		--ink: #f1eeed;
-		--muted: #a29b9c;
-		--line: #4a4445;
-		--border: #7e7879;
-		--accent: #ef4a40;
-		--accent-ink: #141213;
-		--accent-deep: #d93a30;
-		color-scheme: dark;
-	}
 }
 
 * {
@@ -74,7 +63,7 @@ code {
 	padding: 0.1em 0.35em;
 	background: var(--surface);
 	border: 1px solid var(--line);
-	border-radius: 4px;
+	border-radius: var(--radius-sm);
 }
 
 h1,
@@ -176,18 +165,17 @@ main,
 
 .button {
 	display: inline-block;
-	padding: 14px 24px;
-	font-weight: 700;
+	padding: 12px 22px;
+	font-weight: 600;
 	color: var(--ink);
 	text-decoration: none;
 	background: var(--surface);
 	border: 1px solid var(--border);
-	border-radius: 14px;
+	border-radius: var(--radius);
 }
 
 .button:hover {
-	color: var(--accent);
-	border-color: var(--accent);
+	background: var(--bg);
 }
 
 .button.primary {
@@ -252,8 +240,8 @@ main,
 .features li {
 	padding: 22px;
 	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: 16px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
 }
 
 .features h3 {
@@ -276,8 +264,9 @@ main,
 	width: min(560px, 100%);
 	height: auto;
 	margin: 0 auto;
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-	border-radius: 24px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .steps {
@@ -295,8 +284,8 @@ pre {
 	padding: 16px 18px;
 	overflow-x: auto;
 	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: 12px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
 }
 
 pre code {

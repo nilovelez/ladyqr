@@ -34,7 +34,7 @@ The QR code generator (milestone M0) is done, and the target hosting has been te
 - **Made to be scanned.** Error correction levels L, M, Q and H, a margin from 0 to 8 modules, and custom colors. A warning appears for low contrast (4:1 or less), for inverted colors (modules lighter than the background), or for both.
 - **Remembers your settings, nothing else.** Error correction, margin and colors are kept in your browser's `localStorage`. The text you type is never stored. A button resets the settings.
 - **Own encoder.** About 400 lines of JavaScript with no dependencies and no build step. Byte mode (UTF-8, so accents and emoji work), versions 1 to 40, up to 2953 bytes at level L.
-- **Accessible.** High-contrast borders, full keyboard use, screen reader labels, light and dark themes that follow your system. See [DESIGN.md](DESIGN.md).
+- **Accessible.** High-contrast borders, full keyboard use and screen reader labels. See [DESIGN.md](DESIGN.md).
 - **Translatable.** Translations work like WordPress, with standard `.po` files. English and Spanish are included.
 
 ## Privacy and security

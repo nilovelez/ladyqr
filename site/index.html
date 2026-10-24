@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="color-scheme" content="light dark">
+	<meta name="color-scheme" content="light">
 	<meta name="description" content="LadyQR makes QR codes entirely in your browser, as you type. Nothing is uploaded. Free software, with PNG and SVG downloads.">
 	<title>LadyQR</title>
 	<link rel="icon" type="image/png" href="img/icon-128.png">
@@ -69,7 +69,7 @@
 			</li>
 			<li>
 				<h3>Accessible and translatable</h3>
-				<p>High-contrast borders, full keyboard use, light and dark themes. Translations work like WordPress, with standard <code>.po</code> files. English and Spanish are included.</p>
+				<p>High-contrast borders and full keyboard use. Translations work like WordPress, with standard <code>.po</code> files. English and Spanish are included.</p>
 			</li>
 		</ul>
 	</section>
@@ -78,10 +78,7 @@
 		<h2 id="shots-title">One screen, one job</h2>
 		<p>A text field, the QR code and a download button. Everything else is one click away in the settings.</p>
 		<figure>
-			<picture>
-				<source srcset="img/editor-dark.png" media="(prefers-color-scheme: dark)">
-				<img src="img/editor-light.png" alt="The LadyQR editor: a collapsed Settings bar, a text field containing a web address, the QR code for it, and a large red Download button." width="560" height="649">
-			</picture>
+			<img src="img/editor.png" alt="The LadyQR editor: a collapsed Settings bar, a text field containing a web address, the QR code for it, and a large red Download button." width="560" height="610">
 		</figure>
 	</section>
 
@@ -112,8 +109,8 @@ connect-src 'none'; base-uri 'none'; form-action 'none'</code></pre>
 	<section class="band" id="roadmap">
 		<h2>Where it is going</h2>
 		<ul class="roadmap">
-			<li class="done"><strong>Done:</strong> the QR code generator, with PNG and SVG, settings, warnings, dark mode and translations. It runs on a free 100 MB shared hosting plan, at <a href="https://1qr.es/">1qr.es</a>.</li>
-			<li><strong>Next:</strong> a private, single-user admin, and a URL shortener that writes its redirects into <code>.htaccess</code> so Apache serves them without running PHP.</li>
+			<li class="done"><strong>Done:</strong> the QR code generator, with PNG and SVG, settings, warnings and translations. It runs on a free 100 MB shared hosting plan, at <a href="https://1qr.es/">1qr.es</a>.</li>
+			<li><strong>Built, being polished:</strong> a private, single-user admin, and a URL shortener that writes its redirects into <code>.htaccess</code> so Apache serves them without running PHP.</li>
 			<li><strong>Later:</strong> installation guide and a release you can upload by FTP.</li>
 		</ul>
 		<p>The full plan is in <a href="https://github.com/nilovelez/ladyqr/blob/main/docs/PLAN.md">docs/PLAN.md</a>.</p>

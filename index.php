@@ -68,7 +68,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="color-scheme" content="light dark">
+	<meta name="color-scheme" content="light">
 	<title>LadyQR</title>
 	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css' ); ?>">
@@ -106,7 +106,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 </template>
 
 <main>
-	<div class="card">
+	<div class="card editor">
 		<div class="card-body">
 			<input class="field" id="content" type="text" placeholder="<?php echo esc_attr__( 'Type or paste a link or text', 'ladyqr' ); ?>" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="<?php echo esc_attr__( 'Text or URL', 'ladyqr' ); ?>">
 
