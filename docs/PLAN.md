@@ -17,13 +17,19 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
 - **Outputs:** PNG and SVG.
 - **Configuration file:** a PHP file that returns an array. It is looked up in the web root first and, if missing, one level above, like `wp-config.php`. The file is called `ladyqr-config.php`; a `.gitignore` entry keeps the real one out of the repository and `ladyqr-config.sample.php` documents it. Reading a file above the web root works on the target hosting. As in WordPress plugins, the file starts with `defined( 'LADYQR' ) || exit;`: `index.php` defines `LADYQR` before reading it, so a direct request prints nothing and the file is safe in the web root. `.htaccess` also blocks it.
 - **Authentication:** a single user, written in-house.
-  - The password is checked with `password_hash` and `password_verify`, and forms carry a CSRF token.
+  - **The password is written in plain text in the configuration file, and secured by the first login.** The file has `user` and `password`. The first time someone logs in with the right user and password, the plain text is replaced in the file by `password_hash()`'s result, which holds its own random salt, the algorithm and the cost (bcrypt by default, so `$2y$…`). From then on the password is checked with `password_verify()`. To change it, write the new one in plain text in the file; it is secured again at the next login. This needs no command line and no hash generator.
+  - **Telling a plain password from a hash is reliable:** a hash is what `password_get_info()` recognizes (it starts with `$2y$`, or `$argon2…`), and a plain password never does. `password_needs_rehash()` updates the hash when PHP raises its default cost.
+  - **Why not `hash( salt . hash( password ) )`:** with a fast algorithm such as SHA-256, anyone who reads the file can try billions of passwords a second, and a salt does not prevent that. `password_hash()` is slow on purpose, adds the salt itself, is in PHP core since 5.5 without extensions, and took about 195 ms on the target hosting. No separate `salt` field is needed. If a host has no `password_hash()` the admin shows a clear error; there is no weaker fallback.
+  - **Rewriting the file must never break it:** only the value of `password` is replaced, keeping comments and the rest of the file. The new version is written to a temporary file, loaded to check that it is valid and returns what it should, a `.bak` copy is kept, and only then it is renamed over the original. If the file cannot be written, the login still works with the plain password and the admin shows a notice that it could not be secured.
+  - Until the first login the password sits in plain text in the file, which is blocked from the web and guarded, but should be said in the documentation. `password_hash()` only uses the first 72 bytes of a password.
+  - Comparisons of the user and the password are constant-time (`hash_equals`, `password_verify`), and forms carry a CSRF token.
   - **Native PHP sessions, with nothing configured by us:** no custom storage path and no cookie of our own, because many shared hosts do not allow it. PHP's session cookie is the only cookie, and it is a session cookie.
   - **Best-effort hardening that can never break the login:** `HttpOnly` and `SameSite=Lax` through the standard `session_set_cookie_params()`, and `Secure` only when the request came over HTTPS (detected with `$_SERVER['HTTPS']`, port 443 or `X-Forwarded-Proto`). On a server without SSL the login still works.
   - **Short sessions:** the session closes after about 15 minutes without activity, tracked inside the session itself. Having to log in again is fine: the idea is to log in, make the changes and leave.
   - A failed login gets a short delay. Real rate limiting is in the backlog.
 - **HTTPS notice:** the login screen shows a small warning under the password field when the connection is not HTTPS, saying that the password would travel unencrypted.
-- **No default password:** until one is configured, `/admin/` does not let anyone in and shows instructions. The only way to enable it is editing the configuration file, never through the web.
+- **No password configured:** the admin warns that it is reachable by anyone. **Open question, to confirm before M3:** whether a fresh install with no credentials is locked (nobody gets in, and the screen explains how to set them) and only an explicitly empty `password` opens the panel, with a permanent warning; or whether having no password always opens the panel with that warning. The first is safer for a public site, because anyone scanning for `/admin/` could otherwise create redirects on the domain before the owner sets a password.
+  - The credentials are only ever set by editing the configuration file, never through the web.
 - **`.htaccess` writes:** only inside a `# BEGIN` / `# END` block, validated, atomic (temporary file plus rename), with a `.bak` copy, followed by a request from the server to itself to check that the site still answers, and an automatic rollback if it does not. This works on the target hosting (see `docs/hosting.md`). A syntax error must never take the site down. If a host cannot request itself, there is no rollback and the validation must be stricter.
 - **No lock for now.** `flock` does not work across requests on the target hosting, and with a single-user personal tool two simultaneous writes are very unlikely, so writes are done carefully and a lock is left in the backlog.
 - **Redirects:** plain `Redirect` lines inside the block. Apache answers them without PHP, and a change takes effect in well under a second on the target hosting.
@@ -111,10 +117,10 @@ Take what exists to the author's domain. Details and measurements are in [`hosti
 The admin's front door, as decided above.
 
 - `/admin/` with a single-user login, native PHP sessions, a CSRF token, a 15 minute idle timeout, logout, and a short delay after a failed attempt.
-- The no-password screen with instructions, and the notice under the password field when the connection is not HTTPS.
+- The user and password are written in plain text in the configuration file and secured by the first login, as described above, including the case where the file cannot be written.
+- The warning for an admin with no password, and the notice under the password field when the connection is not HTTPS.
 - The login follows `DESIGN.md` and is translatable.
-- **Open question:** how to produce the password hash for the configuration file without a command line. Options: a page that hashes in the browser (needs a bcrypt implementation in JavaScript, which would be new code to write and verify), a page that hashes on the server (the password would travel to the server), or a one-line `php -r` command for those who have a terminal. To decide at the start of the milestone.
-- Done when the admin cannot be entered without the password, with and without HTTPS, and the session expires.
+- Done when the admin cannot be entered without the password, with and without HTTPS, the plain password is replaced by its hash at the first login and the file stays valid, and the session expires.
 
 ### M4. Redirect manager
 
