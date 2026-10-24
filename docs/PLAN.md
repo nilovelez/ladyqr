@@ -144,9 +144,9 @@ The admin's front door, as decided above. Built and tested locally with `php -S`
 
 Done when the admin cannot be entered without the password unless `require_login` is `false`, with and without HTTPS, the plain password is replaced by its hash at the first login and the file stays valid, and the session expires. All of it holds locally.
 
-### M4. Redirect manager — built, waiting for approval
+### M4. Redirect manager — done
 
-The short links, managed in the admin. Built and tested locally on branch `feat/m4-redirect-manager`; **nothing has been uploaded to `1qr.es`.**
+The short links, managed in the admin. Built and tested locally; **nothing has been uploaded to `1qr.es`.**
 
 - **List, add, edit and delete** in `/admin/`. Without JavaScript: editing and deleting are their own pages, and deleting asks for confirmation.
 - **The managed block is the only store.** It sits between `# BEGIN LadyQR short links` and `# END LadyQR short links` in the root `.htaccess`, one line per link: `RedirectMatch 302 ^/slug$ https://target`. It is `RedirectMatch` with an exact pattern because a plain `Redirect` would also catch everything under the name (`/slug/anything`). The path includes the folder when LadyQR lives in a subfolder. There is no database and no extra data file.
