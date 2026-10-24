@@ -8,6 +8,7 @@
  */
 
 define( 'LADYQR', true );
+require __DIR__ . '/includes/functions.php';
 require __DIR__ . '/includes/config.php';
 require __DIR__ . '/includes/i18n.php';
 
@@ -21,14 +22,6 @@ header( 'Content-Security-Policy: ' . $ladyqr_csp );
 header( 'X-Content-Type-Options: nosniff' );
 header( 'Referrer-Policy: no-referrer' );
 
-/**
- * Returns an asset path with its modification time, so browsers fetch a new
- * copy when the file changes.
- */
-function ladyqr_asset( $path ) {
-	$file = __DIR__ . '/' . $path;
-	return htmlspecialchars( $path . ( is_file( $file ) ? '?v=' . filemtime( $file ) : '' ), ENT_QUOTES, 'UTF-8' );
-}
 
 // Strings the browser-side code needs.
 $ladyqr_js_strings = array(
@@ -78,7 +71,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 	<meta name="color-scheme" content="light dark">
 	<title>LadyQR</title>
 	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>">
-	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/css/app.css' ); ?>">
+	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css' ); ?>">
 </head>
 <body>
 
@@ -186,6 +179,6 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 </footer>
 
 <script type="application/json" id="ladyqr-i18n"><?php echo json_encode( $ladyqr_js_strings, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE ); ?></script>
-<script type="module" src="<?php echo ladyqr_asset( 'assets/js/app.js' ); ?>"></script>
+<script type="module" src="<?php echo ladyqr_asset( 'assets/app.js' ); ?>"></script>
 </body>
 </html>

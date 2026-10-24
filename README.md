@@ -77,12 +77,45 @@ Copy `ladyqr-config.sample.php` to `ladyqr-config.php` and change what you need:
 | Setting | Default | Meaning |
 |---|---|---|
 | `language` | `'en_US'` | Interface language, as a WordPress-style locale such as `es_ES`. It is one setting for the whole site; visitors do not choose it. |
+| `user` | none | The admin's user. See [Admin](#admin). |
+| `password` | none | The admin's password, written in plain text. The first login replaces it with a hash. |
+| `session_timeout` | `15` | Minutes without activity after which the admin asks for the password again. |
+| `require_login` | `true` | Only an explicit `false` opens the admin without a login, with a permanent warning. |
 
 `ladyqr-config.php` is ignored by Git, so your settings never end up in the repository.
+
+**Changes take a moment to show.** PHP keeps a compiled copy of each file and looks for changes every couple of seconds, and on some hosts files uploaded over FTP take a few seconds more to be seen. If you change the configuration file and the site still behaves as before, wait a few seconds and reload.
 
 Keep the line `defined( 'LADYQR' ) || exit;` at the top of the sample, as WordPress plugins do. `index.php` defines `LADYQR` before it reads the file, so if someone requests the configuration file directly it stops and prints nothing. That makes it safe to leave in the web root, and `.htaccess` also blocks it with a 403.
 
 Every folder has a blank `index.html`, so visiting a folder such as `/assets/` shows an empty page instead of a file listing.
+
+## Admin
+
+The admin is at `/admin/`. For now it only has the login; the short links will be managed there in a later version. Nothing on the editor page links to it, and its pages tell search engines not to index them (a `noindex` header and meta tag). There is deliberately no `robots.txt` entry for it: it would stop crawlers from reading the `noindex`, and it would publish the path.
+
+**Setting a user and password.** In the configuration file, write them in plain text:
+
+```php
+'user'     => 'your-user',
+'password' => 'your-password',
+```
+
+The first time you log in, LadyQR replaces the password in the file with `password_hash()`'s result (bcrypt, with its own random salt inside), keeping the rest of the file as it was. From then on it is checked with `password_verify()`. To change the password, write the new one in plain text in the file again; it is secured at the next login. Until the first login the password sits in plain text in the file, which is blocked from the web, but do not leave it that way for long. `password_hash()` only uses the first 72 bytes of a password.
+
+The file has to be writable by PHP for this. If it is not, or if the password is written in a form LadyQR cannot edit safely (for example built from several strings), the login still works with the plain password and the admin tells you why it could not secure it. LadyQR checks the new file before putting it in place, and if the check fails it changes nothing.
+
+**Three states**
+
+| State | When | What happens |
+|---|---|---|
+| Locked | No `user` or no `password` (or either is empty), or no configuration file | Nobody gets in. The page explains how to set them. This is a fresh install. |
+| Login | A user and a password are set | A login form. Sessions are PHP's own, last 15 minutes without activity by default, and a wrong attempt waits one second. |
+| Open | `'require_login' => false` | No login. Every page shows a permanent red warning that anyone who can reach it can change your links. For trying it locally, never for a public site. |
+
+An empty or missing password never opens the panel by itself; only the explicit `require_login` setting does.
+
+**Cookies and HTTPS.** The only cookie is PHP's session cookie, marked `HttpOnly` and `SameSite=Lax`, and `Secure` when the request came over HTTPS (also behind a proxy that says so with `X-Forwarded-Proto`). On a server without SSL everything still works, and the login form shows a small warning that the password would travel unencrypted.
 
 ## Translations
 
@@ -117,12 +150,17 @@ PHP generates the page, in the configured language, and what reaches the browser
 ```
 index.php                  The editor page, and the CSP header
 .htaccess                  Fixed Apache rules (the HTTPS rule is commented out)
+admin/index.php            The admin: locked, open, login and panel
 includes/config.php        Configuration loader
+includes/auth.php          Sessions, login check, CSRF token
+includes/config-writer.php Safely replaces the password in the configuration file
+includes/functions.php     Small shared helpers
 includes/i18n.php          Translation functions and the .mo reader
-assets/js/qr.js            The QR code encoder
-assets/js/render.js        SVG and PNG output, matrix and color helpers
-assets/js/app.js           The editor's behavior
-assets/css/app.css         Styles
+assets/qr.js               The QR code encoder
+assets/render.js           SVG and PNG output, matrix and color helpers
+assets/app.js              The editor's behavior
+assets/app.css            Styles
+assets/admin.css          Styles for the admin
 assets/icon-128.png        Icon
 assets/icon-full.png       Full size icon
 languages/                 Translation template and translations
@@ -138,11 +176,11 @@ guppy/                     Project status published to Guppy (the author's proje
 
 ### Using the encoder
 
-`assets/js/qr.js` and `assets/js/render.js` are plain ES modules with no dependencies. They also run in Node.js.
+`assets/qr.js` and `assets/render.js` are plain ES modules with no dependencies. They also run in Node.js.
 
 ```js
-import { encode } from './assets/js/qr.js';
-import { toSvg, toPngBlob } from './assets/js/render.js';
+import { encode } from './assets/qr.js';
+import { toSvg, toPngBlob } from './assets/render.js';
 
 const { modules, version, size, mask } = encode('https://example.com/', 'M');
 // modules[y][x] is true for a dark module.

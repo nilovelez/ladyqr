@@ -11,9 +11,10 @@ DirectoryIndex index.php index.html
 IndexIgnore *
 </IfModule>
 
-# The configuration file is only ever read by PHP, never served.
+# The configuration file, and anything named after it (backups, copies), is only
+# ever read by PHP, never served.
 # Apache 2.4 and 2.2 use different syntax, so both are given.
-<FilesMatch "^ladyqr-config(\.sample)?\.php$">
+<FilesMatch "^ladyqr-config">
 <IfModule mod_authz_core.c>
 Require all denied
 </IfModule>

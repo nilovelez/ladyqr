@@ -1,0 +1,145 @@
+/* Admin screens. They use the editor's tokens and card (app.css); see DESIGN.md. */
+
+body.admin {
+	padding-top: 32px;
+}
+
+body.admin main {
+	gap: 18px;
+}
+
+.admin-head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.admin-head img {
+	flex: none;
+}
+
+.admin-head h1 {
+	margin: 0;
+	font-size: 1.4rem;
+	letter-spacing: -0.01em;
+}
+
+.card-body h2 {
+	margin: 0;
+	font-size: 1.15rem;
+}
+
+.card-body p {
+	margin: 0;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.input {
+	width: 100%;
+	padding: 13px 14px;
+	font: inherit;
+	font-size: 1.1rem;
+	color: var(--ink);
+	background: var(--bg);
+	border: 2px solid var(--border);
+	border-radius: 12px;
+}
+
+.input:focus-visible {
+	outline: none;
+	border-color: var(--accent);
+}
+
+.btn {
+	width: 100%;
+	padding: 15px 20px;
+	font: inherit;
+	font-size: 1.1rem;
+	font-weight: 700;
+	color: var(--accent-ink);
+	background: var(--accent);
+	border: 1px solid var(--accent);
+	border-radius: 14px;
+	cursor: pointer;
+}
+
+.btn:hover {
+	background: var(--accent-deep);
+	border-color: var(--accent-deep);
+}
+
+.btn:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.btn.secondary {
+	width: auto;
+	padding: 11px 20px;
+	font-size: 1rem;
+	color: var(--ink);
+	background: transparent;
+	border-color: var(--border);
+}
+
+.btn.secondary:hover {
+	color: var(--accent);
+	border-color: var(--accent);
+}
+
+.notice {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	font-size: 0.92rem;
+	font-weight: 500;
+	color: var(--warn);
+}
+
+.notice svg {
+	flex: none;
+	margin-top: 3px;
+}
+
+.notice.error {
+	color: var(--accent);
+}
+
+.notice.info {
+	color: var(--muted);
+}
+
+/* The permanent warning when the login is turned off: the loudest thing on the page. */
+
+.banner {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 16px 18px;
+	color: var(--accent-ink);
+	background: var(--accent);
+	border-radius: 14px;
+}
+
+.banner strong {
+	font-size: 1.05rem;
+}
+
+pre.code {
+	margin: 0;
+	padding: 14px 16px;
+	overflow-x: auto;
+	font-family: var(--mono);
+	font-size: 0.9rem;
+	background: var(--bg);
+	border: 1px solid var(--border);
+}
+
+pre.code code {
+	font: inherit;
+}
