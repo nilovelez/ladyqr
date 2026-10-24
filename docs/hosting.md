@@ -90,6 +90,8 @@ Files uploaded or deleted over SFTP are not seen by PHP at once, because the sto
 
 Files written by PHP itself on the server are seen at once, as the spike showed (a new redirect worked after 61 ms). So this matters when deploying and when editing the configuration file by hand, not for the shortener.
 
+OPcache is why a hand edit of a PHP file, the configuration file included, can take up to its 2 second revalidation interval to show. When LadyQR rewrites the configuration file itself (to secure the password) it calls `opcache_invalidate()` on it, so its own change is seen at once.
+
 ### Folder listings
 
 Apache's directory listing is on at OVH. With only `IndexIgnore *`, a folder such as `/assets/` showed an empty "Index of /assets" page: it exposed nothing, but it was still a listing page. The fix, borrowed from WordPress, is a **blank `index.html` in every folder** (`assets/`, `assets/css/`, `assets/js/`, `includes/` and `languages/`), so a visitor gets an empty page. For that to work, `DirectoryIndex` in `.htaccess` has to include `index.html`, and it does (`index.php index.html`). `IndexIgnore *` stays as a second line of defense.

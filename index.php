@@ -8,6 +8,7 @@
  */
 
 define( 'LADYQR', true );
+require __DIR__ . '/includes/functions.php';
 require __DIR__ . '/includes/config.php';
 require __DIR__ . '/includes/i18n.php';
 
@@ -21,14 +22,6 @@ header( 'Content-Security-Policy: ' . $ladyqr_csp );
 header( 'X-Content-Type-Options: nosniff' );
 header( 'Referrer-Policy: no-referrer' );
 
-/**
- * Returns an asset path with its modification time, so browsers fetch a new
- * copy when the file changes.
- */
-function ladyqr_asset( $path ) {
-	$file = __DIR__ . '/' . $path;
-	return htmlspecialchars( $path . ( is_file( $file ) ? '?v=' . filemtime( $file ) : '' ), ENT_QUOTES, 'UTF-8' );
-}
 
 // Strings the browser-side code needs.
 $ladyqr_js_strings = array(

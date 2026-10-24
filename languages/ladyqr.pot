@@ -7,131 +7,229 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-23T07:37:28+00:00\n"
+"POT-Creation-Date: 2026-10-24T16:18:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ladyqr\n"
 
-#: index.php:35
+#: admin/index.php:96
+#: admin/index.php:115
+msgid "LadyQR admin"
+msgstr ""
+
+#: admin/index.php:106
+msgid "No login is required"
+msgstr ""
+
+#: admin/index.php:107
+msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the require_login setting."
+msgstr ""
+
+#: admin/index.php:120
+msgid "The admin is locked"
+msgstr ""
+
+#: admin/index.php:121
+msgid "No user and password are set yet, so nobody can log in. To set them, add these two lines to the configuration file, ladyqr-config.php, which goes in the web root or one level above it:"
+msgstr ""
+
+#: admin/index.php:124
+msgid "Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash."
+msgstr ""
+
+#: admin/index.php:125
+msgid "If you do not have a configuration file yet, copy ladyqr-config.sample.php to ladyqr-config.php."
+msgstr ""
+
+#: admin/index.php:129
+msgid "Sessions do not work on this server, so the admin cannot keep you logged in."
+msgstr ""
+
+#: admin/index.php:133
+#: admin/index.php:156
+msgid "Log in"
+msgstr ""
+
+#: admin/index.php:135
+msgid "Your session expired. Log in again."
+msgstr ""
+
+#: admin/index.php:138
+msgid "Wrong user or password."
+msgstr ""
+
+#: admin/index.php:140
+msgid "The form expired. Try again."
+msgstr ""
+
+#: admin/index.php:146
+msgid "User"
+msgstr ""
+
+#: admin/index.php:150
+msgid "Password"
+msgstr ""
+
+#: admin/index.php:154
+msgid "This connection is not secure: your password would travel unencrypted."
+msgstr ""
+
+#: admin/index.php:161
+msgid "Short links"
+msgstr ""
+
+#: admin/index.php:161
+msgid "You are logged in"
+msgstr ""
+
+#: admin/index.php:163
+msgid "Your password is now stored as a secure hash in the configuration file."
+msgstr ""
+
+#: admin/index.php:165
+msgid "Your password is still stored in plain text, because LadyQR cannot write to the configuration file. Make the file writable and log in again, and it will be secured."
+msgstr ""
+
+#: admin/index.php:167
+msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as 'password' => 'your-password', with plain quotes, and log in again."
+msgstr ""
+
+#: admin/index.php:169
+msgid "Your password could not be secured, because the new configuration file did not pass its safety check. The file was not changed."
+msgstr ""
+
+#: admin/index.php:171
+msgid "The short links will be managed here in a future version."
+msgstr ""
+
+#: admin/index.php:176
+msgid "Log out"
+msgstr ""
+
+#: admin/index.php:186
+msgid "Back to the QR code editor"
+msgstr ""
+
+#: index.php:28
 msgid "Your QR code will appear here"
 msgstr ""
 
-#: index.php:36
+#: index.php:29
 msgid "This text is too long for a QR code. Try a shorter one."
 msgstr ""
 
-#: index.php:37
+#: index.php:30
 msgid "QR code"
 msgstr ""
 
-#: index.php:39
+#: index.php:32
 msgid "Low contrast. QR code might be hard to read"
 msgstr ""
 
-#: index.php:40
+#: index.php:33
 msgid "Inverted colors. QR code might be hard to read"
 msgstr ""
 
-#: index.php:41
+#: index.php:34
 msgid "Low contrast and inverted colors. QR code might be hard to read"
 msgstr ""
 
-#: index.php:85
-#: index.php:87
+#: index.php:78
+#: index.php:80
 msgid "Help"
 msgstr ""
 
-#: index.php:94
+#: index.php:87
 msgid "About LadyQR"
 msgstr ""
 
-#: index.php:95
+#: index.php:88
 msgid "Close"
 msgstr ""
 
-#: index.php:97
+#: index.php:90
 msgid "LadyQR makes QR codes entirely in your browser. What you type is never sent to a server, and the page loads nothing from outside."
 msgstr ""
 
-#: index.php:98
+#: index.php:91
 msgid "How to use it"
 msgstr ""
 
-#: index.php:100
+#: index.php:93
 msgid "Type or paste a link or some text in the big field."
 msgstr ""
 
-#: index.php:101
+#: index.php:94
 msgid "The QR code updates as you type. Scan it with your phone to check it."
 msgstr ""
 
-#: index.php:102
+#: index.php:95
 msgid "Press Download for a 500 px PNG, or open the arrow for a 1000 px PNG or a vector SVG."
 msgstr ""
 
-#: index.php:103
+#: index.php:96
 msgid "Open Settings to change the error correction, margin and colors. They are remembered in this browser only."
 msgstr ""
 
-#: index.php:105
+#: index.php:98
 msgid "Which format?"
 msgstr ""
 
-#: index.php:106
+#: index.php:99
 msgid "Use PNG for screens and documents. Use SVG when you will print it large or resize it: it stays sharp at any size."
 msgstr ""
 
-#: index.php:107
+#: index.php:100
 msgid "Free software, GPL-2.0-or-later"
 msgstr ""
 
-#: index.php:118
+#: index.php:111
 msgid "Settings"
 msgstr ""
 
-#: index.php:121
-#: index.php:122
+#: index.php:114
+#: index.php:115
 msgid "Error correction"
 msgstr ""
 
-#: index.php:130
+#: index.php:123
 msgid "Margin (modules)"
 msgstr ""
 
-#: index.php:138
+#: index.php:131
 msgid "Module color"
 msgstr ""
 
-#: index.php:142
+#: index.php:135
 msgid "Background color"
 msgstr ""
 
-#: index.php:146
+#: index.php:139
 msgid "Reset settings"
 msgstr ""
 
-#: index.php:151
+#: index.php:144
 msgid "Type or paste a link or text"
 msgstr ""
 
-#: index.php:151
+#: index.php:144
 msgid "Text or URL"
 msgstr ""
 
-#: index.php:162
+#: index.php:155
 msgid "Download"
 msgstr ""
 
-#: index.php:164
+#: index.php:157
 msgid "More download formats"
 msgstr ""
 
-#: index.php:169
+#: index.php:162
 msgid "vector"
 msgstr ""
 
 #. translators: %s: the product name, LadyQR.
-#: index.php:182
+#: index.php:175
 #, php-format
 msgid "Made with %s, get yours free"
 msgstr ""

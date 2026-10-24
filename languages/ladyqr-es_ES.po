@@ -59,6 +59,78 @@ msgstr "Poco contraste y colores invertidos. El código QR podría ser difícil 
 msgid "Reset settings"
 msgstr "Restablecer ajustes"
 
+msgid "LadyQR admin"
+msgstr "Administración de LadyQR"
+
+msgid "No login is required"
+msgstr "No hace falta iniciar sesión"
+
+msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the require_login setting."
+msgstr "Cualquiera que pueda llegar a esta página puede cambiar tus enlaces cortos. Para protegerla, pon un usuario y una contraseña en el archivo de configuración y quita el ajuste require_login."
+
+msgid "The admin is locked"
+msgstr "La administración está bloqueada"
+
+msgid "No user and password are set yet, so nobody can log in. To set them, add these two lines to the configuration file, ladyqr-config.php, which goes in the web root or one level above it:"
+msgstr "Todavía no hay usuario ni contraseña, así que nadie puede entrar. Para ponerlos, añade estas dos líneas al archivo de configuración, ladyqr-config.php, que va en la raíz web o un nivel por encima:"
+
+msgid "Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash."
+msgstr "Escribe la contraseña en texto plano. La primera vez que entres, LadyQR la sustituye por un hash seguro."
+
+msgid "If you do not have a configuration file yet, copy ladyqr-config.sample.php to ladyqr-config.php."
+msgstr "Si todavía no tienes un archivo de configuración, copia ladyqr-config.sample.php como ladyqr-config.php."
+
+msgid "Sessions do not work on this server, so the admin cannot keep you logged in."
+msgstr "Las sesiones no funcionan en este servidor, así que la administración no puede mantenerte conectado."
+
+msgid "Log in"
+msgstr "Entrar"
+
+msgid "Your session expired. Log in again."
+msgstr "Tu sesión ha caducado. Vuelve a entrar."
+
+msgid "Wrong user or password."
+msgstr "Usuario o contraseña incorrectos."
+
+msgid "The form expired. Try again."
+msgstr "El formulario ha caducado. Inténtalo de nuevo."
+
+msgid "User"
+msgstr "Usuario"
+
+msgid "Password"
+msgstr "Contraseña"
+
+msgid "This connection is not secure: your password would travel unencrypted."
+msgstr "Esta conexión no es segura: tu contraseña viajaría sin cifrar."
+
+msgid "Short links"
+msgstr "Enlaces cortos"
+
+msgid "You are logged in"
+msgstr "Has iniciado sesión"
+
+msgid "Your password is now stored as a secure hash in the configuration file."
+msgstr "Tu contraseña ya está guardada como un hash seguro en el archivo de configuración."
+
+msgid "Your password is still stored in plain text, because LadyQR cannot write to the configuration file. Make the file writable and log in again, and it will be secured."
+msgstr "Tu contraseña sigue guardada en texto plano, porque LadyQR no puede escribir en el archivo de configuración. Hazlo escribible y vuelve a entrar, y quedará protegida."
+
+msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as 'password' => 'your-password', with plain quotes, and log in again."
+msgstr "Tu contraseña sigue guardada en texto plano, porque no está escrita de una forma que LadyQR pueda sustituir por sí mismo. Escríbela como 'password' => 'tu-contraseña', con comillas simples normales, y vuelve a entrar."
+
+msgid "Your password could not be secured, because the new configuration file did not pass its safety check. The file was not changed."
+msgstr "No se pudo proteger tu contraseña, porque el nuevo archivo de configuración no pasó su comprobación de seguridad. El archivo no se ha modificado."
+
+msgid "The short links will be managed here in a future version."
+msgstr "Los enlaces cortos se gestionarán aquí en una versión futura."
+
+msgid "Log out"
+msgstr "Salir"
+
+msgid "Back to the QR code editor"
+msgstr "Volver al editor de códigos QR"
+
 msgid "Which format?"
 msgstr "¿Qué formato elegir?"
 
