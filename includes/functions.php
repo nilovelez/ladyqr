@@ -31,3 +31,18 @@ function ladyqr_is_https() {
 	}
 	return isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === strtolower( (string) $_SERVER['HTTP_X_FORWARDED_PROTO'] );
 }
+
+/**
+ * Returns the path of the site on its host, such as /qr when LadyQR lives in a
+ * folder, or an empty string at the root of the domain.
+ *
+ * @param int $levels How many folders the running script is below the web
+ *                    root: 0 for index.php and 404.php, 1 for the admin.
+ */
+function ladyqr_base_path( $levels = 0 ) {
+	$path = isset( $_SERVER['SCRIPT_NAME'] ) ? str_replace( '\\', '/',(string) $_SERVER['SCRIPT_NAME'] ) : '';
+	for ( $i = 0; $i <= $levels; $i++ ) {
+		$path = substr( $path, 0, (int) strrpos( $path, '/' ) );
+	}
+	return $path;
+}

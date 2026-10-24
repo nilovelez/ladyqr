@@ -173,3 +173,111 @@ msgstr "vectorial"
 #. translators: %s: the product name, LadyQR.
 msgid "Made with %s, get yours free"
 msgstr "Hecho con %s, consigue el tuyo gratis"
+
+msgid "A short link cannot point to itself."
+msgstr "Un enlace corto no puede apuntar a sí mismo."
+
+msgid "Add a short link"
+msgstr "Añadir un enlace corto"
+
+msgid "Add short link"
+msgstr "Añadir enlace corto"
+
+msgid "Back to the list"
+msgstr "Volver a la lista"
+
+msgid "Browsers remember permanent links, so a later change may take a long time to show. Use temporary unless the address will never change."
+msgstr "Los navegadores recuerdan los enlaces permanentes, así que un cambio posterior puede tardar mucho en verse. Usa el temporal salvo que la dirección no vaya a cambiar nunca."
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Delete this short link? Anyone who uses it will no longer be redirected."
+msgstr "¿Eliminar este enlace corto? Quien lo use dejará de ser redirigido."
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "Goes to"
+msgstr "Lleva a"
+
+msgid "LadyQR cannot write to the .htaccess file. Make it writable (for example, permissions 644 and owned by the web server's user) and try again."
+msgstr "LadyQR no puede escribir en el archivo .htaccess. Hazlo escribible (por ejemplo, permisos 644 y propiedad del usuario del servidor web) e inténtalo de nuevo."
+
+msgid "Make a QR code"
+msgstr "Crear un código QR"
+
+msgid "Page not found"
+msgstr "Página no encontrada"
+
+msgid "Permanent (301)"
+msgstr "Permanente (301)"
+
+msgid "Permanent"
+msgstr "Permanente"
+
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+msgid "Saved, but LadyQR could not check that the site still answers. Open your site to make sure it works."
+msgstr "Guardado, pero LadyQR no pudo comprobar que el sitio sigue respondiendo. Abre tu sitio para asegurarte de que funciona."
+
+msgid "Short name"
+msgstr "Nombre corto"
+
+msgid "Temporary (302)"
+msgstr "Temporal (302)"
+
+msgid "Temporary"
+msgstr "Temporal"
+
+msgid "That name is reserved, because it is used by a file or a folder of the site."
+msgstr "Ese nombre está reservado, porque lo usa un archivo o una carpeta del sitio."
+
+msgid "That short link no longer exists. Reload the list."
+msgstr "Ese enlace corto ya no existe. Recarga la lista."
+
+msgid "The .htaccess file cannot be read."
+msgstr "No se puede leer el archivo .htaccess."
+
+msgid "The .htaccess file could not be saved. Nothing was changed."
+msgstr "No se pudo guardar el archivo .htaccess. No se ha cambiado nada."
+
+msgid "The address must start with http:// or https://, have no spaces, and use only plain ASCII characters (write other characters percent-encoded)."
+msgstr "La dirección debe empezar por http:// o https://, no tener espacios y usar solo caracteres ASCII simples (escribe los demás codificados con %)."
+
+msgid "The block of short links in the .htaccess file is damaged (a \"BEGIN LadyQR short links\" or \"END LadyQR short links\" line is missing or repeated), so LadyQR will not touch it. Fix it by hand or remove the block."
+msgstr "El bloque de enlaces cortos del archivo .htaccess está dañado (falta o se repite una línea «BEGIN LadyQR short links» o «END LadyQR short links»), así que LadyQR no lo tocará. Arréglalo a mano o elimina el bloque."
+
+msgid "The change made the site stop answering, so it was undone. Nothing was changed."
+msgstr "El cambio hizo que el sitio dejara de responder, así que se deshizo. No se ha cambiado nada."
+
+msgid "The short link was added."
+msgstr "Se añadió el enlace corto."
+
+msgid "The short link was deleted."
+msgstr "Se eliminó el enlace corto."
+
+msgid "The short link was updated."
+msgstr "Se actualizó el enlace corto."
+
+msgid "The short name can only have letters, digits and hyphens, up to 64 characters."
+msgstr "El nombre corto solo puede tener letras, dígitos y guiones, hasta 64 caracteres."
+
+msgid "There is already a short link with that name."
+msgstr "Ya hay un enlace corto con ese nombre."
+
+msgid "There is no .htaccess file in the site's folder, and the short links are stored in it. Upload the .htaccess file that comes with LadyQR."
+msgstr "No hay ningún archivo .htaccess en la carpeta del sitio, y los enlaces cortos se guardan en él. Sube el archivo .htaccess que viene con LadyQR."
+
+msgid "This short link does not exist, or it was removed."
+msgstr "Este enlace corto no existe, o fue eliminado."
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "You have no short links yet."
+msgstr "Todavía no tienes enlaces cortos."

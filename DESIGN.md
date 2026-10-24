@@ -173,10 +173,16 @@ The admin pages (`/admin/`) reuse the editor's tokens, card, footer and themes, 
 
 - **Locked:** a heading, a short explanation, a code block with the two lines to add to the configuration file, and how the password is secured. It does not show the server's paths, because anyone can see this page.
 - **Login:** a "Log in" heading, an optional notice that the session expired, an optional error, a user field, a password field, a notice when the connection is not HTTPS, and one wide button. A wrong attempt shows the same message whatever was wrong.
-- **Panel:** "You are logged in" (or "Short links" when the login is off), the result of securing the password if it just happened, a placeholder for what comes next, and a "Log out" button.
+- **Panel:** "Short links", the result of securing the password if it just happened, then the list, the form to add a link and a "Log out" button. The panel's card is 720 px wide, while the other states keep 560 px.
+  - **The list** is one bordered box with a row per link: the short address in bold (a link), the target under it in the muted color and cut with an ellipsis, a pill saying "Temporary" or "Permanent", and the two text links "Edit" and "Delete". On a phone the two links move to a row of their own.
+  - **The form** has the short name with the site's address in front of it, the address it goes to, and the type, with a hint about permanent links under it. Mistakes are written under the field they belong to, in the error color, with `aria-invalid` and `aria-describedby`.
+  - **Edit and delete** are pages of their own, so that nothing needs JavaScript. Delete shows the link and asks once, with "Delete" and "Cancel".
+  - Messages after a change ("The short link was added") are `status` notices; a failed save is an `alert`.
 - **Open:** the panel with a red banner above the card, permanently, saying that no login is required and that anyone who can reach the page can change the links. It is the loudest element on any page of the project on purpose.
 
 The message colors come from the existing tokens, so their contrast is already measured: error text is `--accent` on `--surface` (4.95 light, 4.71 dark), warnings are `--warn` on `--surface` (5.58 and 9.29), information is `--muted` (5.48 and 6.34), and the banner is `--accent-ink` on `--accent` (4.95 and 5.08). Messages with a role of `alert` or `status` are announced by screen readers. The form fields have the same 3:1 `--border` as the editor's controls, and their labels are real `<label>` elements.
+
+The not-found page (`404.php`) is the same card with the ladybug, "Page not found", one sentence and a button back to the editor. It answers with a real 404 status and `noindex`.
 
 The admin is not linked from anywhere else, and every state carries `noindex` (see the README).
 
@@ -191,5 +197,4 @@ The landing page at https://ladyqr.nilovelez.com/ (`site/index.html` and `site/s
 
 ## Not designed yet
 
-- The admin interface for the URL shortener. It should reuse these tokens and components, and have its own section here when it exists.
 - A manual light/dark switch.
