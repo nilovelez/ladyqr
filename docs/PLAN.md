@@ -28,8 +28,12 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
   - **Short sessions:** the session closes after about 15 minutes without activity, tracked inside the session itself. Having to log in again is fine: the idea is to log in, make the changes and leave.
   - A failed login gets a short delay. Real rate limiting is in the backlog.
 - **HTTPS notice:** the login screen shows a small warning under the password field when the connection is not HTTPS, saying that the password would travel unencrypted.
-- **No password configured:** the admin warns that it is reachable by anyone. **Open question, to confirm before M3:** whether a fresh install with no credentials is locked (nobody gets in, and the screen explains how to set them) and only an explicitly empty `password` opens the panel, with a permanent warning; or whether having no password always opens the panel with that warning. The first is safer for a public site, because anyone scanning for `/admin/` could otherwise create redirects on the domain before the owner sets a password.
-  - The credentials are only ever set by editing the configuration file, never through the web.
+- **No password: locked by default, open only on purpose.** The admin has three states:
+  1. **No `user` or `password` set (or either is empty): locked.** Nobody gets in, and the screen explains how to set them. This is a fresh install, so anyone scanning for `/admin/` cannot create redirects on the domain before the owner sets a password.
+  2. **`'require_login' => false` in the configuration file: open.** Anyone who can reach the page can use the panel, and every admin page shows a permanent, prominent warning: anyone who can reach this page can change your links, and how to set a user and a password. This is for using it without a password on purpose, for example locally with `php -S`.
+  3. **A user and a password set: normal login.**
+  - The switch is a setting of its own, deliberately **not** an empty password: the sample file ships with no empty password field to copy by accident, and an empty or missing password never opens the panel by itself. If `require_login` is `false` and there are credentials as well, the panel is still open and still warns.
+  - The credentials and `require_login` are only ever set by editing the configuration file, never through the web.
 - **`.htaccess` writes:** only inside a `# BEGIN` / `# END` block, validated, atomic (temporary file plus rename), with a `.bak` copy, followed by a request from the server to itself to check that the site still answers, and an automatic rollback if it does not. This works on the target hosting (see `docs/hosting.md`). A syntax error must never take the site down. If a host cannot request itself, there is no rollback and the validation must be stricter.
 - **No lock for now.** `flock` does not work across requests on the target hosting, and with a single-user personal tool two simultaneous writes are very unlikely, so writes are done carefully and a lock is left in the backlog.
 - **Redirects:** plain `Redirect` lines inside the block. Apache answers them without PHP, and a change takes effect in well under a second on the target hosting.
@@ -118,9 +122,9 @@ The admin's front door, as decided above.
 
 - `/admin/` with a single-user login, native PHP sessions, a CSRF token, a 15 minute idle timeout, logout, and a short delay after a failed attempt.
 - The user and password are written in plain text in the configuration file and secured by the first login, as described above, including the case where the file cannot be written.
-- The warning for an admin with no password, and the notice under the password field when the connection is not HTTPS.
+- The locked screen for an install with no credentials, the permanent warning when `require_login` is `false`, and the notice under the password field when the connection is not HTTPS.
 - The login follows `DESIGN.md` and is translatable.
-- Done when the admin cannot be entered without the password, with and without HTTPS, the plain password is replaced by its hash at the first login and the file stays valid, and the session expires.
+- Done when the admin cannot be entered without the password unless `require_login` is `false`, with and without HTTPS, the plain password is replaced by its hash at the first login and the file stays valid, and the session expires.
 
 ### M4. Redirect manager
 
