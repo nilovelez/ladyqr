@@ -107,6 +107,30 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 
 <main>
 	<div class="card">
+		<div class="card-body">
+			<input class="field" id="content" type="text" placeholder="<?php echo esc_attr__( 'Type or paste a link or text', 'ladyqr' ); ?>" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="<?php echo esc_attr__( 'Text or URL', 'ladyqr' ); ?>">
+
+			<div class="qr" id="qr" role="img" aria-live="polite"></div>
+
+			<p class="warning" id="contrast-warning" role="status" hidden>
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+				<span id="contrast-warning-text"></span>
+			</p>
+
+			<div class="download">
+				<button class="download-main" id="download-png-500" type="button" disabled>
+					<?php esc_html_e( 'Download', 'ladyqr' ); ?> <small>PNG 500px</small>
+				</button>
+				<button class="download-more" id="download-more" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="download-menu" aria-label="<?php echo esc_attr__( 'More download formats', 'ladyqr' ); ?>" disabled>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+				</button>
+				<div class="download-menu" id="download-menu" hidden>
+					<button type="button" id="download-png-1000">PNG <span>1000px</span></button>
+					<button type="button" id="download-svg">SVG <span><?php esc_html_e( 'vector', 'ladyqr' ); ?></span></button>
+				</div>
+			</div>
+		</div>
+
 		<details class="settings">
 			<summary><?php esc_html_e( 'Settings', 'ladyqr' ); ?></summary>
 			<div class="settings-body">
@@ -139,30 +163,6 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 				<button class="reset" id="reset" type="button" disabled><?php esc_html_e( 'Reset settings', 'ladyqr' ); ?></button>
 			</div>
 		</details>
-
-		<div class="card-body">
-			<input class="field" id="content" type="text" placeholder="<?php echo esc_attr__( 'Type or paste a link or text', 'ladyqr' ); ?>" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="<?php echo esc_attr__( 'Text or URL', 'ladyqr' ); ?>">
-
-			<div class="qr" id="qr" role="img" aria-live="polite"></div>
-
-			<p class="warning" id="contrast-warning" role="status" hidden>
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-				<span id="contrast-warning-text"></span>
-			</p>
-
-			<div class="download">
-				<button class="download-main" id="download-png-500" type="button" disabled>
-					<?php esc_html_e( 'Download', 'ladyqr' ); ?> <small>PNG 500px</small>
-				</button>
-				<button class="download-more" id="download-more" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="download-menu" aria-label="<?php echo esc_attr__( 'More download formats', 'ladyqr' ); ?>" disabled>
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-				</button>
-				<div class="download-menu" id="download-menu" hidden>
-					<button type="button" id="download-png-1000">PNG <span>1000px</span></button>
-					<button type="button" id="download-svg">SVG <span><?php esc_html_e( 'vector', 'ladyqr' ); ?></span></button>
-				</div>
-			</div>
-		</div>
 	</div>
 </main>
 

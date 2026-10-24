@@ -217,5 +217,38 @@ dialog.addEventListener('click', (event) => {
 	}
 });
 
+// On wide screens the settings are a column on the right and always open. On
+// narrow ones they are a collapsible header, and each size remembers its own state.
+const settingsPanel = document.querySelector('.settings');
+const settingsToggle = settingsPanel.querySelector('summary');
+const wideScreen = window.matchMedia('(min-width: 900px)');
+let settingsOpenWhenNarrow = settingsPanel.open;
+
+function layoutSettings() {
+	if (wideScreen.matches) {
+		settingsPanel.open = true;
+		settingsToggle.tabIndex = -1;
+	} else {
+		settingsPanel.open = settingsOpenWhenNarrow;
+		settingsToggle.removeAttribute('tabindex');
+	}
+}
+
+settingsToggle.addEventListener('click', (event) => {
+	if (wideScreen.matches) {
+		event.preventDefault();
+	} else {
+		// The click is about to flip it. Remember the result now, rather than
+		// waiting for the toggle event, which can arrive after a resize.
+		settingsOpenWhenNarrow = !settingsPanel.open;
+	}
+});
+if (wideScreen.addEventListener) {
+	wideScreen.addEventListener('change', layoutSettings);
+} else {
+	wideScreen.addListener(layoutSettings); // Older Safari.
+}
+layoutSettings();
+
 loadSettings();
 update();
