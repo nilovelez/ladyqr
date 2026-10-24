@@ -60,6 +60,8 @@ main {
 }
 
 .card {
+	display: flex;
+	flex-direction: column;
 	background: var(--surface);
 	border: 1px solid var(--border);
 	border-radius: 24px;
@@ -121,9 +123,12 @@ input:focus-visible {
 
 /* Settings */
 
-/* The settings are the card's header. */
+/* The settings come after the main content in the page, so the keyboard reaches
+   them in the order a wide screen shows them. On a narrow screen they are the
+   card's header, and `order` puts them first. */
 
 .settings {
+	order: -1;
 	overflow: hidden;
 	border-bottom: 1px solid var(--line);
 	border-radius: 23px 23px 0 0;
@@ -179,6 +184,50 @@ input:focus-visible {
 
 	.settings-body {
 		padding: 16px 16px 18px;
+	}
+}
+
+/* Wide screens: the settings are a column on the right of the card, always
+   open. app.js keeps them open and takes the toggle out of the tab order. */
+
+@media (min-width: 900px) {
+	main {
+		max-width: 940px;
+	}
+
+	.card {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 320px;
+	}
+
+	.card-body {
+		grid-column: 1;
+		grid-row: 1;
+		padding: 28px;
+	}
+
+	.settings {
+		order: 0;
+		grid-column: 2;
+		grid-row: 1;
+		background: var(--bg);
+		border-bottom: 0;
+		border-left: 1px solid var(--line);
+		border-radius: 0 23px 23px 0;
+	}
+
+	.settings summary {
+		cursor: default;
+		padding: 18px 24px;
+	}
+
+	.settings summary::after {
+		display: none;
+	}
+
+	/* The column is narrow, so the two colors go one under the other. */
+	.colors {
+		grid-template-columns: minmax(0, 1fr);
 	}
 }
 

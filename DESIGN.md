@@ -12,7 +12,7 @@ This document describes how LadyQR looks and behaves, and why. The styles live i
 
 ## Layout
 
-A single centered column, 560 px wide at most, in this order:
+The layout has two forms, with the breakpoint at 900 px of screen width. Below it, which includes every phone, it is a single centered column, 560 px wide at most, in this order:
 
 ```
                                              (?)  Help, top right of the page
@@ -29,7 +29,23 @@ A single centered column, 560 px wide at most, in this order:
         Made with LadyQR, get yours free     Footer
 ```
 
-- The settings are the card's header, like a Bootstrap card header: error correction, margin, module and background colors, and a reset button.
+From 900 px up, the card is 940 px wide at most and the settings become a column on its right, always open:
+
+```
+                                                         (?)
+ +--------------------------------------+----------------+
+ |  [ Type or paste a link or text    ] | Settings       |
+ |           +-----------+              |----------------|
+ |           |  QR code  |              | Error correct. |
+ |           +-----------+              | Margin         |
+ |  [ Download  PNG 500px |  v ]        | Colors         |
+ +--------------------------------------+----------------+
+```
+
+- The settings are error correction, margin, module and background colors, and a reset button. On a narrow screen they are the card's header, like a Bootstrap card header, collapsed until tapped. On a wide screen they are a side panel with its own background and a soft divider, as tall as the card, and "Settings" is just its heading: no arrow, and it does not collapse.
+- **In the page the settings come after the main content**, and CSS moves them to the top on narrow screens. That keeps the keyboard order the same as what a wide screen shows (field, download, then the settings), where keyboards are used the most. On the wide layout the "Settings" title is taken out of the tab order, since it does nothing.
+- Each size remembers its own state: if you open the settings on a narrow screen, widen the window and narrow it again, they are still open.
+- The two color pickers sit one under the other in the side panel, because the column is too narrow for their labels side by side.
 - The download button is split. The big part downloads a 500 px PNG; the arrow opens a menu with PNG 1000 px and SVG.
 - On narrow screens the card padding shrinks from 24 px to 16 px and the text field gets a smaller font so a placeholder fits.
 
