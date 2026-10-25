@@ -253,5 +253,17 @@ if (wideScreen.addEventListener) {
 }
 layoutSettings();
 
+// A link can bring the text in the address fragment (#text=…), which never
+// reaches the server. It fills the field once and is then cleared from the
+// address, so reloading or sharing the page does not carry it.
+function readFragment() {
+	const text = new URLSearchParams(location.hash.slice(1)).get('text');
+	if (text !== null) {
+		content.value = text;
+		history.replaceState(null, '', location.pathname + location.search);
+	}
+}
+
+readFragment();
 loadSettings();
 update();
