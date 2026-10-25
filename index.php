@@ -107,7 +107,8 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="color-scheme" content="light">
 	<title>LadyQR</title>
-	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>">
+	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-64.png' ); ?>">
+	<link rel="apple-touch-icon" href="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css' ); ?>">
 </head>
 <body>
@@ -120,7 +121,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 <dialog id="help-dialog" aria-labelledby="help-title">
 	<div class="dialog-body">
 		<div class="dialog-head">
-			<img alt="" src="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>" width="40" height="40">
+			<img alt="" src="<?php echo ladyqr_asset( 'assets/ladyqr@2X.png' ); ?>" width="48" height="36">
 			<h2 id="help-title"><?php esc_html_e( 'About LadyQR', 'ladyqr' ); ?></h2>
 			<button class="dialog-close" id="help-close" type="button" aria-label="<?php echo esc_attr__( 'Close', 'ladyqr' ); ?>">&times;</button>
 		</div>
@@ -212,7 +213,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 
 <footer>
 	<a href="https://github.com/nilovelez/ladyqr" target="_blank" rel="noopener">
-		<img alt="" src="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>" width="22" height="22">
+		<img alt="" src="<?php echo ladyqr_asset( 'assets/ladyqr.png' ); ?>" width="32" height="24">
 		<span>
 			<?php
 			/* translators: %s: the product name, LadyQR. */

@@ -49,7 +49,7 @@ ladyqr_remove_dir( $out );
 ladyqr_copy_dir( $root . '/site', $out );
 
 // The live demo.
-ladyqr_copy_dir( $root . '/assets', $out . '/try/assets', array( 'icon-full.png' ) );
+ladyqr_copy_dir( $root . '/assets', $out . '/try/assets', array( 'icon-full.png', 'icon-vector.ai' ) );
 
 ob_start();
 require $root . '/index.php'; // Sets $ladyqr_csp.

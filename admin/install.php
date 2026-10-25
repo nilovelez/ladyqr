@@ -165,7 +165,8 @@ function ladyqr_install_page( $title, $content, $heading = true ) {
 	<meta name="color-scheme" content="light">
 	<meta name="robots" content="noindex, nofollow">
 	<title><?php echo ladyqr_h( $title ); ?> – LadyQR</title>
-	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>">
+	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-64.png', '../' ); ?>">
+	<link rel="apple-touch-icon" href="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css', '../' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/admin.css', '../' ); ?>">
 </head>
@@ -345,7 +346,7 @@ if ( 'welcome' === $ladyqr_step ) {
 		function () {
 			?>
 			<div class="hello">
-				<img src="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>" alt="" width="128" height="128">
+				<img src="<?php echo ladyqr_asset( 'assets/ladyqr@4X.png', '../' ); ?>" alt="" width="128" height="96">
 				<div>
 					<h1><?php esc_html_e( 'Hi! I\'m LadyQR', 'ladyqr' ); ?></h1>
 					<p><?php esc_html_e( 'I make QR codes right in your browser, and what you type never leaves it. I also come with an optional link shortener for your own domain.', 'ladyqr' ); ?></p>

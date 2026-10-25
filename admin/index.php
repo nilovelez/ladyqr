@@ -325,7 +325,8 @@ function ladyqr_htaccess_notice( $ensure ) {
 	<meta name="color-scheme" content="light">
 	<meta name="robots" content="noindex, nofollow">
 	<title><?php esc_html_e( 'LadyQR admin', 'ladyqr' ); ?></title>
-	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>">
+	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-64.png', '../' ); ?>">
+	<link rel="apple-touch-icon" href="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css', '../' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/admin.css', '../' ); ?>">
 </head>
@@ -334,7 +335,7 @@ function ladyqr_htaccess_notice( $ensure ) {
 <main>
 	<div class="admin-bar">
 		<div class="admin-head">
-			<img src="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>" alt="" width="36" height="36">
+			<img src="<?php echo ladyqr_asset( 'assets/ladyqr@2X.png', '../' ); ?>" alt="" width="48" height="36">
 			<h1><?php esc_html_e( 'LadyQR admin', 'ladyqr' ); ?></h1>
 		</div>
 		<?php if ( 'panel' === $ladyqr_view ) : ?>

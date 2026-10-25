@@ -8,7 +8,8 @@
  * The files are listed one by one, so nothing new ends up in the zip by
  * accident. It stops with an error if a file that must be there is missing, or
  * if the zip would carry a file that belongs to an install (the configuration,
- * the links, an .htaccess) or the full-size icon, which is for development only.
+ * the links, an .htaccess) or the full-size and vector icons, which are for
+ * development only.
  */
 
 $root = dirname( __DIR__ );
@@ -16,10 +17,10 @@ $out  = $root . '/_release/ladyqr-latest.zip';
 
 $files   = array( 'index.php', '404.php', 'ladyqr-config.sample.php', 'LICENSE', 'INSTALL.txt' );
 $folders = array( 'admin', 'includes', 'assets', 'languages' );
-$skip    = array( 'assets/icon-full.png' );
+$skip    = array( 'assets/icon-full.png', 'assets/icon-vector.ai' );
 
 // Never in a release, wherever they are.
-$forbidden = array( 'ladyqr-config.php', 'ladyqr-data.php', '.htaccess', '.htaccess.bak', 'icon-full.png' );
+$forbidden = array( 'ladyqr-config.php', 'ladyqr-data.php', '.htaccess', '.htaccess.bak', 'icon-full.png', 'icon-vector.ai' );
 
 if ( ! class_exists( 'ZipArchive' ) ) {
 	fwrite( STDERR, "PHP's zip extension is needed.\n" );

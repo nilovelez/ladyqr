@@ -239,8 +239,18 @@ When the editor's look changes, take a new screenshot: the card alone, 560 px wi
 
 ## Brand assets
 
-- `assets/icon-128.png`: the ladybug with a QR code on its back, 128 × 128 px. Used as favicon, at the top of the admin cards, in the help dialog, in the footer and as the project's icon in Guppy.
-- `assets/icon-full.png`: the full-size original.
+The ladybug with a QR code on its back comes in two shapes. No other sizes are generated: each use takes the closest file.
+
+- **Fitted to the drawing, 4:3**, shown in the pages:
+  - `assets/ladyqr.png`, 64 × 48 px: the footer of the editor, at 32 × 24.
+  - `assets/ladyqr@2X.png`, 128 × 96 px: next to headings. 48 × 36 in the help dialog, the admin bar and the website's header; 64 × 48 on the not-found page; 128 × 96 at the top of the README.
+  - `assets/ladyqr@4X.png`, 256 × 192 px: the installer's welcome ("Hi! I'm LadyQR"), at 128 × 96.
+- **Square**, for the browser and the system:
+  - `assets/icon-64.png`, 64 × 64 px: the favicon.
+  - `assets/icon-128.png`, 128 × 128 px: the Apple touch icon, and the project's icon in Guppy.
+- **For development only**, never in the release zip or the website: `assets/icon-full.png` (the full-size original, 1280 × 960) and `assets/icon-vector.ai` (the vector original).
+
+The website keeps its own copies in `site/img/`.
 
 ## Consistency checklist
 

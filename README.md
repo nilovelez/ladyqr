@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/icon-128.png" alt="LadyQR, a ladybug with a QR code on its back" width="128" height="128">
+  <img src="assets/ladyqr@2X.png" alt="LadyQR, a ladybug with a QR code on its back" width="128" height="96">
 </p>
 
 <h1 align="center">LadyQR</h1>
@@ -161,8 +161,11 @@ assets/render.js           SVG and PNG output, matrix and color helpers
 assets/app.js              The editor's behavior
 assets/app.css            Styles
 assets/admin.css          Styles for the admin
-assets/icon-128.png        Icon
-assets/icon-full.png       Full size icon
+assets/icon-64.png         Square icon, 64 px: favicon
+assets/icon-128.png        Square icon, 128 px: Apple touch icon
+assets/ladyqr.png          Icon, 64 x 48 px, and @2X and @4X versions
+assets/icon-full.png       Full size icon, for development only
+assets/icon-vector.ai      Vector original, for development only
 languages/                 Translation template and translations
 ladyqr-config.sample.php   Configuration sample
 site/                      The website's landing page

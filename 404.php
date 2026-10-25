@@ -31,7 +31,8 @@ $ladyqr_base = ladyqr_base_path();
 	<meta name="color-scheme" content="light">
 	<meta name="robots" content="noindex">
 	<title><?php esc_html_e( 'Page not found', 'ladyqr' ); ?></title>
-	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png', $ladyqr_base . '/' ); ?>">
+	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-64.png', $ladyqr_base . '/' ); ?>">
+	<link rel="apple-touch-icon" href="<?php echo ladyqr_asset( 'assets/icon-128.png', $ladyqr_base . '/' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css', $ladyqr_base . '/' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/admin.css', $ladyqr_base . '/' ); ?>">
 </head>
@@ -41,7 +42,7 @@ $ladyqr_base = ladyqr_base_path();
 	<div class="card">
 		<div class="card-body">
 			<div class="admin-head">
-				<img src="<?php echo ladyqr_asset( 'assets/icon-128.png', $ladyqr_base . '/' ); ?>" alt="" width="44" height="44">
+				<img src="<?php echo ladyqr_asset( 'assets/ladyqr@2X.png', $ladyqr_base . '/' ); ?>" alt="" width="64" height="48">
 				<h1><?php esc_html_e( 'Page not found', 'ladyqr' ); ?></h1>
 			</div>
 			<p><?php esc_html_e( 'This short link does not exist, or it was removed.', 'ladyqr' ); ?></p>
