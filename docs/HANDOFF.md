@@ -11,8 +11,7 @@ What a new working session needs to pick LadyQR up. The rules for working with N
 
 ## Next
 
-- M7: automated tests (the checks in `D:\Claude\ladyqr-tools\tests` are a start) and the encoder's numeric and alphanumeric modes.
-- Then, from the backlog: QR codes from the shortener (`#text=` in the editor, `LADYQR_QR_BASE`), and customizing the generator page.
+- M7, as described in `docs/PLAN.md`. For the automated tests, the checks in `D:\Claude\ladyqr-tools\tests` are a start.
 - To release a new version: publish a GitHub release with a new tag (such as `v1.0.1`); the workflow attaches the zip.
 
 ## How the code fits together

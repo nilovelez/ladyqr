@@ -27,7 +27,7 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
   - **Native PHP sessions, with nothing configured by us:** no custom storage path and no cookie of our own, because many shared hosts do not allow it. PHP's session cookie is the only cookie, and it is a session cookie.
   - **Best-effort hardening that can never break the login:** `HttpOnly` and `SameSite=Lax` through the standard `session_set_cookie_params()`, and `Secure` only when the request came over HTTPS (detected with `$_SERVER['HTTPS']`, port 443 or `X-Forwarded-Proto`). On a server without SSL the login still works.
   - **Short sessions:** the session closes after about 15 minutes without activity, tracked inside the session itself. Having to log in again is fine: the idea is to log in, make the changes and leave.
-  - A failed login gets a short delay. Real rate limiting is in the backlog.
+  - A failed login waits one second before answering, which slows down guessing. Counting attempts is not planned: it would need somewhere to store them.
 - **HTTPS notice:** the login screen shows a small warning under the password field when the connection is not HTTPS, saying that the password would travel unencrypted.
 - **No password: locked by default, open only on purpose.** The admin has three states:
   1. **No `user` or `password` set (or either is empty): locked.** Nobody gets in, and the screen explains how to set them. This is a fresh install, so anyone scanning for `/admin/` cannot create redirects on the domain before the owner sets a password.
@@ -252,22 +252,17 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
 - **The new icons:** the ladybug fitted to its drawing in the pages, the square ones as favicon and Apple touch icon. See DESIGN.md.
 - **`CLAUDE.md` and `docs/HANDOFF.md`**, so a new session can pick the project up from the repository alone. The test tools moved out of a temporary folder to `D:\Claude\ladyqr-tools\`.
 
-### M7. Automated tests and encoder consolidation
+### M7. Automated tests, encoder modes and QR codes from the shortener
 
-Automated tests with Node's built-in runner, kept apart from the runtime code (the test-only tools would be development dependencies), including the checks that today live in throwaway scripts. Optionally, numeric and alphanumeric modes for smaller codes.
+- **Automated tests** with Node's built-in runner, kept apart from the runtime code (the test-only tools would be development dependencies), including the checks that today live in throwaway scripts.
+- **Numeric and alphanumeric modes in the encoder,** for smaller codes. Nothing changes for the user and nothing new is shown: the encoder picks the most efficient mode for the text. Numeric if every character is a digit, alphanumeric if every character is in that set (digits, uppercase letters, space and `$%*+-./:`), and byte mode otherwise. A version 1-M code holds 14 characters in byte mode (`1QR.ES/1234567`) and 20 in alphanumeric mode (`HTTP://1QR.ES/123456`).
+- **QR codes from the shortener.** In the admin, each short link gets a QR icon that opens the generator with the short link filled in. Pieces:
+  - The generator takes its initial text from the address fragment (`#text=…`), so it never reaches the server.
+  - An optional `LADYQR_QR_BASE` (such as `1QR.ES/`) for the short links in QR codes: no scheme and in uppercase, to use the alphanumeric mode. The admin still copies links with `https://`.
+  - Slugs and the alphanumeric set: `_` is not in it, and short links already ignore case (done in 1.0.0, see M6).
 
 ## Backlog
 
 Things that are wanted but not urgent, in no particular order.
 
-- **A QR code for each short link** in the admin, using the editor.
-- **Real login rate limiting.** It needs somewhere to store attempts, which the "native only" principle avoids; the current answer is a short delay.
-- **The website's demo in Spanish.**
-- **Confirm the real disk quota** (100 MB) in the OVH panel: PHP only sees the disk of the whole cluster.
-- **A new icon that works at small sizes** (a 32 and 16 px favicon). Today the 128 px icon is used everywhere. Nilo will draw it; 1.0.0 ships with the current one.
-- **QR codes from the shortener.** Each link gets a QR icon that opens the editor with the short link filled in. Pieces:
-  - The editor takes its initial text from the address fragment (`#text=…`), so it never reaches the server.
-  - An optional `LADYQR_QR_BASE` (such as `1QR.ES/`) for the short links in QR codes: no scheme and in uppercase, to use the alphanumeric mode. The admin still copies links with `https://`.
-  - The encoder's alphanumeric mode (now in M7). A version 1-M code holds 14 characters in byte mode (`1QR.ES/1234567`) and 20 in alphanumeric mode (`HTTP://1QR.ES/123456`).
-  - Slugs and the alphanumeric set: `_` is not in it, and short links already ignore case (done in 1.0.0, see M6).
 - **Customize the generator page.** How is to be decided; probably an optional `header.html` and `footer.html` in the install folder, included before and after the generator when they exist.
