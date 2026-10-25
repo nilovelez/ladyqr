@@ -46,14 +46,18 @@ if ( 'login' === $ladyqr_mode ) {
 			ladyqr_session_start();
 		}
 
+		// Logging out is a link, so it carries the session's token in the
+		// address: another site cannot log you out without knowing it.
+		if ( $ladyqr_logged_in && isset( $_GET['logout'] ) && ladyqr_csrf_valid( (string) $_GET['logout'] ) ) {
+			ladyqr_session_end();
+			header( 'Location: ' . $ladyqr_self, true, 303 );
+			exit;
+		}
+
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 			$ladyqr_action = isset( $_POST['action'] ) ? (string) $_POST['action'] : '';
 			if ( ! ladyqr_csrf_valid( isset( $_POST['csrf'] ) ? $_POST['csrf'] : '' ) ) {
 				$ladyqr_error = 'csrf';
-			} elseif ( 'logout' === $ladyqr_action && $ladyqr_logged_in ) {
-				ladyqr_session_end();
-				header( 'Location: ' . $ladyqr_self, true, 303 );
-				exit;
 			} elseif ( $ladyqr_logged_in && in_array( $ladyqr_action, array( 'add', 'edit', 'delete' ), true ) ) {
 				$ladyqr_link_action = $ladyqr_action;
 			} elseif ( 'login' === $ladyqr_action && ! $ladyqr_logged_in ) {
@@ -216,8 +220,8 @@ function ladyqr_link_fields( array $form, array $problems, $origin, $id ) {
 	?>
 	<div>
 		<label class="label" for="<?php echo $id; ?>-slug"><?php esc_html_e( 'Short name', 'ladyqr' ); ?></label>
-		<div class="slug-row">
-			<span class="slug-origin"><?php echo htmlspecialchars( preg_replace( '~^https?://~', '', $origin ), ENT_QUOTES, 'UTF-8' ); ?></span>
+		<div class="input-group">
+			<span class="addon"><?php echo htmlspecialchars( preg_replace( '~^https?://~', '', $origin ), ENT_QUOTES, 'UTF-8' ); ?></span>
 			<input class="input" id="<?php echo $id; ?>-slug" name="slug" type="text" value="<?php echo htmlspecialchars( $form['slug'], ENT_QUOTES, 'UTF-8' ); ?>" maxlength="64" autocapitalize="off" autocomplete="off" spellcheck="false" required<?php echo $slug_problems ? ' aria-invalid="true" aria-describedby="' . $id . '-slug-error"' : ''; ?>>
 		</div>
 		<?php if ( $slug_problems ) : ?>
@@ -234,10 +238,10 @@ function ladyqr_link_fields( array $form, array $problems, $origin, $id ) {
 	<div>
 		<label class="label" for="<?php echo $id; ?>-status"><?php esc_html_e( 'Type', 'ladyqr' ); ?></label>
 		<select class="input" id="<?php echo $id; ?>-status" name="status" aria-describedby="<?php echo $id; ?>-status-help">
-			<option value="302"<?php echo 302 === $form['status'] ? ' selected' : ''; ?>><?php esc_html_e( 'Temporary (302)', 'ladyqr' ); ?></option>
-			<option value="301"<?php echo 301 === $form['status'] ? ' selected' : ''; ?>><?php esc_html_e( 'Permanent (301)', 'ladyqr' ); ?></option>
+			<option value="301"<?php echo 301 === $form['status'] ? ' selected' : ''; ?>><?php esc_html_e( '301 – Permanent redirect', 'ladyqr' ); ?></option>
+			<option value="302"<?php echo 302 === $form['status'] ? ' selected' : ''; ?>><?php esc_html_e( '302 – Temporary redirect', 'ladyqr' ); ?></option>
 		</select>
-		<p class="hint" id="<?php echo $id; ?>-status-help"><?php esc_html_e( 'Browsers remember permanent links, so a later change may take a long time to show. Use temporary unless the address will never change.', 'ladyqr' ); ?></p>
+		<p class="hint" id="<?php echo $id; ?>-status-help"><?php esc_html_e( 'Browsers remember permanent redirects, so a later change may take a long time to show. Use 302 unless the address will never change.', 'ladyqr' ); ?></p>
 	</div>
 	<?php
 }
@@ -266,7 +270,7 @@ function ladyqr_save_notice( $result ) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="color-scheme" content="light dark">
+	<meta name="color-scheme" content="light">
 	<meta name="robots" content="noindex, nofollow">
 	<title><?php esc_html_e( 'LadyQR admin', 'ladyqr' ); ?></title>
 	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>">
@@ -281,6 +285,14 @@ function ladyqr_save_notice( $result ) {
 			<strong><?php esc_html_e( 'No login is required', 'ladyqr' ); ?></strong>
 			<span><?php esc_html_e( 'Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the require_login setting.', 'ladyqr' ); ?></span>
 		</div>
+	<?php elseif ( 'panel' === $ladyqr_view ) : ?>
+		<p class="account">
+			<?php
+			/* translators: %s: the user's name. */
+			printf( esc_html__( 'Signed in as %s', 'ladyqr' ), '<strong>' . htmlspecialchars( $ladyqr_config['user'], ENT_QUOTES, 'UTF-8' ) . '</strong>' );
+			?>
+			&ndash; <a href="<?php echo htmlspecialchars( $ladyqr_self . '?logout=' . rawurlencode( $ladyqr_csrf ), ENT_QUOTES, 'UTF-8' ); ?>"><?php esc_html_e( 'Log out', 'ladyqr' ); ?></a>
+		</p>
 	<?php endif; ?>
 
 	<div class="card">
@@ -328,12 +340,18 @@ function ladyqr_save_notice( $result ) {
 					<?php if ( ! ladyqr_is_https() ) : ?>
 						<p class="notice"><?php ladyqr_icon_warning(); ?><span><?php esc_html_e( 'This connection is not secure: your password would travel unencrypted.', 'ladyqr' ); ?></span></p>
 					<?php endif; ?>
-					<button class="btn" type="submit"><?php esc_html_e( 'Log in', 'ladyqr' ); ?></button>
+					<button class="btn block" type="submit"><?php esc_html_e( 'Log in', 'ladyqr' ); ?></button>
 				</form>
 
 			<?php else : // The panel, logged in or open. ?>
 
-				<h2><?php esc_html_e( 'Short links', 'ladyqr' ); ?></h2>
+				<?php if ( 'edit' === $ladyqr_screen ) : ?>
+					<h2><?php esc_html_e( 'Edit short link', 'ladyqr' ); ?></h2>
+				<?php elseif ( 'delete' === $ladyqr_screen ) : ?>
+					<h2><?php esc_html_e( 'Delete short link', 'ladyqr' ); ?></h2>
+				<?php else : ?>
+					<h2><?php esc_html_e( 'Short links', 'ladyqr' ); ?></h2>
+				<?php endif; ?>
 				<?php if ( 'secured' === $ladyqr_secured ) : ?>
 					<p class="notice info" role="status"><span><?php esc_html_e( 'Your password is now stored as a secure hash in the configuration file.', 'ladyqr' ); ?></span></p>
 				<?php elseif ( 'not_writable' === $ladyqr_secured ) : ?>
@@ -367,8 +385,10 @@ function ladyqr_save_notice( $result ) {
 						<?php echo $ladyqr_csrf_field; ?>
 						<input type="hidden" name="original" value="<?php echo htmlspecialchars( $ladyqr_form['original'], ENT_QUOTES, 'UTF-8' ); ?>">
 						<?php ladyqr_link_fields( $ladyqr_form, $ladyqr_problems, $ladyqr_origin, 'edit' ); ?>
-						<button class="btn" type="submit"><?php esc_html_e( 'Save changes', 'ladyqr' ); ?></button>
-						<a class="btn secondary" href="<?php echo $ladyqr_action_url; ?>"><?php esc_html_e( 'Cancel', 'ladyqr' ); ?></a>
+						<div class="form-actions">
+							<button class="btn" type="submit"><?php esc_html_e( 'Save changes', 'ladyqr' ); ?></button>
+							<a class="btn secondary" href="<?php echo $ladyqr_action_url; ?>"><?php esc_html_e( 'Cancel', 'ladyqr' ); ?></a>
+						</div>
 					</form>
 
 				<?php elseif ( 'delete' === $ladyqr_screen ) : ?>
@@ -376,16 +396,20 @@ function ladyqr_save_notice( $result ) {
 					<?php ladyqr_save_notice( $ladyqr_save ); ?>
 					<?php if ( in_array( 'missing', $ladyqr_problems, true ) ) : ?>
 						<p class="notice error" role="alert"><?php ladyqr_icon_warning(); ?><span><?php echo ladyqr_problem_text( 'missing' ); ?></span></p>
-						<a class="btn secondary" href="<?php echo $ladyqr_action_url; ?>"><?php esc_html_e( 'Back to the list', 'ladyqr' ); ?></a>
+						<div class="form-actions">
+							<a class="btn secondary" href="<?php echo $ladyqr_action_url; ?>"><?php esc_html_e( 'Back to the list', 'ladyqr' ); ?></a>
+						</div>
 					<?php else : ?>
 						<p><?php esc_html_e( 'Delete this short link? Anyone who uses it will no longer be redirected.', 'ladyqr' ); ?></p>
-						<p class="doomed"><strong><?php echo htmlspecialchars( $ladyqr_origin . $ladyqr_form['slug'], ENT_QUOTES, 'UTF-8' ); ?></strong><br><span class="target"><?php echo htmlspecialchars( $ladyqr_form['target'], ENT_QUOTES, 'UTF-8' ); ?></span></p>
+						<p class="doomed"><strong>/<?php echo htmlspecialchars( $ladyqr_form['slug'], ENT_QUOTES, 'UTF-8' ); ?></strong> <span class="code-tag"><?php echo (int) $ladyqr_form['status']; ?></span><span class="target"><?php echo htmlspecialchars( $ladyqr_form['target'], ENT_QUOTES, 'UTF-8' ); ?></span></p>
 						<form class="form" method="post" action="<?php echo $ladyqr_action_url; ?>">
 							<input type="hidden" name="action" value="delete">
 							<?php echo $ladyqr_csrf_field; ?>
 							<input type="hidden" name="original" value="<?php echo htmlspecialchars( $ladyqr_form['original'], ENT_QUOTES, 'UTF-8' ); ?>">
-							<button class="btn" type="submit"><?php esc_html_e( 'Delete', 'ladyqr' ); ?></button>
-							<a class="btn secondary" href="<?php echo $ladyqr_action_url; ?>"><?php esc_html_e( 'Cancel', 'ladyqr' ); ?></a>
+							<div class="form-actions">
+								<button class="btn" type="submit"><?php esc_html_e( 'Delete', 'ladyqr' ); ?></button>
+								<a class="btn secondary" href="<?php echo $ladyqr_action_url; ?>"><?php esc_html_e( 'Cancel', 'ladyqr' ); ?></a>
+							</div>
 						</form>
 					<?php endif; ?>
 
@@ -406,21 +430,33 @@ function ladyqr_save_notice( $result ) {
 					<?php if ( array() === $ladyqr_links ) : ?>
 						<p class="empty"><?php esc_html_e( 'You have no short links yet.', 'ladyqr' ); ?></p>
 					<?php else : ?>
-						<ul class="links">
-							<?php foreach ( $ladyqr_links as $ladyqr_slug => $ladyqr_link ) : ?>
-								<li>
-									<div class="link-main">
-										<a class="short" href="<?php echo htmlspecialchars( $ladyqr_origin . $ladyqr_slug, ENT_QUOTES, 'UTF-8' ); ?>" rel="noopener"><?php echo htmlspecialchars( preg_replace( '~^https?://~', '', $ladyqr_origin ) . $ladyqr_slug, ENT_QUOTES, 'UTF-8' ); ?></a>
-										<span class="target" title="<?php echo htmlspecialchars( $ladyqr_link['target'], ENT_QUOTES, 'UTF-8' ); ?>"><?php echo htmlspecialchars( $ladyqr_link['target'], ENT_QUOTES, 'UTF-8' ); ?></span>
-									</div>
-									<span class="badge"><?php echo 301 === $ladyqr_link['status'] ? esc_html__( 'Permanent', 'ladyqr' ) : esc_html__( 'Temporary', 'ladyqr' ); ?></span>
-									<div class="link-actions">
-										<a href="<?php echo $ladyqr_action_url . '?edit=' . rawurlencode( $ladyqr_slug ); ?>"><?php esc_html_e( 'Edit', 'ladyqr' ); ?></a>
-										<a href="<?php echo $ladyqr_action_url . '?delete=' . rawurlencode( $ladyqr_slug ); ?>"><?php esc_html_e( 'Delete', 'ladyqr' ); ?></a>
-									</div>
-								</li>
-							<?php endforeach; ?>
-						</ul>
+						<div class="table-wrap">
+							<table class="links">
+								<thead>
+									<tr>
+										<th class="col-short" scope="col"><?php esc_html_e( 'Short link', 'ladyqr' ); ?></th>
+										<th scope="col"><?php esc_html_e( 'Goes to', 'ladyqr' ); ?></th>
+										<th class="col-code" scope="col"><?php esc_html_e( 'Code', 'ladyqr' ); ?></th>
+										<th class="col-actions" scope="col"><span class="visually-hidden"><?php esc_html_e( 'Actions', 'ladyqr' ); ?></span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach ( $ladyqr_links as $ladyqr_slug => $ladyqr_link ) : ?>
+										<tr>
+											<td class="col-short"><a class="short" href="<?php echo htmlspecialchars( $ladyqr_origin . $ladyqr_slug, ENT_QUOTES, 'UTF-8' ); ?>" rel="noopener">/<?php echo htmlspecialchars( $ladyqr_slug, ENT_QUOTES, 'UTF-8' ); ?></a></td>
+											<td class="target" title="<?php echo htmlspecialchars( $ladyqr_link['target'], ENT_QUOTES, 'UTF-8' ); ?>"><?php echo htmlspecialchars( $ladyqr_link['target'], ENT_QUOTES, 'UTF-8' ); ?></td>
+											<td class="col-code"><span class="code-tag"><?php echo (int) $ladyqr_link['status']; ?></span></td>
+											<td class="col-actions">
+												<span class="row-actions">
+													<a href="<?php echo $ladyqr_action_url . '?edit=' . rawurlencode( $ladyqr_slug ); ?>"><?php esc_html_e( 'Edit', 'ladyqr' ); ?></a>
+													<a href="<?php echo $ladyqr_action_url . '?delete=' . rawurlencode( $ladyqr_slug ); ?>"><?php esc_html_e( 'Delete', 'ladyqr' ); ?></a>
+												</span>
+											</td>
+										</tr>
+									<?php endforeach; ?>
+								</tbody>
+							</table>
+						</div>
 					<?php endif; ?>
 
 					<h3><?php esc_html_e( 'Add a short link', 'ladyqr' ); ?></h3>
@@ -428,17 +464,11 @@ function ladyqr_save_notice( $result ) {
 						<input type="hidden" name="action" value="add">
 						<?php echo $ladyqr_csrf_field; ?>
 						<?php ladyqr_link_fields( 'add' === $ladyqr_link_action ? $ladyqr_form : array( 'slug' => '', 'target' => '', 'status' => 302 ), 'add' === $ladyqr_link_action ? $ladyqr_problems : array(), $ladyqr_origin, 'add' ); ?>
-						<button class="btn" type="submit"><?php esc_html_e( 'Add short link', 'ladyqr' ); ?></button>
+						<div class="form-actions">
+							<button class="btn" type="submit"><?php esc_html_e( 'Add short link', 'ladyqr' ); ?></button>
+						</div>
 					</form>
 
-				<?php endif; ?>
-
-				<?php if ( 'login' === $ladyqr_mode ) : ?>
-					<form method="post" action="<?php echo htmlspecialchars( $ladyqr_self, ENT_QUOTES, 'UTF-8' ); ?>">
-						<input type="hidden" name="action" value="logout">
-						<input type="hidden" name="csrf" value="<?php echo htmlspecialchars( $ladyqr_csrf, ENT_QUOTES, 'UTF-8' ); ?>">
-						<button class="btn secondary" type="submit"><?php esc_html_e( 'Log out', 'ladyqr' ); ?></button>
-					</form>
 				<?php endif; ?>
 
 			<?php endif; ?>

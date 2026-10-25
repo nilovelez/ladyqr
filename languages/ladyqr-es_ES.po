@@ -107,9 +107,6 @@ msgstr "Esta conexión no es segura: tu contraseña viajaría sin cifrar."
 msgid "Short links"
 msgstr "Enlaces cortos"
 
-msgid "You are logged in"
-msgstr "Has iniciado sesión"
-
 msgid "Your password is now stored as a secure hash in the configuration file."
 msgstr "Tu contraseña ya está guardada como un hash seguro en el archivo de configuración."
 
@@ -121,9 +118,6 @@ msgstr "Tu contraseña sigue guardada en texto plano, porque no está escrita de
 
 msgid "Your password could not be secured, because the new configuration file did not pass its safety check. The file was not changed."
 msgstr "No se pudo proteger tu contraseña, porque el nuevo archivo de configuración no pasó su comprobación de seguridad. El archivo no se ha modificado."
-
-msgid "The short links will be managed here in a future version."
-msgstr "Los enlaces cortos se gestionarán aquí en una versión futura."
 
 msgid "Log out"
 msgstr "Salir"
@@ -146,8 +140,12 @@ msgstr "Escribe o pega un enlace o un texto"
 msgid "Text or URL"
 msgstr "Texto o URL"
 
-msgid "Settings"
-msgstr "Ajustes"
+msgid "Customize"
+msgstr "Personalizar"
+
+#. translators: %s: the margin around the QR code, in modules, such as 4.
+msgid "margin %s"
+msgstr "margen %s"
 
 msgid "Error correction"
 msgstr "Corrección de errores"
@@ -186,9 +184,6 @@ msgstr "Añadir enlace corto"
 msgid "Back to the list"
 msgstr "Volver a la lista"
 
-msgid "Browsers remember permanent links, so a later change may take a long time to show. Use temporary unless the address will never change."
-msgstr "Los navegadores recuerdan los enlaces permanentes, así que un cambio posterior puede tardar mucho en verse. Usa el temporal salvo que la dirección no vaya a cambiar nunca."
-
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -213,12 +208,6 @@ msgstr "Crear un código QR"
 msgid "Page not found"
 msgstr "Página no encontrada"
 
-msgid "Permanent (301)"
-msgstr "Permanente (301)"
-
-msgid "Permanent"
-msgstr "Permanente"
-
 msgid "Save changes"
 msgstr "Guardar cambios"
 
@@ -227,12 +216,6 @@ msgstr "Guardado, pero LadyQR no pudo comprobar que el sitio sigue respondiendo.
 
 msgid "Short name"
 msgstr "Nombre corto"
-
-msgid "Temporary (302)"
-msgstr "Temporal (302)"
-
-msgid "Temporary"
-msgstr "Temporal"
 
 msgid "That name is reserved, because it is used by a file or a folder of the site."
 msgstr "Ese nombre está reservado, porque lo usa un archivo o una carpeta del sitio."
@@ -281,3 +264,31 @@ msgstr "Tipo"
 
 msgid "You have no short links yet."
 msgstr "Todavía no tienes enlaces cortos."
+
+msgid "301 – Permanent redirect"
+msgstr "301 – Redirección permanente"
+
+msgid "302 – Temporary redirect"
+msgstr "302 – Redirección temporal"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "Browsers remember permanent redirects, so a later change may take a long time to show. Use 302 unless the address will never change."
+msgstr "Los navegadores recuerdan las redirecciones permanentes, así que un cambio posterior puede tardar mucho en verse. Usa 302 salvo que la dirección no vaya a cambiar nunca."
+
+msgid "Code"
+msgstr "Código"
+
+msgid "Short link"
+msgstr "Enlace corto"
+
+#. translators: %s: the user's name.
+msgid "Signed in as %s"
+msgstr "Conectado como %s"
+
+msgid "Edit short link"
+msgstr "Editar enlace corto"
+
+msgid "Delete short link"
+msgstr "Eliminar enlace corto"

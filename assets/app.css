@@ -1,35 +1,27 @@
-/* LadyQR editor. One centered card: text field, settings, QR code, download. */
+/* LadyQR: the design tokens, the shared components, and the editor.
+   One centered card: text field, QR code, settings, download. See DESIGN.md. */
+
+/* Tokens. There is one theme, light. */
 
 :root {
-	--bg: #f5f4f3;
+	--bg: #f4f4f5;
 	--surface: #ffffff;
-	--ink: #1d1a1b;
-	--muted: #6d6869;
-	--line: #d3cfce;
-	--border: #847e7f;
+	--zebra: #f7f7f8;
+	--ink: #18181b;
+	--muted: #5f5f66;
+	--line: #e4e4e7;
+	--border: #8a8a93;
 	--accent: #d9261c;
 	--accent-ink: #ffffff;
 	--accent-deep: #b81d14;
 	--warn: #a35200;
+	--radius-sm: 4px;
+	--radius: 6px;
+	--radius-lg: 10px;
+	--control: 44px;
 	--font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	--mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 	color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--bg: #141213;
-		--surface: #1d1a1b;
-		--ink: #f1eeed;
-		--muted: #a29b9c;
-		--line: #4a4445;
-		--border: #7e7879;
-		--accent: #ef4a40;
-		--accent-ink: #141213;
-		--accent-deep: #d93a30;
-		--warn: #f0b35a;
-		color-scheme: dark;
-	}
 }
 
 * {
@@ -59,56 +51,158 @@ main {
 	justify-content: center;
 }
 
+a {
+	color: var(--accent);
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+/* Card */
+
 .card {
 	display: flex;
 	flex-direction: column;
 	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: 24px;
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .card-body {
 	display: flex;
 	flex-direction: column;
-	gap: 22px;
+	gap: 20px;
 	padding: 24px;
 }
 
 @media (max-width: 480px) {
-	.card {
-		border-radius: 20px;
-	}
-
 	.card-body {
 		padding: 16px;
 	}
-
-	.field {
-		padding: 16px;
-		font-size: 1.2rem;
-	}
 }
 
-button:focus-visible,
-summary:focus-visible,
-input:focus-visible {
+/* Shared form controls. Every control is --control tall, with a 1 px --border
+   outline and the same radius, so fields, selects and buttons line up. */
+
+.label {
+	display: block;
+	margin-bottom: 6px;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--ink);
+}
+
+.input {
+	display: block;
+	width: 100%;
+	height: var(--control);
+	padding: 0 12px;
+	font: inherit;
+	font-size: 1rem;
+	color: var(--ink);
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+
+.input::placeholder {
+	color: var(--muted);
+}
+
+.input:focus-visible {
 	outline: 2px solid var(--accent);
-	outline-offset: 2px;
+	outline-offset: -1px;
+	border-color: var(--accent);
+}
+
+.input[aria-invalid="true"] {
+	border-color: var(--accent);
+}
+
+select.input {
+	padding-right: 8px;
+}
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	height: var(--control);
+	padding: 0 20px;
+	font: inherit;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--accent-ink);
+	text-decoration: none;
+	white-space: nowrap;
+	background: var(--accent);
+	border: 1px solid var(--accent);
+	border-radius: var(--radius);
+	cursor: pointer;
+}
+
+.btn:hover {
+	background: var(--accent-deep);
+	border-color: var(--accent-deep);
+}
+
+.btn.secondary {
+	color: var(--ink);
+	background: var(--surface);
+	border-color: var(--border);
+}
+
+.btn.secondary:hover {
+	background: var(--bg);
+}
+
+.btn.block {
+	width: 100%;
+}
+
+.notice {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	margin: 0;
+	font-size: 0.9rem;
+	font-weight: 500;
+	color: var(--warn);
+}
+
+.notice svg {
+	flex: none;
+	margin-top: 3px;
+}
+
+.notice.error {
+	color: var(--accent);
+}
+
+.notice.info {
+	color: var(--muted);
 }
 
 /* Text field */
 
 .field {
 	width: 100%;
-	padding: 18px 20px;
+	padding: 14px 16px;
 	font: inherit;
-	font-size: 1.6rem;
+	font-size: 1.35rem;
 	font-weight: 500;
 	color: var(--ink);
-	background: var(--bg);
-	border: 2px solid var(--border);
-	border-radius: 14px;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
 }
 
 .field::placeholder {
@@ -117,32 +211,39 @@ input:focus-visible {
 }
 
 .field:focus-visible {
-	outline: none;
+	outline: 2px solid var(--accent);
+	outline-offset: -1px;
 	border-color: var(--accent);
+}
+
+@media (max-width: 480px) {
+	.field {
+		font-size: 1.15rem;
+	}
 }
 
 /* Settings */
 
-/* The settings come after the main content in the page, so the keyboard reaches
-   them in the order a wide screen shows them. On a narrow screen they are the
-   card's header, and `order` puts them first. */
+/* On a narrow screen the settings are a folded box under the QR code, before
+   the download: a control of the code, not a section of the page. Folded, it
+   shows the current values. */
 
 .settings {
-	order: -1;
 	overflow: hidden;
-	border-bottom: 1px solid var(--line);
-	border-radius: 23px 23px 0 0;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
 }
 
 .settings summary {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	padding: 14px 24px;
-	font-size: 0.9rem;
+	gap: 10px;
+	min-height: var(--control);
+	padding: 0 14px;
+	font-size: 0.95rem;
 	font-weight: 600;
-	color: var(--muted);
-	background: var(--bg);
+	color: var(--ink);
+	background: var(--surface);
 	cursor: pointer;
 	list-style: none;
 }
@@ -157,88 +258,127 @@ input:focus-visible {
 
 .settings summary::after {
 	content: "";
-	width: 8px;
-	height: 8px;
-	margin-right: 4px;
-	border-right: 2px solid currentColor;
-	border-bottom: 2px solid currentColor;
+	flex: none;
+	width: 7px;
+	height: 7px;
+	margin: 0 4px 3px 0;
+	border-right: 2px solid var(--muted);
+	border-bottom: 2px solid var(--muted);
 	transform: rotate(45deg);
 	transition: transform 0.15s;
 }
 
 .settings[open] summary::after {
+	margin-bottom: -3px;
 	transform: rotate(-135deg);
+}
+
+.settings-icon {
+	flex: none;
+	color: var(--muted);
+}
+
+.settings-state {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	margin-left: auto;
+	font-size: 0.85rem;
+	font-weight: 400;
+	color: var(--muted);
+	white-space: nowrap;
+}
+
+.settings-state span:first-child {
+	margin-right: 6px;
+}
+
+.settings[open] .settings-state {
+	display: none;
+}
+
+.settings[open] summary::after {
+	margin-left: auto;
+}
+
+.swatch {
+	width: 14px;
+	height: 14px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
 }
 
 .settings-body {
 	display: flex;
 	flex-direction: column;
 	gap: 18px;
-	padding: 20px 24px 22px;
-}
-
-@media (max-width: 480px) {
-	.settings summary {
-		padding: 14px 16px;
-	}
-
-	.settings-body {
-		padding: 16px 16px 18px;
-	}
+	padding: 16px 14px 18px;
+	background: var(--zebra);
 }
 
 /* Wide screens: the settings are a column on the right of the card, always
-   open. app.js keeps them open and takes the toggle out of the tab order. */
+   open. app.js keeps them open and takes the toggle out of the tab order.
+   The card body's own box steps aside so its parts and the settings share one
+   grid; the outer columns are the card's padding. */
 
 @media (min-width: 900px) {
 	main {
 		max-width: 940px;
 	}
 
-	.card {
+	.card.editor {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) 320px;
+		grid-template-columns: 28px minmax(0, 1fr) 28px 300px;
+		grid-template-rows: auto auto auto 1fr;
 	}
 
-	.card-body {
-		grid-column: 1;
-		grid-row: 1;
-		padding: 28px;
+	.card.editor .card-body {
+		display: contents;
 	}
 
-	.settings {
-		order: 0;
+	.card.editor .card-body > * {
 		grid-column: 2;
-		grid-row: 1;
-		background: var(--bg);
-		border-bottom: 0;
+		margin-top: 20px;
+	}
+
+	.card.editor .field {
+		margin-top: 28px;
+	}
+
+	.card.editor .qr {
+		justify-self: center;
+	}
+
+	.card.editor .download {
+		grid-row: 4;
+		align-self: start;
+		margin-bottom: 28px;
+	}
+
+	.card.editor .settings {
+		grid-column: 4;
+		grid-row: 1 / -1;
+		margin: 0;
+		background: var(--zebra);
+		border: 0;
 		border-left: 1px solid var(--line);
-		border-radius: 0 23px 23px 0;
+		border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 	}
 
 	.settings summary {
 		cursor: default;
-		padding: 18px 24px;
+		padding: 16px 24px;
+		background: none;
 	}
 
-	.settings summary::after {
+	.settings summary::after,
+	.settings-state {
 		display: none;
 	}
 
-	/* The column is narrow, so the two colors go one under the other. */
-	.colors {
-		grid-template-columns: minmax(0, 1fr);
+	.settings-body {
+		padding: 20px 24px 22px;
 	}
-}
-
-.label {
-	display: block;
-	margin-bottom: 8px;
-	font-size: 0.75rem;
-	font-weight: 600;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	color: var(--muted);
 }
 
 .segmented {
@@ -246,19 +386,19 @@ input:focus-visible {
 	grid-template-columns: repeat(4, 1fr);
 	overflow: hidden;
 	border: 1px solid var(--border);
-	border-radius: 10px;
+	border-radius: var(--radius);
 }
 
 .segmented button {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 8px 4px;
+	padding: 6px 4px;
 	font: inherit;
 	font-weight: 600;
 	line-height: 1.25;
 	color: var(--ink);
-	background: var(--bg);
+	background: var(--surface);
 	border: 0;
 	border-right: 1px solid var(--border);
 	cursor: pointer;
@@ -266,6 +406,10 @@ input:focus-visible {
 
 .segmented button:last-child {
 	border-right: 0;
+}
+
+.segmented button:focus-visible {
+	outline-offset: -3px;
 }
 
 .segmented small {
@@ -302,19 +446,22 @@ input:focus-visible {
 	text-align: right;
 }
 
+/* Two columns at every width. A label may wrap in the narrow wide-screen
+   column, so the inputs line up at the bottom. */
 .colors {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: end;
 	gap: 16px;
 }
 
 .colors input {
 	width: 56px;
-	height: 38px;
+	height: 36px;
 	padding: 2px;
-	background: var(--bg);
+	background: var(--surface);
 	border: 1px solid var(--border);
-	border-radius: 8px;
+	border-radius: var(--radius-sm);
 }
 
 /* QR code */
@@ -325,7 +472,7 @@ input:focus-visible {
 	max-width: 360px;
 	aspect-ratio: 1;
 	overflow: hidden;
-	border: 1px solid var(--border);
+	border: 1px solid var(--line);
 }
 
 .qr svg {
@@ -341,43 +488,43 @@ input:focus-visible {
 	height: 100%;
 	display: grid;
 	place-items: center;
-	background: var(--bg);
+	background: var(--zebra);
 }
 
 .qr-skeleton {
 	position: absolute;
 	inset: 0;
 	color: var(--muted);
-	opacity: 0.16;
+	opacity: 0.14;
 }
 
 .qr-message {
 	position: relative;
 	max-width: 80%;
 	margin: 0;
-	padding: 10px 16px;
+	padding: 8px 14px;
 	font-size: 0.95rem;
 	text-align: center;
 	color: var(--muted);
-	background: var(--bg);
+	background: var(--zebra);
 }
 
 .reset {
 	align-self: flex-start;
-	padding: 8px 14px;
+	height: 36px;
+	padding: 0 14px;
 	font: inherit;
-	font-size: 0.9rem;
+	font-size: 0.875rem;
 	font-weight: 600;
 	color: var(--ink);
-	background: transparent;
+	background: var(--surface);
 	border: 1px solid var(--border);
-	border-radius: 10px;
+	border-radius: var(--radius);
 	cursor: pointer;
 }
 
 .reset:hover:not(:disabled) {
-	border-color: var(--accent);
-	color: var(--accent);
+	background: var(--bg);
 }
 
 .reset:disabled {
@@ -416,31 +563,32 @@ input:focus-visible {
 
 .download-main {
 	flex: 1;
-	padding: 18px 20px;
+	height: 52px;
+	padding: 0 20px;
 	font: inherit;
-	font-size: 1.25rem;
-	font-weight: 700;
+	font-size: 1.1rem;
+	font-weight: 600;
 	color: var(--accent-ink);
 	background: var(--accent);
 	border: 0;
-	border-radius: 14px 0 0 14px;
+	border-radius: var(--radius) 0 0 var(--radius);
 	cursor: pointer;
 }
 
 .download-main small {
 	margin-left: 6px;
-	font-weight: 500;
+	font-weight: 400;
 }
 
 .download-more {
 	display: grid;
 	place-items: center;
-	width: 64px;
+	width: 56px;
 	color: var(--accent-ink);
 	background: var(--accent);
 	border: 0;
 	border-left: 1px solid var(--accent-deep);
-	border-radius: 0 14px 14px 0;
+	border-radius: 0 var(--radius) var(--radius) 0;
 	cursor: pointer;
 }
 
@@ -465,15 +613,15 @@ input:focus-visible {
 
 .download-menu {
 	position: absolute;
-	top: calc(100% + 6px);
+	top: calc(100% + 4px);
 	left: 0;
 	right: 0;
 	z-index: 5;
 	overflow: hidden;
 	background: var(--surface);
 	border: 1px solid var(--border);
-	border-radius: 12px;
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+	border-radius: var(--radius);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .download-menu[hidden] {
@@ -485,9 +633,9 @@ input:focus-visible {
 	justify-content: space-between;
 	gap: 12px;
 	width: 100%;
-	padding: 14px 20px;
+	padding: 12px 16px;
 	font: inherit;
-	font-size: 1.05rem;
+	font-size: 1rem;
 	text-align: left;
 	color: var(--ink);
 	background: transparent;
@@ -500,11 +648,15 @@ input:focus-visible {
 }
 
 .download-menu button:hover {
-	background: var(--bg);
+	background: var(--zebra);
+}
+
+.download-menu button:focus-visible {
+	outline-offset: -3px;
 }
 
 .download-menu span {
-	font-size: 0.9rem;
+	font-size: 0.875rem;
 	color: var(--muted);
 }
 
@@ -518,19 +670,19 @@ input:focus-visible {
 	align-items: center;
 	justify-content: center;
 	gap: 0;
-	height: 40px;
-	min-width: 40px;
-	padding: 0 9px;
+	height: 36px;
+	min-width: 36px;
+	padding: 0 8px;
 	overflow: hidden;
 	font: inherit;
-	font-size: 0.95rem;
+	font-size: 0.9rem;
 	font-weight: 600;
 	color: var(--muted);
 	background: var(--surface);
 	border: 1px solid var(--border);
 	border-radius: 99px;
 	cursor: pointer;
-	transition: gap 0.18s, padding 0.18s, color 0.18s, border-color 0.18s;
+	transition: gap 0.18s, padding 0.18s, color 0.18s;
 }
 
 .help svg {
@@ -547,9 +699,8 @@ input:focus-visible {
 .help:hover,
 .help:focus-visible {
 	gap: 8px;
-	padding: 0 16px 0 11px;
-	color: var(--accent);
-	border-color: var(--accent);
+	padding: 0 14px 0 10px;
+	color: var(--ink);
 }
 
 .help:hover span,
@@ -564,12 +715,13 @@ dialog {
 	padding: 0;
 	color: var(--ink);
 	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: 20px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
 }
 
 dialog::backdrop {
-	background: rgba(20, 18, 19, 0.55);
+	background: rgba(24, 24, 27, 0.5);
 }
 
 .dialog-body {
@@ -590,8 +742,7 @@ dialog::backdrop {
 .dialog-head h2 {
 	flex: 1;
 	margin: 0;
-	font-size: 1.3rem;
-	letter-spacing: -0.01em;
+	font-size: 1.25rem;
 }
 
 .dialog-close {
@@ -603,23 +754,26 @@ dialog::backdrop {
 	color: var(--muted);
 	background: transparent;
 	border: 1px solid var(--border);
-	border-radius: 99px;
+	border-radius: var(--radius);
 	cursor: pointer;
+}
+
+.dialog-close:hover {
+	color: var(--ink);
+	background: var(--bg);
 }
 
 .dialog-body h3 {
 	margin: 6px 0 0;
-	font-size: 0.75rem;
+	font-size: 0.875rem;
 	font-weight: 600;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	color: var(--muted);
+	color: var(--ink);
 }
 
 .dialog-body p,
 .dialog-body li {
 	margin: 0;
-	font-size: 0.97rem;
+	font-size: 0.95rem;
 }
 
 .dialog-body ol {
@@ -666,4 +820,15 @@ footer b {
 	* {
 		transition: none !important;
 	}
+}
+
+/* Text for screen readers only. */
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
 }
