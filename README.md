@@ -22,10 +22,6 @@ You type a link and the QR code appears as you type. You download it as a PNG or
   <sub>Scan me. This code was made with LadyQR.</sub>
 </p>
 
-## Status
-
-The QR code generator (milestone M0) is done, and the target hosting has been tested (milestone M1, see [docs/hosting.md](docs/hosting.md)). The URL shortener is planned. See the [roadmap](docs/PLAN.md) for what comes next.
-
 ## Features
 
 - **Instant.** The code updates on every keystroke. There is no generate button.
@@ -83,13 +79,6 @@ Copy `ladyqr-config.sample.php` to `ladyqr-config.php` and change what you need:
 | `require_login` | `true` | Only an explicit `false` opens the admin without a login, with a permanent warning. |
 
 `ladyqr-config.php` is ignored by Git, so your settings never end up in the repository.
-
-**Changes take a moment to show.** PHP keeps a compiled copy of each file and looks for changes every couple of seconds, and on some hosts files uploaded over FTP take a few seconds more to be seen. If you change the configuration file and the site still behaves as before, wait a few seconds and reload.
-
-Keep the line `defined( 'LADYQR' ) || exit;` at the top of the sample, as WordPress plugins do. `index.php` defines `LADYQR` before it reads the file, so if someone requests the configuration file directly it stops and prints nothing. That makes it safe to leave in the web root, and `.htaccess` also blocks it with a 403.
-
-Every folder has a blank `index.html`, so visiting a folder such as `/assets/` shows an empty page instead of a file listing.
-
 ## Admin
 
 The admin is at `/admin/`. It has the login and the short links. Nothing on the editor page links to it, and its pages tell search engines not to index them (a `noindex` header and meta tag). There is deliberately no `robots.txt` entry for it: it would stop crawlers from reading the `noindex`, and it would publish the path.
@@ -107,7 +96,7 @@ The file has to be writable by PHP for this. If it is not, or if the password is
 
 **Short links.** Once logged in, the admin lists your short links and lets you add, edit and delete them. Each link has a short name (letters, digits and hyphens), an `http` or `https` address it goes to, and a type: temporary (302, the default) or permanent (301, which browsers remember).
 
-The links are stored in one block of the `.htaccess` file, between `# BEGIN LadyQR short links` and `# END LadyQR short links`, as `RedirectMatch` lines. Apache answers them by itself, without starting PHP, so they are as fast as a redirect can be. LadyQR leaves everything else in the file alone. This needs `.htaccess` to be writable by PHP; if it is not, the admin says so.
+The links are stored in one block of the `.htaccess` file, between `# BEGIN LadyQR short links` and `# END LadyQR short links`, as `RedirectMatch` lines. Apache answers them by itself, without starting PHP, so they are as fast as a redirect can be. LadyQR leaves everything else in the file alone, and when the last link is deleted it takes the block out, leaving the file as it was. This needs `.htaccess` to be writable by PHP; if it is not, the admin says so.
 
 Every change is made carefully: a copy of the file is kept as `.htaccess.bak`, the new file is put in place in one move, and then LadyQR requests your site to check that it still answers. If it does not, the previous file is put back and the admin tells you, so a mistake cannot leave the site broken. If the check cannot be made on your host, the change is kept and the admin warns you.
 
@@ -232,19 +221,9 @@ php tools/build-site.php
 
 **How the encoder was verified.** The module matrix is identical to the one made by an independent implementation, the `qrcode` package on npm, for 328 inputs that cover all 40 versions at the four error correction levels (with the same version and mask, in byte mode). The codes decode back to the original text with the jsQR decoder in 346 of 348 cases, and the two it cannot read fail in the same way on the reference implementation's own symbol. In a real Chrome, the 500 px PNG, the 1000 px PNG and the SVG that the editor downloads also decode to the exact text, with accents and emoji. It has been tested in Chrome only; Firefox and Safari have not been tested yet. Automated tests are planned for a later milestone.
 
-## Website
-
-The public website at https://ladyqr.nilovelez.com/ is built and deployed by the GitHub Actions workflow `.github/workflows/pages.yml` on every push to `main`. It has a landing page (the `site/` folder) and a live demo of the real editor under `/try/`. GitHub Pages cannot run PHP, so the build renders `index.php` to static HTML.
-
-In the repository settings, Pages uses **GitHub Actions** as its source and `ladyqr.nilovelez.com` as its custom domain, with a `CNAME` DNS record pointing to `nilovelez.github.io`. With this kind of deployment no `CNAME` file is needed in the repository.
-
 ## Roadmap
 
 See [docs/PLAN.md](docs/PLAN.md). In short: publish the editor on the author's domain, then add a private, single-user admin with a login, then a URL shortener that writes its redirects into `.htaccess`, so Apache serves them without running PHP, and finally an installation guide and a release you can upload by FTP.
-
-## Contributing
-
-Issues and suggestions are welcome at https://github.com/nilovelez/ladyqr/issues. Work is organized by milestones, as described in the roadmap.
 
 ## License
 
