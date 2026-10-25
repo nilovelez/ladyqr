@@ -21,7 +21,7 @@ All colors and shapes are CSS custom properties on `:root` in `assets/app.css`. 
 |---|---|---|
 | `--bg` | `#f4f4f5` | Page background, hover fill of secondary buttons |
 | `--surface` | `#ffffff` | Card, fields, dialog, menus, even table rows |
-| `--zebra` | `#f7f7f8` | Soft gray fills: odd table rows, card headers, the settings panel, field add-ons, the QR empty state |
+| `--zebra` | `#f7f7f8` | Soft gray fills: odd table rows, card headers, the settings column, field add-ons, the QR empty state |
 | `--ink` | `#18181b` | Body text, headings, labels |
 | `--muted` | `#5f5f66` | Secondary text: hints, placeholders, table headers, targets, footer |
 | `--line` | `#e4e4e7` | Edges of containers (cards, tables, dialog) and dividers inside them |
@@ -91,7 +91,7 @@ Card padding is 24 px (16 px under 480 px, 28 px in the wide editor). Inside a c
 
 Shared components are in `assets/app.css`, so the editor, the admin and the not-found page look the same.
 
-**Card.** `.card` with `.card-body`. White, 1 px `--line` edge, `--radius-lg`. A card header uses the `--zebra` fill and a `--line` divider.
+**Card.** `.card` with `.card-body`. White, 1 px `--line` edge, `--radius-lg`. A card header (the editor's settings bar) uses the `--zebra` fill and a `--line` divider.
 
 **Label.** `.label`, a real `<label>` above its control, never beside it, so every control starts on the same left edge.
 
@@ -126,12 +126,13 @@ The layout has two forms, with the breakpoint at 900 px of screen width. Below i
 ```
                                              (?)  Help, top right of the page
  +---------------------------------------+
+ | Settings                            v |  Card header, collapsible
+ +---------------------------------------+
  |  [ Type or paste a link or text     ] |  Text field
  |            +-----------+              |
  |            |  QR code  |              |  Square preview
  |            +-----------+              |
  |   (warning, only when needed)         |
- |  [ = Customize   M · margin 4 ■□  v ] |  Settings, folded
  |  [ Download  PNG 500px |  v ]         |  Split button
  +---------------------------------------+
         Made with LadyQR, get yours free     Footer
@@ -142,26 +143,27 @@ From 900 px up, the card (`.card.editor`) is 940 px wide at most and the setting
 ```
                                                          (?)
  +--------------------------------------+----------------+
- |  [ Type or paste a link or text    ] | = Customize    |
+ |  [ Type or paste a link or text    ] | Settings       |
  |           +-----------+              |----------------|
  |           |  QR code  |              | Error correct. |
- |           +-----------+              | Colors (2 col) |
- |  [ Download  PNG 500px |  v ]        | Margin, Reset  |
+ |           +-----------+              | Margin         |
+ |  [ Download  PNG 500px |  v ]        | Colors         |
  +--------------------------------------+----------------+
 ```
 
-- **The settings belong to the QR code, not to the page.** On a narrow screen they are a folded box right under the preview, before the download, titled "Customize" with a sliders icon. Folded, its right side shows the current values: the level, the margin and two color swatches. Unfolded, the values give way to the controls on a `--zebra` fill. Never put them at the top of the card, where they read as the heading of everything.
-- On a wide screen they are a 300 px side panel on `--zebra`, as tall as the card, and "Customize" is just its heading: no arrow, no values, and it does not collapse. In the page the settings sit between the preview and the download, and the wide layout lifts them into the column with a grid (`.card-body` becomes `display: contents`, and narrow outer columns stand in for its padding). The keyboard order is therefore field, settings, download on both layouts. On the wide layout the heading is taken out of the tab order, since it does nothing.
+- The settings are error correction, margin, module and background colors, and a reset button. On a narrow screen they are the card's header, collapsed until tapped. On a wide screen they are a 300 px side panel on `--zebra`, as tall as the card, and "Settings" is just its heading: no arrow, and it does not collapse.
+- **In the page the settings come after the main content**, and CSS moves them to the top on narrow screens. That keeps the keyboard order the same as what a wide screen shows (field, download, then the settings). On the wide layout the "Settings" title is taken out of the tab order, since it does nothing.
 - Each size remembers its own state: if you open the settings on a narrow screen, widen the window and narrow it again, they are still open.
+- The two color pickers sit one under the other in the side panel, because the column is too narrow for them side by side.
 
 ### Parts
 
 **Text field.** `.field`: one line, large, autofocused, with a placeholder. `autocomplete`, `autocapitalize` and `spellcheck` are off, because it takes URLs. Same edge, radius and focus ring as `.input`, only bigger.
 
-**Settings.** A `<details>` element, closed by default on narrow screens. It contains, in this order:
+**Settings.** A `<details>` element, closed by default on narrow screens. It contains:
 - Error correction: four segmented buttons (L, M, Q, H) with their recovery percentage. `aria-pressed` marks the selected one, which takes the `--accent` fill.
-- Module color and background color: native color inputs, side by side in two columns at every width, lined up at the bottom in case a label wraps.
 - Margin: a range from 0 to 8 modules, with its value in monospace next to it.
+- Module color and background color: native color inputs.
 - Reset settings: a small secondary button that restores the defaults and clears what was remembered. Disabled while everything is already at the defaults.
 
 **QR preview.** A square frame with a `--line` edge and square corners. It shows the QR code as inline SVG, or, when the field is empty or the text is too long for a QR code, a faint drawing of a QR code on `--zebra` with a message on top. Downloads are disabled in those two cases. The drawing is a skeleton generated by `ladyqr_skeleton_path()` in `index.php` and deliberately cannot be scanned.
