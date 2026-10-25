@@ -119,8 +119,8 @@ msgstr "No se pudo proteger tu contraseña, porque el nuevo archivo de configura
 msgid "Log out"
 msgstr "Salir"
 
-msgid "Back to the QR code editor"
-msgstr "Volver al editor de códigos QR"
+msgid "Back to the QR code creator"
+msgstr "Volver al creador de códigos QR"
 
 msgid "Which format?"
 msgstr "¿Qué formato elegir?"

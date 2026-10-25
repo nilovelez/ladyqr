@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-25T08:42:22+00:00\n"
+"POT-Creation-Date: 2026-10-25T08:58:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ladyqr\n"
@@ -54,7 +54,7 @@ msgid "Short name"
 msgstr ""
 
 #: admin/index.php:243
-#: admin/index.php:484
+#: admin/index.php:488
 msgid "Goes to"
 msgstr ""
 
@@ -111,16 +111,8 @@ msgid "LadyQR cannot write its rules in the .htaccess file, so short links will 
 msgstr ""
 
 #: admin/index.php:327
-#: admin/index.php:354
-msgid "LadyQR admin"
-msgstr ""
-
-#: admin/index.php:337
-msgid "No login is required"
-msgstr ""
-
 #: admin/index.php:338
-msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the LADYQR_REQUIRE_LOGIN line."
+msgid "LadyQR admin"
 msgstr ""
 
 #. translators: %s: the user's name.
@@ -133,151 +125,159 @@ msgstr ""
 msgid "Log out"
 msgstr ""
 
-#: admin/index.php:359
-msgid "The short links are turned off in the configuration."
+#: admin/index.php:353
+msgid "No login is required"
+msgstr ""
+
+#: admin/index.php:354
+msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the LADYQR_REQUIRE_LOGIN line."
 msgstr ""
 
 #: admin/index.php:363
-msgid "The admin is locked"
-msgstr ""
-
-#: admin/index.php:364
-msgid "No user and password are set yet, so nobody can log in. To set them, add these two lines to the configuration file, ladyqr-config.php, which goes in the web root or one level above it:"
+msgid "The short links are turned off in the configuration."
 msgstr ""
 
 #: admin/index.php:367
-msgid "Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash."
+msgid "The admin is locked"
+msgstr ""
+
+#: admin/index.php:368
+msgid "No user and password are set yet, so nobody can log in. To set them, add these two lines to the configuration file, ladyqr-config.php, which goes in the web root or one level above it:"
 msgstr ""
 
 #: admin/index.php:371
-msgid "Sessions do not work on this server, so the admin cannot keep you logged in."
+msgid "Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash."
 msgstr ""
 
 #: admin/index.php:375
-#: admin/index.php:398
+msgid "Sessions do not work on this server, so the admin cannot keep you logged in."
+msgstr ""
+
+#: admin/index.php:379
+#: admin/index.php:402
 msgid "Log in"
 msgstr ""
 
-#: admin/index.php:377
+#: admin/index.php:381
 msgid "Your session expired. Log in again."
 msgstr ""
 
-#: admin/index.php:380
+#: admin/index.php:384
 msgid "Wrong user or password."
 msgstr ""
 
-#: admin/index.php:382
+#: admin/index.php:386
 msgid "The form expired. Try again."
 msgstr ""
 
-#: admin/index.php:388
+#: admin/index.php:392
 msgid "User"
 msgstr ""
 
-#: admin/index.php:392
+#: admin/index.php:396
 msgid "Password"
 msgstr ""
 
-#: admin/index.php:396
+#: admin/index.php:400
 msgid "This connection is not secure: your password would travel unencrypted."
 msgstr ""
 
-#: admin/index.php:404
+#: admin/index.php:408
 msgid "Edit short link"
 msgstr ""
 
-#: admin/index.php:406
+#: admin/index.php:410
 msgid "Delete short link"
 msgstr ""
 
-#: admin/index.php:408
+#: admin/index.php:412
 msgid "Short links"
 msgstr ""
 
-#: admin/index.php:411
+#: admin/index.php:415
 msgid "Your password is now stored as a secure hash in the configuration file."
 msgstr ""
 
-#: admin/index.php:413
+#: admin/index.php:417
 msgid "Your password is still stored in plain text, because LadyQR cannot write to the configuration file. Make the file writable and log in again, and it will be secured."
 msgstr ""
 
-#: admin/index.php:415
+#: admin/index.php:419
 msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as define( 'LADYQR_PASSWORD', 'your-password' ); with plain single quotes, and log in again."
 msgstr ""
 
-#: admin/index.php:417
+#: admin/index.php:421
 msgid "Your password could not be secured, because the new configuration file did not pass its safety check. The file was not changed."
 msgstr ""
 
-#: admin/index.php:427
+#: admin/index.php:431
 msgid "The ladyqr-data.php file, where the short links are kept, cannot be read or is damaged, so LadyQR will not touch it."
 msgstr ""
 
-#: admin/index.php:438
+#: admin/index.php:442
 msgid "Save changes"
 msgstr ""
 
-#: admin/index.php:439
-#: admin/index.php:460
+#: admin/index.php:443
+#: admin/index.php:464
 msgid "Cancel"
 msgstr ""
 
-#: admin/index.php:449
+#: admin/index.php:453
 msgid "Back to the list"
 msgstr ""
 
-#: admin/index.php:452
+#: admin/index.php:456
 msgid "Delete this short link? Anyone who uses it will no longer be redirected."
 msgstr ""
 
-#: admin/index.php:459
-#: admin/index.php:498
+#: admin/index.php:463
+#: admin/index.php:502
 msgid "Delete"
 msgstr ""
 
-#: admin/index.php:468
+#: admin/index.php:472
 msgid "The short link was added."
 msgstr ""
 
-#: admin/index.php:470
+#: admin/index.php:474
 msgid "The short link was updated."
 msgstr ""
 
-#: admin/index.php:472
+#: admin/index.php:476
 msgid "The short link was deleted."
 msgstr ""
 
-#: admin/index.php:477
+#: admin/index.php:481
 msgid "You have no short links yet."
 msgstr ""
 
-#: admin/index.php:483
+#: admin/index.php:487
 msgid "Short link"
 msgstr ""
 
-#: admin/index.php:485
+#: admin/index.php:489
 msgid "Code"
 msgstr ""
 
-#: admin/index.php:486
+#: admin/index.php:490
 msgid "Actions"
 msgstr ""
 
-#: admin/index.php:497
+#: admin/index.php:501
 msgid "Edit"
 msgstr ""
 
-#: admin/index.php:508
+#: admin/index.php:512
 msgid "Add a short link"
 msgstr ""
 
-#: admin/index.php:514
+#: admin/index.php:518
 msgid "Add short link"
 msgstr ""
 
-#: admin/index.php:526
-msgid "Back to the QR code editor"
+#: admin/index.php:530
+msgid "Back to the QR code creator"
 msgstr ""
 
 #: index.php:52

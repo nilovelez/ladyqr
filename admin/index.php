@@ -332,27 +332,31 @@ function ladyqr_htaccess_notice( $ensure ) {
 <body class="admin<?php echo in_array( $ladyqr_view, array( 'panel', 'open' ), true ) ? ' admin-panel' : ''; ?>">
 
 <main>
+	<div class="admin-bar">
+		<div class="admin-head">
+			<img src="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>" alt="" width="36" height="36">
+			<h1><?php esc_html_e( 'LadyQR admin', 'ladyqr' ); ?></h1>
+		</div>
+		<?php if ( 'panel' === $ladyqr_view ) : ?>
+			<p class="account">
+				<?php
+				/* translators: %s: the user's name. */
+				printf( esc_html__( 'Signed in as %s', 'ladyqr' ), '<strong>' . htmlspecialchars( $ladyqr_config['user'], ENT_QUOTES, 'UTF-8' ) . '</strong>' );
+				?>
+				&ndash; <a href="<?php echo htmlspecialchars( $ladyqr_self . '?logout=' . rawurlencode( $ladyqr_csrf ), ENT_QUOTES, 'UTF-8' ); ?>"><?php esc_html_e( 'Log out', 'ladyqr' ); ?></a>
+			</p>
+		<?php endif; ?>
+	</div>
+
 	<?php if ( 'open' === $ladyqr_view ) : ?>
 		<div class="banner" role="alert">
 			<strong><?php esc_html_e( 'No login is required', 'ladyqr' ); ?></strong>
 			<span><?php esc_html_e( 'Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the LADYQR_REQUIRE_LOGIN line.', 'ladyqr' ); ?></span>
 		</div>
-	<?php elseif ( 'panel' === $ladyqr_view ) : ?>
-		<p class="account">
-			<?php
-			/* translators: %s: the user's name. */
-			printf( esc_html__( 'Signed in as %s', 'ladyqr' ), '<strong>' . htmlspecialchars( $ladyqr_config['user'], ENT_QUOTES, 'UTF-8' ) . '</strong>' );
-			?>
-			&ndash; <a href="<?php echo htmlspecialchars( $ladyqr_self . '?logout=' . rawurlencode( $ladyqr_csrf ), ENT_QUOTES, 'UTF-8' ); ?>"><?php esc_html_e( 'Log out', 'ladyqr' ); ?></a>
-		</p>
 	<?php endif; ?>
 
 	<div class="card">
 		<div class="card-body">
-			<div class="admin-head">
-				<img src="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>" alt="" width="44" height="44">
-				<h1><?php esc_html_e( 'LadyQR admin', 'ladyqr' ); ?></h1>
-			</div>
 
 			<?php if ( 'off' === $ladyqr_view ) : ?>
 
@@ -523,7 +527,7 @@ define( 'LADYQR_PASSWORD', 'your-password' );</code></pre>
 </main>
 
 <footer>
-	<a href="../"><?php esc_html_e( 'Back to the QR code editor', 'ladyqr' ); ?></a>
+	<a href="../"><?php esc_html_e( 'Back to the QR code creator', 'ladyqr' ); ?></a>
 </footer>
 
 </body>

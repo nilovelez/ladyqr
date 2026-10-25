@@ -15,10 +15,18 @@ body.admin.admin-panel main {
 	justify-content: flex-start;
 }
 
-/* Who is logged in, above the card on the right. */
+/* Above the card: the name on the left, who is logged in on the right. */
+
+.admin-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px 16px;
+}
 
 .account {
-	margin: 0;
+	margin: 0 0 0 auto;
 	font-size: 0.875rem;
 	text-align: right;
 	color: var(--muted);
