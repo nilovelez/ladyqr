@@ -108,6 +108,9 @@ function showMessage(text) {
 
 function update() {
 	$('margin-value').textContent = margin.value;
+	$('settings-state-text').textContent = `${level} · ${strings.margin.replace('%s', margin.value)}`;
+	$('swatch-fg').style.background = fg.value;
+	$('swatch-bg').style.background = bg.value;
 	updateWarning();
 	$('reset').disabled = isDefault();
 	modules = null;
@@ -218,7 +221,7 @@ dialog.addEventListener('click', (event) => {
 });
 
 // On wide screens the settings are a column on the right and always open. On
-// narrow ones they are a collapsible header, and each size remembers its own state.
+// narrow ones they fold under the QR code, and each size remembers its own state.
 const settingsPanel = document.querySelector('.settings');
 const settingsToggle = settingsPanel.querySelector('summary');
 const wideScreen = window.matchMedia('(min-width: 900px)');

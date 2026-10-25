@@ -1,5 +1,5 @@
 /* LadyQR: the design tokens, the shared components, and the editor.
-   One centered card: text field, settings, QR code, download. See DESIGN.md. */
+   One centered card: text field, QR code, settings, download. See DESIGN.md. */
 
 /* Tokens. There is one theme, light. */
 
@@ -224,26 +224,26 @@ select.input {
 
 /* Settings */
 
-/* The settings come after the main content in the page, so the keyboard reaches
-   them in the order a wide screen shows them. On a narrow screen they are the
-   card's header, and `order` puts them first. */
+/* On a narrow screen the settings are a folded box under the QR code, before
+   the download: a control of the code, not a section of the page. Folded, it
+   shows the current values. */
 
 .settings {
-	order: -1;
 	overflow: hidden;
-	border-bottom: 1px solid var(--line);
-	border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
 }
 
 .settings summary {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	padding: 12px 24px;
-	font-size: 0.875rem;
+	gap: 10px;
+	min-height: var(--control);
+	padding: 0 14px;
+	font-size: 0.95rem;
 	font-weight: 600;
 	color: var(--ink);
-	background: var(--zebra);
+	background: var(--surface);
 	cursor: pointer;
 	list-style: none;
 }
@@ -258,9 +258,10 @@ select.input {
 
 .settings summary::after {
 	content: "";
+	flex: none;
 	width: 7px;
 	height: 7px;
-	margin-right: 4px;
+	margin: 0 4px 3px 0;
 	border-right: 2px solid var(--muted);
 	border-bottom: 2px solid var(--muted);
 	transform: rotate(45deg);
@@ -268,28 +269,57 @@ select.input {
 }
 
 .settings[open] summary::after {
+	margin-bottom: -3px;
 	transform: rotate(-135deg);
+}
+
+.settings-icon {
+	flex: none;
+	color: var(--muted);
+}
+
+.settings-state {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	margin-left: auto;
+	font-size: 0.85rem;
+	font-weight: 400;
+	color: var(--muted);
+	white-space: nowrap;
+}
+
+.settings-state span:first-child {
+	margin-right: 6px;
+}
+
+.settings[open] .settings-state {
+	display: none;
+}
+
+.settings[open] summary::after {
+	margin-left: auto;
+}
+
+.swatch {
+	width: 14px;
+	height: 14px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
 }
 
 .settings-body {
 	display: flex;
 	flex-direction: column;
 	gap: 18px;
-	padding: 20px 24px 22px;
-}
-
-@media (max-width: 480px) {
-	.settings summary {
-		padding: 12px 16px;
-	}
-
-	.settings-body {
-		padding: 16px 16px 18px;
-	}
+	padding: 16px 14px 18px;
+	background: var(--zebra);
 }
 
 /* Wide screens: the settings are a column on the right of the card, always
-   open. app.js keeps them open and takes the toggle out of the tab order. */
+   open. app.js keeps them open and takes the toggle out of the tab order.
+   The card body's own box steps aside so its parts and the settings share one
+   grid; the outer columns are the card's padding. */
 
 @media (min-width: 900px) {
 	main {
@@ -298,21 +328,39 @@ select.input {
 
 	.card.editor {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) 300px;
+		grid-template-columns: 28px minmax(0, 1fr) 28px 300px;
+		grid-template-rows: auto auto auto 1fr;
 	}
 
 	.card.editor .card-body {
-		grid-column: 1;
-		grid-row: 1;
-		padding: 28px;
+		display: contents;
 	}
 
-	.settings {
-		order: 0;
+	.card.editor .card-body > * {
 		grid-column: 2;
-		grid-row: 1;
+		margin-top: 20px;
+	}
+
+	.card.editor .field {
+		margin-top: 28px;
+	}
+
+	.card.editor .qr {
+		justify-self: center;
+	}
+
+	.card.editor .download {
+		grid-row: 4;
+		align-self: start;
+		margin-bottom: 28px;
+	}
+
+	.card.editor .settings {
+		grid-column: 4;
+		grid-row: 1 / -1;
+		margin: 0;
 		background: var(--zebra);
-		border-bottom: 0;
+		border: 0;
 		border-left: 1px solid var(--line);
 		border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 	}
@@ -320,15 +368,16 @@ select.input {
 	.settings summary {
 		cursor: default;
 		padding: 16px 24px;
+		background: none;
 	}
 
-	.settings summary::after {
+	.settings summary::after,
+	.settings-state {
 		display: none;
 	}
 
-	/* The column is narrow, so the two colors go one under the other. */
-	.colors {
-		grid-template-columns: minmax(0, 1fr);
+	.settings-body {
+		padding: 20px 24px 22px;
 	}
 }
 
@@ -397,9 +446,12 @@ select.input {
 	text-align: right;
 }
 
+/* Two columns at every width. A label may wrap in the narrow wide-screen
+   column, so the inputs line up at the bottom. */
 .colors {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: end;
 	gap: 16px;
 }
 

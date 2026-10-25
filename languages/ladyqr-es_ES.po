@@ -140,8 +140,12 @@ msgstr "Escribe o pega un enlace o un texto"
 msgid "Text or URL"
 msgstr "Texto o URL"
 
-msgid "Settings"
-msgstr "Ajustes"
+msgid "Customize"
+msgstr "Personalizar"
+
+#. translators: %s: the margin around the QR code, in modules, such as 4.
+msgid "margin %s"
+msgstr "margen %s"
 
 msgid "Error correction"
 msgstr "Corrección de errores"

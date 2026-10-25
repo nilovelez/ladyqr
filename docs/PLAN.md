@@ -171,6 +171,7 @@ A round of design and UX corrections from the author, on branch `design/cleaner-
 - **The short links are a table** with alternating white and soft gray rows, and the code (`301` or `302`) in its own column instead of "Permanent" or "Temporary". The type select reads "301 – Permanent redirect" and "302 – Temporary redirect". Edit and delete have their own headings.
 - **Logging out moved** from a button in the card to a line above it, on the right: "Signed in as admin – Log out", where "Log out" is a link carrying the session's token.
 - **DESIGN.md is now a design system**: tokens with measured contrast, shape and spacing scales, the shared components, each screen, and a consistency checklist. The shared components moved to `assets/app.css`.
+- **The editor's settings belong to the QR code.** On a phone they were the card's header and read as the heading of everything. Now they are a folded "Customize" box under the preview, before the download, showing the current values; on a wide screen they stay the side column. Inside, the order is error correction, the two colors side by side, the margin and the reset button.
 - The website's editor screenshot was retaken, and its roadmap no longer says the admin and the shortener are only planned.
 
 ### M5. Documentation and packaging

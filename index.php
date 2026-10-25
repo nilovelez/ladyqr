@@ -28,6 +28,8 @@ $ladyqr_js_strings = array(
 	'empty'    => __( 'Your QR code will appear here', 'ladyqr' ),
 	'tooLong'  => __( 'This text is too long for a QR code. Try a shorter one.', 'ladyqr' ),
 	'qrAlt'    => __( 'QR code', 'ladyqr' ),
+	/* translators: %s: the margin around the QR code, in modules, such as 4. */
+	'margin'   => __( 'margin %s', 'ladyqr' ),
 
 	'lowContrast'         => __( 'Low contrast. QR code might be hard to read', 'ladyqr' ),
 	'inverted'            => __( 'Inverted colors. QR code might be hard to read', 'ladyqr' ),
@@ -117,6 +119,46 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 				<span id="contrast-warning-text"></span>
 			</p>
 
+			<details class="settings">
+				<summary>
+					<svg class="settings-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></svg>
+					<span class="settings-name"><?php esc_html_e( 'Customize', 'ladyqr' ); ?></span>
+					<span class="settings-state">
+						<span id="settings-state-text"></span>
+						<span class="swatch" id="swatch-fg" aria-hidden="true"></span><span class="swatch" id="swatch-bg" aria-hidden="true"></span>
+					</span>
+				</summary>
+				<div class="settings-body">
+					<div>
+						<span class="label"><?php esc_html_e( 'Error correction', 'ladyqr' ); ?></span>
+						<div class="segmented" id="ecc" role="group" aria-label="<?php echo esc_attr__( 'Error correction', 'ladyqr' ); ?>">
+							<button type="button" aria-pressed="false" data-level="L">L<small>7%</small></button>
+							<button type="button" aria-pressed="true" data-level="M">M<small>15%</small></button>
+							<button type="button" aria-pressed="false" data-level="Q">Q<small>25%</small></button>
+							<button type="button" aria-pressed="false" data-level="H">H<small>30%</small></button>
+						</div>
+					</div>
+					<div class="colors">
+						<div>
+							<label class="label" for="fg"><?php esc_html_e( 'Module color', 'ladyqr' ); ?></label>
+							<input id="fg" type="color" value="#1d1a1b">
+						</div>
+						<div>
+							<label class="label" for="bg"><?php esc_html_e( 'Background color', 'ladyqr' ); ?></label>
+							<input id="bg" type="color" value="#ffffff">
+						</div>
+					</div>
+					<div>
+						<label class="label" for="margin"><?php esc_html_e( 'Margin (modules)', 'ladyqr' ); ?></label>
+						<div class="range">
+							<input id="margin" type="range" min="0" max="8" step="1" value="4">
+							<output id="margin-value" for="margin">4</output>
+						</div>
+					</div>
+					<button class="reset" id="reset" type="button" disabled><?php esc_html_e( 'Reset settings', 'ladyqr' ); ?></button>
+				</div>
+			</details>
+
 			<div class="download">
 				<button class="download-main" id="download-png-500" type="button" disabled>
 					<?php esc_html_e( 'Download', 'ladyqr' ); ?> <small>PNG 500px</small>
@@ -130,39 +172,6 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 				</div>
 			</div>
 		</div>
-
-		<details class="settings">
-			<summary><?php esc_html_e( 'Settings', 'ladyqr' ); ?></summary>
-			<div class="settings-body">
-				<div>
-					<span class="label"><?php esc_html_e( 'Error correction', 'ladyqr' ); ?></span>
-					<div class="segmented" id="ecc" role="group" aria-label="<?php echo esc_attr__( 'Error correction', 'ladyqr' ); ?>">
-						<button type="button" aria-pressed="false" data-level="L">L<small>7%</small></button>
-						<button type="button" aria-pressed="true" data-level="M">M<small>15%</small></button>
-						<button type="button" aria-pressed="false" data-level="Q">Q<small>25%</small></button>
-						<button type="button" aria-pressed="false" data-level="H">H<small>30%</small></button>
-					</div>
-				</div>
-				<div>
-					<label class="label" for="margin"><?php esc_html_e( 'Margin (modules)', 'ladyqr' ); ?></label>
-					<div class="range">
-						<input id="margin" type="range" min="0" max="8" step="1" value="4">
-						<output id="margin-value" for="margin">4</output>
-					</div>
-				</div>
-				<div class="colors">
-					<div>
-						<label class="label" for="fg"><?php esc_html_e( 'Module color', 'ladyqr' ); ?></label>
-						<input id="fg" type="color" value="#1d1a1b">
-					</div>
-					<div>
-						<label class="label" for="bg"><?php esc_html_e( 'Background color', 'ladyqr' ); ?></label>
-						<input id="bg" type="color" value="#ffffff">
-					</div>
-				</div>
-				<button class="reset" id="reset" type="button" disabled><?php esc_html_e( 'Reset settings', 'ladyqr' ); ?></button>
-			</div>
-		</details>
 	</div>
 </main>
 
