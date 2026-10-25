@@ -345,15 +345,15 @@ if ( 'welcome' === $ladyqr_step ) {
 		function () {
 			?>
 			<div class="hello">
-				<img src="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>" alt="" width="72" height="72">
+				<img src="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>" alt="" width="128" height="128">
 				<div>
 					<h1><?php esc_html_e( 'Hi! I\'m LadyQR', 'ladyqr' ); ?></h1>
-					<p><?php esc_html_e( 'I make QR codes right in your browser, and what you type never leaves it. I can also keep short links on your own domain, so a QR code you print today can take people somewhere new tomorrow.', 'ladyqr' ); ?></p>
+					<p><?php esc_html_e( 'I make QR codes right in your browser, and what you type never leaves it. I also come with an optional link shortener for your own domain.', 'ladyqr' ); ?></p>
 				</div>
 			</div>
-			<h2><?php esc_html_e( 'How will you use LadyQR?', 'ladyqr' ); ?></h2>
+			<h2><?php esc_html_e( 'Which components do you want to install?', 'ladyqr' ); ?></h2>
 			<div class="start-choices">
-				<a class="start-choice" href="<?php echo ladyqr_h( ladyqr_install_url( 'shortener' ) ); ?>"><?php esc_html_e( 'QR code generator + link shortener', 'ladyqr' ); ?></a>
+				<a class="start-choice" href="<?php echo ladyqr_h( ladyqr_install_url( 'shortener' ) ); ?>"><span><?php esc_html_e( 'QR code generator', 'ladyqr' ); ?><br><?php esc_html_e( '+ link shortener', 'ladyqr' ); ?></span></a>
 				<a class="start-choice" href="<?php echo ladyqr_h( ladyqr_install_url( 'generator' ) ); ?>"><?php esc_html_e( 'QR code generator only', 'ladyqr' ); ?></a>
 			</div>
 			<p><a class="back" href="<?php echo ladyqr_h( ladyqr_install_url( '' ) ); ?>"><?php esc_html_e( 'Back', 'ladyqr' ); ?></a></p>

@@ -420,6 +420,13 @@ pre.code code {
 	margin: 0;
 }
 
+/* On a phone the ladybug goes above the greeting, at the same size. */
+@media (max-width: 520px) {
+	.hello {
+		flex-direction: column;
+	}
+}
+
 @media (max-width: 520px) {
 	.start-choices {
 		grid-template-columns: minmax(0, 1fr);

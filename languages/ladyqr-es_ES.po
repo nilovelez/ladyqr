@@ -338,9 +338,6 @@ msgstr "Continuar"
 msgid "Go to the link shortener"
 msgstr "Ir al acortador de enlaces"
 
-msgid "How will you use LadyQR?"
-msgstr "¿Cómo vas a usar LadyQR?"
-
 msgid "If you change your mind, edit the ladyqr-config.php file, or delete it to use this installer again."
 msgstr "Si cambias de opinión, edita el archivo ladyqr-config.php, o bórralo para volver a usar este instalador."
 
@@ -482,5 +479,14 @@ msgstr "Escritura en la carpeta del sitio"
 msgid "Hi! I'm LadyQR"
 msgstr "¡Hola! Soy LadyQR"
 
-msgid "I make QR codes right in your browser, and what you type never leaves it. I can also keep short links on your own domain, so a QR code you print today can take people somewhere new tomorrow."
-msgstr "Hago códigos QR en tu propio navegador, y lo que escribes nunca sale de él. También puedo guardar enlaces cortos en tu dominio, para que un código QR que imprimes hoy lleve a otro sitio mañana."
+msgid "Which components do you want to install?"
+msgstr "¿Qué componentes quieres instalar?"
+
+msgid "I make QR codes right in your browser, and what you type never leaves it. I also come with an optional link shortener for your own domain."
+msgstr "Hago códigos QR en tu propio navegador, y lo que escribes nunca sale de él. También traigo un acortador de enlaces opcional para tu dominio."
+
+msgid "QR code generator"
+msgstr "Generador de códigos QR"
+
+msgid "+ link shortener"
+msgstr "+ acortador de enlaces"
