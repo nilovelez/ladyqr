@@ -32,7 +32,7 @@ You type a link and the QR code appears as you type. You download it as a PNG or
 - **Remembers your settings, nothing else.** Error correction, margin and colors are kept in your browser's `localStorage`. The text you type is never stored. A button resets the settings.
 - **Optional link shortener.** Short links on your own domain, such as `https://example.com/menu`, managed from a private single-user admin.
 - **Installs like WordPress.** Upload the files, open your site, and a short web installer asks what it needs. No database.
-- **Own encoder.** About 400 lines of JavaScript with no dependencies and no build step. Byte mode (UTF-8, so accents and emoji work), versions 1 to 40, up to 2953 bytes at level L.
+- **Own encoder.** About 450 lines of JavaScript with no dependencies and no build step. Versions 1 to 40, in the most compact mode for the text: numeric, alphanumeric, or byte mode (UTF-8, so accents and emoji work, up to 2953 bytes at level L).
 - **Accessible.** High-contrast borders, full keyboard use and screen reader labels. See [DESIGN.md](DESIGN.md).
 - **Translatable.** Translations work like WordPress, with standard `.po` files. English and Spanish are included.
 
@@ -92,6 +92,7 @@ To write it by hand, copy `ladyqr-config.sample.php` to `ladyqr-config.php` and 
 | `LADYQR_PASSWORD` | none | The admin's password. Written by hand in plain text, it is replaced with a hash at the first login. |
 | `LADYQR_SESSION_TIMEOUT` | `15` | Minutes without activity after which the admin asks for the password again. |
 | `LADYQR_REQUIRE_LOGIN` | `true` | Only an explicit `false` opens the admin without a login, with a permanent warning. |
+| `LADYQR_QR_BASE` | the site's address | Advanced, and not needed. What the QR codes of short links start with, such as `1QR.ES/` (see [Admin](#admin)). |
 
 Keep the line `defined( 'LADYQR' ) || exit;` at the top: it makes the file print nothing when requested directly. `ladyqr-config.php` and `ladyqr-data.php` are ignored by Git, so your settings and links never end up in the repository.
 
@@ -110,6 +111,10 @@ The next time you log in, LadyQR replaces it in the file with its hash, keeping 
 The file has to be writable by PHP for this. If it is not, or if the password is written in a form LadyQR cannot edit safely (for example built from several strings), the login still works with the plain password and the admin tells you why it could not secure it. LadyQR checks the new file before putting it in place, and if the check fails it changes nothing.
 
 **Short links.** Once logged in, the admin lists your short links and lets you add, edit and delete them. Each link has a short name (letters, digits and hyphens, up to 64), an `http` or `https` address it goes to, and a type: temporary (302, the default) or permanent (301, which browsers remember). Names ignore case: `/menu`, `/MENU` and `/Menu` are the same link, so the admin refuses a name that differs from an existing one only in case. The names of LadyQR's own files and folders are reserved.
+
+**A QR code for each short link.** The small QR icon before each link opens the generator in a new tab with the short link filled in, such as `https://example.com/menu`. The link travels in the address fragment (`#text=`), which the browser never sends to the server.
+
+For smaller codes, set `LADYQR_QR_BASE` to your domain in uppercase and without `https://`, such as `define( 'LADYQR_QR_BASE', '1QR.ES/' );`. The QR icon then fills in `1QR.ES/MENU`: names ignore case, so it still finds the link, and a text of digits, uppercase letters and a few symbols fits the encoder's alphanumeric mode, which needs fewer modules. At level M, the smallest code, version 1, holds 20 characters in alphanumeric mode and 14 in byte mode. Most phone cameras open it as a web address, but test a code before you print it.
 
 The links are stored in `ladyqr-data.php`, a PHP file that returns an array, and `index.php` answers them. Every save is made carefully: the new file is written aside, put in place in one move and read back.
 
@@ -249,20 +254,20 @@ guppy/                     Project status published to Guppy (the author's proje
 import { encode } from './assets/qr.js';
 import { toSvg, toPngBlob } from './assets/render.js';
 
-const { modules, version, size, mask } = encode('https://example.com/', 'M');
+const { modules, version, size, mask, mode } = encode('https://example.com/', 'M');
 // modules[y][x] is true for a dark module.
 
 const svg = toSvg(modules, { margin: 4, fg: '#1d1a1b', bg: '#ffffff', size: 512 });
 const png = await toPngBlob(modules, { size: 500 }); // browser only; resolves to a Blob
 ```
 
-- `encode( text, level = 'M' )` takes any text, encodes it as UTF-8 in byte mode, and returns the module matrix. `level` is `'L'`, `'M'`, `'Q'` or `'H'`. It throws a `RangeError` when the text does not fit in version 40 and a `TypeError` for an unknown level. The version and the mask are chosen automatically.
+- `encode( text, level = 'M' )` takes any text and returns the module matrix. `level` is `'L'`, `'M'`, `'Q'` or `'H'`. It throws a `RangeError` when the text does not fit in version 40 and a `TypeError` for an unknown level. The mode, the version and the mask are chosen automatically, and `mode` in the result says which mode was used: `'numeric'` for digits only, `'alphanumeric'` for digits, uppercase letters, space and `$%*+-./:`, and `'byte'` (UTF-8) for anything else.
 - `toSvg( modules, { margin, fg, bg, size } )` returns SVG markup. Colors must look like `#rrggbb`. Without `size` the SVG scales to its container.
 - `toPngBlob( modules, { size, margin, fg, bg } )` returns a `Promise` of a PNG exactly `size` by `size` pixels. Module edges are rounded to whole pixels, so modules differ in width by at most one pixel but stay sharp.
 - `matrixToRows( modules )` and `rowsToMatrix( rows )` convert the matrix to and from an array of strings of `'0'` and `'1'`, one per row.
 - `contrastRatio( colorA, colorB )` returns the WCAG contrast ratio of two colors, and `isInverted( moduleColor, backgroundColor )` tells whether the modules are lighter than the background.
 
-Limits: only byte mode, so a text of digits alone makes a larger code than a numeric mode would. There is no ECI, Kanji or structured append support.
+Limits: the whole text goes in one mode, so a text that mixes, for example, a long run of digits with lowercase letters uses byte mode for all of it. There is no ECI, Kanji or structured append support.
 
 ## Development
 
@@ -273,6 +278,16 @@ php -S localhost:8080
 ```
 
 and open http://localhost:8080/. PHP's built-in server ignores `.htaccess`, so short links need Apache.
+
+**Run the tests.** They use Node's built-in test runner and live in `tests/`, with development dependencies of their own that are never part of the release. They need Node.js 22 or later, PHP on the `PATH`, and an installed Chrome for the browser tests (set `CHROME_PATH` if it is not found; without it those tests are skipped).
+
+```
+cd tests
+npm install
+npm test
+```
+
+The browser and admin tests run on a throwaway copy of the site served by PHP's built-in server, with a small router (`tests/lib/router.php`) that stands in for Apache and LadyQR's `.htaccess` block.
 
 **Make a QR code** as an SVG with the project's own encoder, for example the one on the website:
 
@@ -292,7 +307,7 @@ php tools/build-site.php
 php tools/build-release.php
 ```
 
-**How the encoder was verified.** The module matrix is identical to the one made by an independent implementation, the `qrcode` package on npm, for 328 inputs that cover all 40 versions at the four error correction levels (with the same version and mask, in byte mode). The codes decode back to the original text with the jsQR decoder in 346 of 348 cases, and the two it cannot read fail in the same way on the reference implementation's own symbol. In a real Chrome, the 500 px PNG, the 1000 px PNG and the SVG that the editor downloads also decode to the exact text, with accents and emoji. It has been tested in Chrome only; Firefox and Safari have not been tested yet. Automated tests come in the next milestone, M7.
+**How the encoder is verified.** The tests in `tests/encoder.test.mjs` compare its module matrix with the one made by an independent implementation, the `qrcode` package on npm, in each of the three modes, at all 40 versions and the four error correction levels (with the same mask), and check that one more character takes the next version. The codes decode back to the original text with the jsQR decoder; the few large symbols it cannot read fail in the same way on the reference implementation's own symbol. In a real Chrome, the 500 px PNG, the 1000 px PNG and the SVG that the editor downloads also decoded to the exact text, with accents and emoji. It has been tested in Chrome only.
 
 ## Roadmap
 

@@ -219,6 +219,19 @@ body.admin.admin-panel main {
 	color: var(--ink);
 }
 
+/* A small QR code before each short link opens the generator with it. */
+.qr-link {
+	display: inline-block;
+	margin-right: 10px;
+	line-height: 0;
+	vertical-align: -2px;
+	color: var(--muted);
+}
+
+.qr-link:hover {
+	color: var(--ink);
+}
+
 .target {
 	color: var(--muted);
 }

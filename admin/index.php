@@ -494,7 +494,14 @@ define( 'LADYQR_PASSWORD', 'your-password' );</code></pre>
 								<tbody>
 									<?php foreach ( $ladyqr_links as $ladyqr_slug => $ladyqr_link ) : ?>
 										<tr>
-											<td class="col-short"><a class="short" href="<?php echo htmlspecialchars( $ladyqr_origin . $ladyqr_slug, ENT_QUOTES, 'UTF-8' ); ?>" rel="noopener">/<?php echo htmlspecialchars( $ladyqr_slug, ENT_QUOTES, 'UTF-8' ); ?></a></td>
+											<?php
+											// The QR code carries the slug in uppercase, which still finds the link
+											// and lets the encoder use its smaller alphanumeric mode.
+											$ladyqr_qr_text = '' !== $ladyqr_config['qr_base'] ? $ladyqr_config['qr_base'] . strtoupper( $ladyqr_slug ) : $ladyqr_origin . $ladyqr_slug;
+											/* translators: %s: a short link, such as /menu. */
+											$ladyqr_qr_label = sprintf( __( 'QR code for %s', 'ladyqr' ), '/' . $ladyqr_slug );
+											?>
+											<td class="col-short"><a class="qr-link" href="<?php echo htmlspecialchars( $ladyqr_origin . '#text=' . rawurlencode( $ladyqr_qr_text ), ENT_QUOTES, 'UTF-8' ); ?>" target="_blank" rel="noopener" title="<?php echo htmlspecialchars( $ladyqr_qr_label, ENT_QUOTES, 'UTF-8' ); ?>" aria-label="<?php echo htmlspecialchars( $ladyqr_qr_label, ENT_QUOTES, 'UTF-8' ); ?>"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M0 0h6v6H0zM1 1v4h4V1zM2 2h2v2H2zM10 0h6v6h-6zM11 1v4h4V1zM12 2h2v2h-2zM0 10h6v6H0zM1 11v4h4v-4zM2 12h2v2H2zM7 0h2v2H7zM7 4h2v3H7zM10 7h2v2h-2zM14 7h2v2h-2zM7 10h2v2H7zM10 10h3v2h-3zM14 12h2v2h-2zM7 14h2v2H7zM11 14h2v2h-2z"/></svg></a><a class="short" href="<?php echo htmlspecialchars( $ladyqr_origin . $ladyqr_slug, ENT_QUOTES, 'UTF-8' ); ?>" rel="noopener">/<?php echo htmlspecialchars( $ladyqr_slug, ENT_QUOTES, 'UTF-8' ); ?></a></td>
 											<td class="target" title="<?php echo htmlspecialchars( $ladyqr_link['target'], ENT_QUOTES, 'UTF-8' ); ?>"><?php echo htmlspecialchars( $ladyqr_link['target'], ENT_QUOTES, 'UTF-8' ); ?></td>
 											<td class="col-code"><span class="code-tag"><?php echo (int) $ladyqr_link['status']; ?></span></td>
 											<td class="col-actions">

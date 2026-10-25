@@ -62,6 +62,9 @@ function ladyqr_config() {
 		'require_login'   => true,
 		// Minutes without activity after which the admin asks for the password again.
 		'session_timeout' => 15,
+		// What the QR codes of short links start with, such as 1QR.ES/, instead
+		// of the site's address. Empty means the site's address.
+		'qr_base'         => '',
 	);
 
 	// Each setting comes from the constant of the same name: 'language' from
@@ -80,10 +83,15 @@ function ladyqr_config() {
 	if ( ! is_string( $config['language'] ) || ! preg_match( '/^[a-z]{2,3}(_[A-Z]{2})?$/', $config['language'] ) ) {
 		$config['language'] = 'en_US';
 	}
-	foreach ( array( 'user', 'password' ) as $key ) {
+	foreach ( array( 'user', 'password', 'qr_base' ) as $key ) {
 		if ( ! is_string( $config[ $key ] ) ) {
 			$config[ $key ] = '';
 		}
+	}
+	// The slug goes right after it, so it always ends with one slash.
+	$config['qr_base'] = rtrim( trim( $config['qr_base'] ), '/' );
+	if ( '' !== $config['qr_base'] ) {
+		$config['qr_base'] .= '/';
 	}
 	$config['url'] = ladyqr_clean_url( $config['url'] );
 	if ( null === $config['url'] ) {

@@ -501,3 +501,8 @@ msgstr "La dirección de tu sitio: aquí los visitantes encontrarán el generado
 
 msgid "The address rules in the .htaccess file made the site stop answering, so they were undone. Visits are not sent to the chosen address."
 msgstr "Las reglas de dirección del archivo .htaccess hicieron que el sitio dejara de responder, así que se han deshecho. Las visitas no se envían a la dirección elegida."
+
+#. translators: %s: a short link, such as /menu.
+#, php-format
+msgid "QR code for %s"
+msgstr "Código QR de %s"

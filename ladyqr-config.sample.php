@@ -37,6 +37,14 @@ define( 'LADYQR_LANGUAGE', 'en_US' );
 // Minutes without activity after which the admin asks for the password again.
 // define( 'LADYQR_SESSION_TIMEOUT', 15 );
 
+// Advanced, and not needed: what the QR codes of short links start with,
+// instead of the site's address. Written in uppercase and without https://,
+// such as 1QR.ES/, it makes smaller QR codes, because LadyQR then writes the
+// short link in uppercase too and the code can use a more compact encoding.
+// Most phone cameras still open it as a web address. It must lead to the
+// site: test one of the codes before you print it.
+// define( 'LADYQR_QR_BASE', '1QR.ES/' );
+
 // Opens the admin without a login, with a permanent warning on every page.
 // Only for trying it locally. Anyone who can reach the page could change
 // your short links, so do not use this on a public site.
