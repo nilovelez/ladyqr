@@ -15,17 +15,28 @@ require __DIR__ . '/includes/functions.php';
 require __DIR__ . '/includes/config.php';
 require __DIR__ . '/includes/i18n.php';
 
+// The installer asks for this address to learn whether .htaccess reaches PHP,
+// so it is answered before anything else, installed or not.
+if ( 'ladyqr-route-test' === ladyqr_request_path() ) {
+	header( 'X-LadyQR-Route: ok' );
+	http_response_code( 204 );
+	exit;
+}
+
+// Not installed yet: while the installer is there, every visit goes to it, so
+// the owner, who opens the site right after uploading it, installs it before
+// anyone else can. Deleting the admin folder leaves only the QR code creator,
+// with nothing to install and nothing to attack.
+if ( null === ladyqr_config_file() && is_file( __DIR__ . '/admin/install.php' ) ) {
+	header( 'Location: ' . ladyqr_base_path() . '/admin/install.php', true, 302 );
+	exit;
+}
+
 $ladyqr_config = ladyqr_config();
 ladyqr_load_textdomain( $ladyqr_config['language'] );
 
 $ladyqr_path = ladyqr_request_path();
 if ( '' !== $ladyqr_path ) {
-	// The installer asks for this address to learn whether .htaccess reaches PHP.
-	if ( 'ladyqr-route-test' === $ladyqr_path ) {
-		header( 'X-LadyQR-Route: ok' );
-		http_response_code( 204 );
-		exit;
-	}
 	if ( $ladyqr_config['shortener'] ) {
 		require __DIR__ . '/includes/links.php';
 		require __DIR__ . '/includes/data.php';
