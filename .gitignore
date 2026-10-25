@@ -4,3 +4,4 @@ ladyqr-data.php
 .htaccess.bak
 _site/
 _release/
+tests/node_modules/

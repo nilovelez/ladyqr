@@ -27,7 +27,7 @@ LadyQR is a privacy-oriented QR code generator with an optional single-user link
 ### Recipes
 
 - **Translations.** Text domain `ladyqr`. After changing strings:
-  - `wp i18n make-pot . languages/ladyqr.pot --slug=ladyqr --domain=ladyqr --skip-js --exclude=docs,guppy,assets,.github,_site,_release`
+  - `wp i18n make-pot . languages/ladyqr.pot --slug=ladyqr --domain=ladyqr --skip-js --exclude=docs,guppy,assets,.github,_site,_release,tests`
   - Add the new strings to `languages/ladyqr-es_ES.po`, then `wp i18n make-mo languages`.
   - The msgid sets of the `.pot` and the `.po` must be identical.
 - **Release zip.** `php tools/build-release.php` builds `_release/ladyqr-latest.zip` (git-ignored). The `release.yml` workflow does the same when a release is published and attaches it to the release.

@@ -1,0 +1,14 @@
+{
+  "name": "ladyqr-tests",
+  "private": true,
+  "description": "LadyQR's automated tests. Development only: never part of the release.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "jsqr": "^1.4.0",
+    "puppeteer-core": "^25.16.0",
+    "qrcode": "^1.5.4"
+  }
+}
