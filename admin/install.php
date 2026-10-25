@@ -180,7 +180,7 @@ function ladyqr_install_page( $title, $content ) {
 	</div>
 	<div class="card">
 		<div class="card-body">
-			<h1><?php echo ladyqr_h( $title ); ?></h1>
+			<h1 id="page-title"><?php echo ladyqr_h( $title ); ?></h1>
 			<?php $content(); ?>
 		</div>
 	</div>
@@ -320,14 +320,13 @@ function ladyqr_install_url( $step ) {
 // 1. The language of the installer.
 if ( 'language' === $ladyqr_step ) {
 	ladyqr_install_page(
-		__( 'Choose a language', 'ladyqr' ),
+		__( 'Choose a language for the installer', 'ladyqr' ),
 		function () use ( $ladyqr_languages, $ladyqr_lang, $ladyqr_self ) {
 			?>
 			<form class="form" method="get" action="<?php echo ladyqr_h( $ladyqr_self ); ?>">
 				<input type="hidden" name="step" value="welcome">
 				<div>
-					<label class="label" for="lang"><?php esc_html_e( 'Language of the installer', 'ladyqr' ); ?></label>
-					<select class="input" id="lang" name="lang">
+					<select class="input" id="lang" name="lang" aria-labelledby="page-title">
 						<?php foreach ( $ladyqr_languages as $code => $name ) : ?>
 							<option value="<?php echo ladyqr_h( $code ); ?>"<?php echo $code === $ladyqr_lang ? ' selected' : ''; ?>><?php echo ladyqr_h( $name ); ?></option>
 						<?php endforeach; ?>

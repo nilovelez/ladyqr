@@ -329,8 +329,8 @@ msgstr "Atrás"
 msgid "Choose a language from the list."
 msgstr "Elige un idioma de la lista."
 
-msgid "Choose a language"
-msgstr "Elige un idioma"
+msgid "Choose a language for the installer"
+msgstr "Elige un idioma para el instalador"
 
 msgid "Continue"
 msgstr "Continuar"
@@ -379,9 +379,6 @@ msgstr "LadyQR necesita PHP 7.4 o posterior. Pide a tu alojamiento que cambie la
 
 msgid "LadyQR will only make QR codes."
 msgstr "LadyQR solo hará códigos QR."
-
-msgid "Language of the installer"
-msgstr "Idioma del instalador"
 
 msgid "Language of the site"
 msgstr "Idioma del sitio"
