@@ -1,0 +1,29 @@
+name: Release zip
+
+# When a release is published on GitHub, builds the zip that goes on the server
+# and attaches it to the release as ladyqr-latest.zip. Every release has a file
+# with that name, so this link always gives the latest version:
+# https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the zip
+        run: |
+          php --version
+          php tools/build-release.php
+
+      - name: Attach it to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" _release/ladyqr-latest.zip --clobber
