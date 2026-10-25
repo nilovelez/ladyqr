@@ -3,7 +3,7 @@
   "title": "LadyQR",
   "description": "Privacy-oriented QR code generator and URL shortener.",
   "status": "active",
-  "status_text": "LadyQR 1.0.0 is ready: QR code generator, optional link shortener and a web installer, in one zip. Next: automated tests and the encoder's alphanumeric mode (M7).",
+  "status_text": "LadyQR 1.0.0 is published on GitHub: QR code generator, optional link shortener and a web installer, in one zip. Next: automated tests and the encoder's alphanumeric mode (M7).",
   "last_update": "2026-10-25 19:06:35 +0100",
   "last_update_unix": 1792951595,
   "url": "https://github.com/nilovelez/ladyqr",

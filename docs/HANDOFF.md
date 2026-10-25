@@ -5,7 +5,7 @@ What a new working session needs to pick LadyQR up. The rules for working with N
 ## Where it stands
 
 - Milestones 0 to 6 are done. **1.0.0** is the first release: the README, `INSTALL.txt` and the configuration sample are up to date, and the design is accepted for this version.
-- The release is prepared as a draft on GitHub. Publishing it runs `release.yml`, which attaches `ladyqr-latest.zip`. Permanent link: https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip
+- 1.0.0 is published on GitHub; `release.yml` attached `ladyqr-latest.zip` to it. Permanent link: https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip
 - Nilo runs LadyQR on his own site, https://1qr.es/. Only he touches that site.
 - The website and demo, https://ladyqr.nilovelez.com/, are deployed by GitHub Pages on every push to `main`.
 
