@@ -51,9 +51,32 @@ ladyqr_copy_dir( $root . '/site', $out );
 // The live demo.
 ladyqr_copy_dir( $root . '/assets', $out . '/try/assets', array( 'icon-full.png', 'icon-vector.ai' ) );
 
+// The page is rendered from a copy of the site with a configuration of its
+// own: without one, index.php sends every visit to the installer and stops,
+// and a local ladyqr-config.php must not change the demo either.
+$site = sys_get_temp_dir() . '/ladyqr-site-' . bin2hex( random_bytes( 4 ) );
+mkdir( $site, 0755, true );
+foreach ( array( 'index.php', 'includes', 'languages' ) as $name ) {
+	is_dir( "$root/$name" ) ? ladyqr_copy_dir( "$root/$name", "$site/$name" ) : copy( "$root/$name", "$site/$name" );
+}
+file_put_contents( "$site/ladyqr-config.php", "<?php\ndefined( 'LADYQR' ) || exit;\ndefine( 'LADYQR_LANGUAGE', 'en_US' );\n" );
+
+// index.php may stop the script with exit; then the build must fail.
+$rendered = false;
+register_shutdown_function(
+	function () use ( &$rendered, $site ) {
+		ladyqr_remove_dir( $site );
+		if ( ! $rendered ) {
+			fwrite( STDERR, "The demo page did not render.\n" );
+			exit( 1 );
+		}
+	}
+);
+
 ob_start();
-require $root . '/index.php'; // Sets $ladyqr_csp.
-$html = ob_get_clean();
+require $site . '/index.php'; // Sets $ladyqr_csp.
+$html     = ob_get_clean();
+$rendered = true;
 
 // A <meta> policy cannot use frame-ancestors, so leave it out.
 $meta = str_replace( "; frame-ancestors 'none'", '', $ladyqr_csp );
