@@ -1,5 +1,6 @@
-// QR Code encoder (ISO/IEC 18004), byte mode, versions 1-40, all four error
-// correction levels. No dependencies. Input text is encoded as UTF-8.
+// QR Code encoder (ISO/IEC 18004), versions 1-40, all four error correction
+// levels. No dependencies. The text goes in numeric, alphanumeric or byte mode
+// (UTF-8), whichever is the most compact one that can hold all of it.
 
 const ECC_LEVELS = {
 	L: { ordinal: 0, formatBits: 1 },
@@ -22,6 +23,16 @@ const NUM_ERROR_CORRECTION_BLOCKS = [
 	[-1, 1, 1, 2, 4, 4, 4, 5, 6, 8, 8, 11, 11, 16, 16, 18, 16, 19, 21, 25, 25, 25, 34, 30, 32, 35, 37, 40, 42, 45, 48, 51, 54, 57, 60, 63, 66, 70, 74, 77, 81],
 ];
 
+// The characters of alphanumeric mode, in the order of their values.
+const ALPHANUMERIC = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:';
+
+// Mode indicator and character count bits for versions 1-9, 10-26 and 27-40.
+const MODES = {
+	numeric: { indicator: 0b0001, countBits: [10, 12, 14] },
+	alphanumeric: { indicator: 0b0010, countBits: [9, 11, 13] },
+	byte: { indicator: 0b0100, countBits: [8, 16, 16] },
+};
+
 const PENALTY_N1 = 3;
 const PENALTY_N2 = 3;
 const PENALTY_N3 = 40;
@@ -30,9 +41,11 @@ const PENALTY_N4 = 10;
 /**
  * Encodes text as a QR code.
  *
- * @param {string} text  Any text. It is encoded as UTF-8 in byte mode.
+ * @param {string} text  Any text. Digits only go in numeric mode; digits,
+ *   uppercase letters, space and $%*+-./: in alphanumeric mode; anything
+ *   else in byte mode, as UTF-8.
  * @param {'L'|'M'|'Q'|'H'} level  Error correction level.
- * @returns {{version: number, size: number, mask: number, modules: boolean[][]}}
+ * @returns {{version: number, size: number, mask: number, mode: string, modules: boolean[][]}}
  *   `modules[y][x]` is true for a dark module.
  * @throws {RangeError} If the text does not fit in a version 40 symbol.
  */
@@ -41,12 +54,13 @@ export function encode(text, level = 'M') {
 	if (!ecc) {
 		throw new TypeError('Unknown error correction level: ' + level);
 	}
-	const bytes = new TextEncoder().encode(text);
+	const segment = makeSegment(text);
+	const mode = MODES[segment.mode];
 
 	let version = 1;
 	for (; ; version++) {
 		const capacityBits = numDataCodewords(version, ecc.ordinal) * 8;
-		const usedBits = 4 + charCountBits(version) + bytes.length * 8;
+		const usedBits = 4 + charCountBits(mode, version) + segment.bits.length;
 		if (usedBits <= capacityBits) {
 			break;
 		}
@@ -56,15 +70,11 @@ export function encode(text, level = 'M') {
 	}
 
 	const bits = [];
-	const append = (value, length) => {
-		for (let i = length - 1; i >= 0; i--) {
-			bits.push((value >>> i) & 1);
-		}
-	};
-	append(0b0100, 4); // Byte mode
-	append(bytes.length, charCountBits(version));
-	for (const b of bytes) {
-		append(b, 8);
+	const append = (value, length) => appendBits(bits, value, length);
+	append(mode.indicator, 4);
+	append(segment.count, charCountBits(mode, version));
+	for (const bit of segment.bits) {
+		bits.push(bit);
 	}
 	const capacityBits = numDataCodewords(version, ecc.ordinal) * 8;
 	append(0, Math.min(4, capacityBits - bits.length)); // Terminator
@@ -77,11 +87,50 @@ export function encode(text, level = 'M') {
 		dataCodewords[i >>> 3] |= bit << (7 - (i & 7));
 	});
 
-	return buildSymbol(version, ecc, addEccAndInterleave(dataCodewords, version, ecc));
+	return { ...buildSymbol(version, ecc, addEccAndInterleave(dataCodewords, version, ecc)), mode: segment.mode };
 }
 
-function charCountBits(version) {
-	return version < 10 ? 8 : 16;
+// Picks the mode for the text and encodes its data bits, without the mode
+// indicator and the character count.
+function makeSegment(text) {
+	const bits = [];
+	const append = (value, length) => appendBits(bits, value, length);
+	if (/^[0-9]+$/.test(text)) {
+		// Groups of three digits in 10 bits; a last group of two in 7, of one in 4.
+		for (let i = 0; i < text.length; i += 3) {
+			const group = text.slice(i, i + 3);
+			append(Number(group), group.length * 3 + 1);
+		}
+		return { mode: 'numeric', count: text.length, bits };
+	}
+	if (/^[0-9A-Z $%*+./:-]+$/.test(text)) {
+		// Pairs of characters in 11 bits; a last single one in 6.
+		for (let i = 0; i < text.length; i += 2) {
+			const first = ALPHANUMERIC.indexOf(text[i]);
+			if (i + 1 < text.length) {
+				append(first * 45 + ALPHANUMERIC.indexOf(text[i + 1]), 11);
+			} else {
+				append(first, 6);
+			}
+		}
+		return { mode: 'alphanumeric', count: text.length, bits };
+	}
+	const bytes = new TextEncoder().encode(text);
+	for (const b of bytes) {
+		append(b, 8);
+	}
+	return { mode: 'byte', count: bytes.length, bits };
+}
+
+// Appends the lowest `length` bits of `value`, most significant first.
+function appendBits(bits, value, length) {
+	for (let i = length - 1; i >= 0; i--) {
+		bits.push((value >>> i) & 1);
+	}
+}
+
+function charCountBits(mode, version) {
+	return mode.countBits[version < 10 ? 0 : version < 27 ? 1 : 2];
 }
 
 function numRawDataModules(version) {
