@@ -218,7 +218,7 @@ function ladyqr_link_fields( array $form, array $problems, $origin, $id ) {
 	$slug_problems   = array_values( array_intersect( $problems, array( 'slug_invalid', 'slug_reserved', 'slug_taken', 'missing' ) ) );
 	$target_problems = array_values( array_intersect( $problems, array( 'target_invalid', 'target_self' ) ) );
 	?>
-	<div>
+	<div class="field-row">
 		<label class="label" for="<?php echo $id; ?>-slug"><?php esc_html_e( 'Short name', 'ladyqr' ); ?></label>
 		<div class="input-group">
 			<span class="addon"><?php echo htmlspecialchars( preg_replace( '~^https?://~', '', $origin ), ENT_QUOTES, 'UTF-8' ); ?></span>
@@ -228,14 +228,14 @@ function ladyqr_link_fields( array $form, array $problems, $origin, $id ) {
 			<p class="field-error" id="<?php echo $id; ?>-slug-error"><?php echo ladyqr_problem_text( $slug_problems[0] ); ?></p>
 		<?php endif; ?>
 	</div>
-	<div>
+	<div class="field-row">
 		<label class="label" for="<?php echo $id; ?>-target"><?php esc_html_e( 'Goes to', 'ladyqr' ); ?></label>
 		<input class="input" id="<?php echo $id; ?>-target" name="target" type="text" inputmode="url" value="<?php echo htmlspecialchars( $form['target'], ENT_QUOTES, 'UTF-8' ); ?>" placeholder="https://example.com/a/long/address" autocapitalize="off" autocomplete="off" spellcheck="false" required<?php echo $target_problems ? ' aria-invalid="true" aria-describedby="' . $id . '-target-error"' : ''; ?>>
 		<?php if ( $target_problems ) : ?>
 			<p class="field-error" id="<?php echo $id; ?>-target-error"><?php echo ladyqr_problem_text( $target_problems[0] ); ?></p>
 		<?php endif; ?>
 	</div>
-	<div>
+	<div class="field-row">
 		<label class="label" for="<?php echo $id; ?>-status"><?php esc_html_e( 'Type', 'ladyqr' ); ?></label>
 		<select class="input" id="<?php echo $id; ?>-status" name="status" aria-describedby="<?php echo $id; ?>-status-help">
 			<option value="301"<?php echo 301 === $form['status'] ? ' selected' : ''; ?>><?php esc_html_e( '301 – Permanent redirect', 'ladyqr' ); ?></option>
@@ -380,7 +380,7 @@ function ladyqr_save_notice( $result ) {
 				<?php elseif ( 'edit' === $ladyqr_screen ) : ?>
 
 					<?php ladyqr_save_notice( $ladyqr_save ); ?>
-					<form class="form" method="post" action="<?php echo $ladyqr_action_url; ?>">
+					<form class="form side-labels" method="post" action="<?php echo $ladyqr_action_url; ?>">
 						<input type="hidden" name="action" value="edit">
 						<?php echo $ladyqr_csrf_field; ?>
 						<input type="hidden" name="original" value="<?php echo htmlspecialchars( $ladyqr_form['original'], ENT_QUOTES, 'UTF-8' ); ?>">
@@ -460,7 +460,7 @@ function ladyqr_save_notice( $result ) {
 					<?php endif; ?>
 
 					<h3><?php esc_html_e( 'Add a short link', 'ladyqr' ); ?></h3>
-					<form class="form" method="post" action="<?php echo $ladyqr_action_url; ?>">
+					<form class="form side-labels" method="post" action="<?php echo $ladyqr_action_url; ?>">
 						<input type="hidden" name="action" value="add">
 						<?php echo $ladyqr_csrf_field; ?>
 						<?php ladyqr_link_fields( 'add' === $ladyqr_link_action ? $ladyqr_form : array( 'slug' => '', 'target' => '', 'status' => 302 ), 'add' === $ladyqr_link_action ? $ladyqr_problems : array(), $ladyqr_origin, 'add' ); ?>

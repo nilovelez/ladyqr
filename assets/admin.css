@@ -71,6 +71,31 @@ body.admin.admin-panel main {
 	gap: 10px;
 }
 
+/* The short link forms put each label on the left of its field when there is
+   room. Hints and errors stay under the field. */
+
+@media (min-width: 720px) {
+	.side-labels .field-row {
+		display: grid;
+		grid-template-columns: 120px minmax(0, 1fr);
+		column-gap: 16px;
+	}
+
+	.side-labels .field-row > * {
+		grid-column: 2;
+	}
+
+	.side-labels .field-row > .label {
+		grid-column: 1;
+		margin: 0;
+		padding-top: 12px;
+	}
+
+	.side-labels .form-actions {
+		padding-left: 136px;
+	}
+}
+
 /* A field with fixed text in front, such as the site's address before a short name. */
 
 .input-group {

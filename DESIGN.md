@@ -93,7 +93,7 @@ Shared components are in `assets/app.css`, so the editor, the admin and the not-
 
 **Card.** `.card` with `.card-body`. White, 1 px `--line` edge, `--radius-lg`. A card header (the editor's settings bar) uses the `--zebra` fill and a `--line` divider.
 
-**Label.** `.label`, a real `<label>` above its control, never beside it, so every control starts on the same left edge.
+**Label.** `.label`, a real `<label>` above its control, so every control starts on the same left edge. The exception is a form with `.side-labels` (the short link forms): from 720 px up each `.field-row` puts its label in a 120 px column on the left, and the hints, errors and buttons line up with the fields.
 
 **Field and select.** `.input`. 44 px tall, white, 1 px `--border`, `--radius`, 12 px side padding. Focus is a 2 px `--accent` ring drawn inside the edge. An invalid field (`aria-invalid="true"`) gets an `--accent` edge, and its message goes under it.
 
