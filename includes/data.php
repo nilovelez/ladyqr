@@ -96,15 +96,25 @@ function ladyqr_links_save( array $links ) {
 }
 
 /**
- * Looks up the link for a slug, exactly as written.
+ * Looks up the link for a slug, regardless of case: /pepe, /PEPE and /Pepe
+ * are the same link. The admin never lets two slugs differ only in case; if a
+ * hand-edited file has them, the exact one wins.
  *
  * @param string $slug The name.
  * @return array|null
  */
 function ladyqr_link_find( $slug ) {
 	$loaded = ladyqr_links_load();
-	if ( 'ok' !== $loaded['state'] || ! isset( $loaded['links'][ $slug ] ) ) {
+	if ( 'ok' !== $loaded['state'] ) {
 		return null;
 	}
-	return $loaded['links'][ $slug ];
+	if ( isset( $loaded['links'][ $slug ] ) ) {
+		return $loaded['links'][ $slug ];
+	}
+	foreach ( $loaded['links'] as $name => $link ) {
+		if ( 0 === strcasecmp( (string) $name, $slug ) ) {
+			return $link;
+		}
+	}
+	return null;
 }

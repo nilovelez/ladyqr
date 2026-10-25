@@ -248,6 +248,8 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
   - With the shortener, the address hint says it is also the start of the short links, with an example.
   - The final summary shows the admin panel's address on its second line.
   - The two final buttons are both secondary, the shortener first: nothing is left to decide.
+- **Short links ignore case:** `/pepe`, `/PEPE` and `/Pepe` are the same link. The slug is stored as typed, and the admin already refused a slug that differs from an existing one only in case ("There is already a short link with that name"). Done before 1.0.0, so no install ever has two links that would clash.
+- **The new icons:** the ladybug fitted to its drawing in the pages, the square ones as favicon and Apple touch icon. See DESIGN.md.
 - **`CLAUDE.md` and `docs/HANDOFF.md`**, so a new session can pick the project up from the repository alone. The test tools moved out of a temporary folder to `D:\Claude\ladyqr-tools\`.
 
 ### M7. Automated tests and encoder consolidation
@@ -272,5 +274,5 @@ Things that are wanted but not urgent, in no particular order.
   - The editor takes its initial text from the address fragment (`#text=…`), so it never reaches the server.
   - An optional `LADYQR_QR_BASE` (such as `1QR.ES/`) for the short links in QR codes: no scheme and in uppercase, to use the alphanumeric mode. The admin still copies links with `https://`.
   - The encoder's alphanumeric mode (now in M7). A version 1-M code holds 14 characters in byte mode (`1QR.ES/1234567`) and 20 in alphanumeric mode (`HTTP://1QR.ES/123456`).
-  - Short links stop being case-sensitive: `/pepe`, `/PEPE` and `/Pepe` are the same link. The slug is stored as typed, and the admin refuses a new slug that differs from an existing one only in case, saying a link with that name already exists. `_` is not in the alphanumeric set.
+  - Slugs and the alphanumeric set: `_` is not in it, and short links already ignore case (done in 1.0.0, see M6).
 - **Customize the generator page.** How is to be decided; probably an optional `header.html` and `footer.html` in the install folder, included before and after the generator when they exist.
