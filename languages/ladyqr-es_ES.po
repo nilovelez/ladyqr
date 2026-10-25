@@ -338,9 +338,6 @@ msgstr "Continuar"
 msgid "Go to the link shortener"
 msgstr "Ir al acortador de enlaces"
 
-msgid "Hi! I'm LadyQR. I make QR codes right in your browser, and what you type never leaves it. I can also keep short links on your own domain, so a QR code you print today can take people somewhere new tomorrow."
-msgstr "¡Hola! Soy LadyQR. Hago códigos QR en tu propio navegador, y lo que escribes nunca sale de él. También puedo guardar enlaces cortos en tu dominio, para que un código QR que imprimes hoy lleve a otro sitio mañana."
-
 msgid "How will you use LadyQR?"
 msgstr "¿Cómo vas a usar LadyQR?"
 
@@ -470,9 +467,6 @@ msgstr "Este servidor no deja que el .htaccess envíe direcciones a PHP, así qu
 msgid "This server lets .htaccess send short links to LadyQR."
 msgstr "Este servidor deja que el .htaccess envíe los enlaces cortos a LadyQR."
 
-msgid "Welcome to LadyQR"
-msgstr "Te damos la bienvenida a LadyQR"
-
 msgid "Where your visitors will find LadyQR. Fix it if it is wrong: with or without www, http or https. Once installed, every visit is sent to this address."
 msgstr "Donde tus visitantes encontrarán LadyQR. Corrígela si está mal: con o sin www, http o https. Una vez instalado, todas las visitas se envían a esta dirección."
 
@@ -484,3 +478,9 @@ msgstr "Escribe la dirección como https://example.com o http://example.com, sin
 
 msgid "Writing in the site's folder"
 msgstr "Escritura en la carpeta del sitio"
+
+msgid "Hi! I'm LadyQR"
+msgstr "¡Hola! Soy LadyQR"
+
+msgid "I make QR codes right in your browser, and what you type never leaves it. I can also keep short links on your own domain, so a QR code you print today can take people somewhere new tomorrow."
+msgstr "Hago códigos QR en tu propio navegador, y lo que escribes nunca sale de él. También puedo guardar enlaces cortos en tu dominio, para que un código QR que imprimes hoy lleve a otro sitio mañana."

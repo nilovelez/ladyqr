@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-25T09:59:04+00:00\n"
+"POT-Creation-Date: 2026-10-25T10:08:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ladyqr\n"
@@ -171,14 +171,14 @@ msgid "The form expired. Try again."
 msgstr ""
 
 #: admin/index.php:392
-#: admin/install.php:594
-#: admin/install.php:645
+#: admin/install.php:597
+#: admin/install.php:648
 msgid "User"
 msgstr ""
 
 #: admin/index.php:396
-#: admin/install.php:595
-#: admin/install.php:651
+#: admin/install.php:598
+#: admin/install.php:654
 msgid "Password"
 msgstr ""
 
@@ -195,7 +195,7 @@ msgid "Delete short link"
 msgstr ""
 
 #: admin/index.php:412
-#: admin/install.php:574
+#: admin/install.php:577
 msgid "Short links"
 msgstr ""
 
@@ -285,255 +285,256 @@ msgstr ""
 msgid "Back to the QR code creator"
 msgstr ""
 
-#: admin/install.php:230
+#: admin/install.php:226
 msgid "Server checks"
 msgstr ""
 
-#: admin/install.php:237
+#: admin/install.php:233
 msgid "(fine)"
 msgstr ""
 
-#: admin/install.php:237
+#: admin/install.php:233
 msgid "(warning)"
 msgstr ""
 
-#: admin/install.php:237
+#: admin/install.php:233
 msgid "(problem)"
 msgstr ""
 
-#: admin/install.php:255
-#: admin/install.php:573
+#: admin/install.php:251
+#: admin/install.php:576
 msgid "Language of the site"
 msgstr ""
 
-#: admin/install.php:261
+#: admin/install.php:257
 msgid "The language your visitors will see. It can differ from this installer's."
 msgstr ""
 
-#: admin/install.php:276
+#: admin/install.php:272
 msgid "LadyQR could not write these files. Create each one in the site's folder, next to index.php, with exactly this content:"
 msgstr ""
 
-#: admin/install.php:291
-#: admin/install.php:556
+#: admin/install.php:287
+#: admin/install.php:559
 msgid "LadyQR is installed"
 msgstr ""
 
-#: admin/install.php:294
+#: admin/install.php:290
 msgid "LadyQR is already installed."
 msgstr ""
 
-#: admin/install.php:296
-#: admin/install.php:565
-#: admin/install.php:599
+#: admin/install.php:292
+#: admin/install.php:568
+#: admin/install.php:602
 msgid "Open the QR code generator"
 msgstr ""
 
-#: admin/install.php:323
+#: admin/install.php:319
 msgid "Choose a language for the installer"
 msgstr ""
 
-#: admin/install.php:336
+#: admin/install.php:332
 msgid "Continue"
 msgstr ""
 
-#: admin/install.php:348
-msgid "Welcome to LadyQR"
+#: admin/install.php:344
+#: admin/install.php:350
+msgid "Hi! I'm LadyQR"
 msgstr ""
 
 #: admin/install.php:351
-msgid "Hi! I'm LadyQR. I make QR codes right in your browser, and what you type never leaves it. I can also keep short links on your own domain, so a QR code you print today can take people somewhere new tomorrow."
-msgstr ""
-
-#: admin/install.php:352
-msgid "How will you use LadyQR?"
+msgid "I make QR codes right in your browser, and what you type never leaves it. I can also keep short links on your own domain, so a QR code you print today can take people somewhere new tomorrow."
 msgstr ""
 
 #: admin/install.php:354
-#: admin/install.php:611
+msgid "How will you use LadyQR?"
+msgstr ""
+
+#: admin/install.php:356
+#: admin/install.php:614
 msgid "QR code generator + link shortener"
 msgstr ""
 
-#: admin/install.php:355
-#: admin/install.php:611
+#: admin/install.php:357
+#: admin/install.php:614
 msgid "QR code generator only"
 msgstr ""
 
-#: admin/install.php:357
-#: admin/install.php:617
-#: admin/install.php:660
+#: admin/install.php:359
+#: admin/install.php:620
+#: admin/install.php:662
 msgid "Back"
 msgstr ""
 
-#: admin/install.php:372
+#: admin/install.php:375
 msgid "PHP 7.4 or later is needed."
 msgstr ""
 
-#: admin/install.php:372
+#: admin/install.php:375
 msgid "LadyQR needs PHP 7.4 or later. Ask your host to change the PHP version."
 msgstr ""
 
-#: admin/install.php:375
+#: admin/install.php:378
 msgid "Writing in the site's folder"
 msgstr ""
 
-#: admin/install.php:377
+#: admin/install.php:380
 msgid "LadyQR can create its files."
 msgstr ""
 
-#: admin/install.php:377
+#: admin/install.php:380
 msgid "LadyQR cannot write in the site's folder. You can still go on: at the end it shows the files to create and upload yourself."
 msgstr ""
 
-#: admin/install.php:384
+#: admin/install.php:387
 msgid "This server lets .htaccess send short links to LadyQR."
 msgstr ""
 
-#: admin/install.php:386
+#: admin/install.php:389
 msgid "This server does not let .htaccess send addresses to PHP, so short links will be off. The QR code generator works anyway."
 msgstr ""
 
-#: admin/install.php:388
+#: admin/install.php:391
 msgid "It could not be tested now. It will be tested when you install."
 msgstr ""
 
-#: admin/install.php:390
+#: admin/install.php:393
 msgid "It cannot be tested, because LadyQR cannot write in the site's folder."
 msgstr ""
 
-#: admin/install.php:396
+#: admin/install.php:399
 msgid "Password hashing and random numbers"
 msgstr ""
 
-#: admin/install.php:398
+#: admin/install.php:401
 msgid "Available."
 msgstr ""
 
-#: admin/install.php:398
+#: admin/install.php:401
 msgid "This PHP lacks password_hash() or random_bytes()."
 msgstr ""
 
-#: admin/install.php:401
+#: admin/install.php:404
 msgid "Sessions"
 msgstr ""
 
-#: admin/install.php:403
+#: admin/install.php:406
 msgid "They work, so the admin can keep you logged in."
 msgstr ""
 
-#: admin/install.php:403
+#: admin/install.php:406
 msgid "Sessions do not work on this server, so the admin could not keep you logged in."
 msgstr ""
 
-#: admin/install.php:406
+#: admin/install.php:409
 msgid "Short links (.htaccess)"
 msgstr ""
 
-#: admin/install.php:413
+#: admin/install.php:416
 msgid "This connection is secure."
 msgstr ""
 
-#: admin/install.php:413
+#: admin/install.php:416
 msgid "This connection is not secure: the admin's password would travel unencrypted. Use https if your host offers it."
 msgstr ""
 
-#: admin/install.php:440
+#: admin/install.php:443
 msgid "The form expired. Check the values and send it again."
 msgstr ""
 
-#: admin/install.php:443
+#: admin/install.php:446
 msgid "Choose a language from the list."
 msgstr ""
 
-#: admin/install.php:448
+#: admin/install.php:451
 msgid "Write the address as https://example.com or http://example.com, with no folder after it."
 msgstr ""
 
-#: admin/install.php:451
+#: admin/install.php:454
 msgid "Write a user of up to 60 characters, with no spaces."
 msgstr ""
 
-#: admin/install.php:454
+#: admin/install.php:457
 msgid "The password needs at least 12 characters."
 msgstr ""
 
-#: admin/install.php:456
+#: admin/install.php:459
 msgid "The password is too long: it can have up to 72 bytes (72 plain letters and digits, fewer with accents or symbols)."
 msgstr ""
 
-#: admin/install.php:556
+#: admin/install.php:559
 msgid "Almost there"
 msgstr ""
 
-#: admin/install.php:562
+#: admin/install.php:565
 msgid "LadyQR will only make QR codes."
 msgstr ""
 
-#: admin/install.php:563
+#: admin/install.php:566
 msgid "If you change your mind, edit the ladyqr-config.php file, or delete it to use this installer again."
 msgstr ""
 
-#: admin/install.php:572
+#: admin/install.php:575
 msgid "Address"
 msgstr ""
 
-#: admin/install.php:577
+#: admin/install.php:580
 msgid "On, tested."
 msgstr ""
 
-#: admin/install.php:577
+#: admin/install.php:580
 msgid "On, but they could not be tested. If they do not work, check that your host allows .htaccess files."
 msgstr ""
 
-#: admin/install.php:579
+#: admin/install.php:582
 msgid "Off. The .htaccess rules made the site stop answering, so they were undone."
 msgstr ""
 
-#: admin/install.php:581
+#: admin/install.php:584
 msgid "Off. The existing .htaccess has a damaged LadyQR block (a \"# BEGIN LadyQR\" or \"# END LadyQR\" line is missing or repeated)."
 msgstr ""
 
-#: admin/install.php:583
+#: admin/install.php:586
 msgid "Off. This server does not let .htaccess send addresses to PHP."
 msgstr ""
 
-#: admin/install.php:589
+#: admin/install.php:592
 msgid "The .htaccess file was written, but LadyQR could not check that the site still answers. Open your site to make sure it works."
 msgstr ""
 
-#: admin/install.php:592
+#: admin/install.php:595
 msgid "Save your user and password now."
 msgstr ""
 
-#: admin/install.php:592
+#: admin/install.php:595
 msgid "The password is stored encrypted and will not be shown again."
 msgstr ""
 
-#: admin/install.php:600
+#: admin/install.php:603
 msgid "Go to the link shortener"
 msgstr ""
 
-#: admin/install.php:616
+#: admin/install.php:619
 msgid "LadyQR cannot be installed on this server until the problems above are solved."
 msgstr ""
 
-#: admin/install.php:622
+#: admin/install.php:625
 msgid "Settings"
 msgstr ""
 
-#: admin/install.php:633
+#: admin/install.php:636
 msgid "Site address"
 msgstr ""
 
-#: admin/install.php:641
+#: admin/install.php:644
 msgid "Where your visitors will find LadyQR. Fix it if it is wrong: with or without www, http or https. Once installed, every visit is sent to this address."
 msgstr ""
 
-#: admin/install.php:654
+#: admin/install.php:657
 msgid "A strong password is suggested. You can change it: at least 12 characters. Copy it now; it is shown once more after installing, and then never again."
 msgstr ""
 
-#: admin/install.php:659
+#: admin/install.php:663
 msgid "Install LadyQR"
 msgstr ""
 

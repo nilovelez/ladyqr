@@ -26,12 +26,15 @@ All colors and shapes are CSS custom properties on `:root` in `assets/app.css`. 
 | `--muted` | `#5f5f66` | Secondary text: hints, placeholders, table headers, targets, footer |
 | `--line` | `#e4e4e7` | Edges of containers (cards, tables, dialog) and dividers inside them |
 | `--border` | `#8a8a93` | Edges of controls (fields, selects, secondary buttons, segmented control, color inputs) |
-| `--accent` | `#d9261c` | Primary buttons, selected state, links, focus ring, error text |
+| `--accent` | `#d9261c` | The few actions that are the point of a screen (the download button), the selected state, links, focus ring, error text |
 | `--accent-ink` | `#ffffff` | Text on `--accent` |
-| `--accent-deep` | `#b81d14` | Hover of primary buttons, divider of the split button |
+| `--accent-deep` | `#b81d14` | Hover of the download button, divider of the split button |
+| `--primary` | `#3f3f46` | Primary buttons |
+| `--primary-ink` | `#ffffff` | Text on `--primary` |
+| `--primary-deep` | `#27272a` | Hover of primary buttons |
 | `--warn` | `#a35200` | Warnings (contrast, insecure connection, a change that could not be checked) |
 
-The accent is the red of the ladybug icon. Nothing else is saturated, so the one action that matters stands out. Grays are neutral, with no warm or cool tint.
+The accent is the red of the ladybug icon. Red means attention, even danger, so it is kept for very specific actions, such as downloading the QR code that was just made; ordinary buttons are gray. Nothing else is saturated, so the one action that matters stands out. Grays are neutral, with no warm or cool tint.
 
 ### Measured contrast
 
@@ -45,6 +48,7 @@ WCAG ratios, measured with `contrastRatio()` from `assets/render.js`. Re-measure
 | `--warn` | 5.58 | 5.21 | 5.08 | 4.5 |
 | `--border` (control edges) | 3.42 | 3.20 | 3.11 | 3 |
 | `--accent-ink` on `--accent` | 4.95 | | | 4.5 |
+| `--primary-ink` on `--primary` | 10.44 | | | 4.5 |
 
 Rules that come out of this:
 
@@ -101,7 +105,7 @@ Shared components are in `assets/app.css`, so the editor, the admin and the not-
 
 **Hint and error.** `.hint` in `--muted`, `.field-error` in `--accent`, both under the control and linked to it with `aria-describedby`.
 
-**Button.** `.btn` is the primary action: `--accent` fill, white text, 44 px, `--radius`, as wide as its text. `.btn.secondary` is white with a `--border` edge, for "Cancel" and similar. `.btn.block` is full width, used only for the login button. Buttons that belong to a form go in `.form-actions`, a row aligned to the left; the primary one comes first.
+**Button.** `.btn` is the primary action: `--primary` gray fill, white text, 44 px, `--radius`, as wide as its text. `.btn.secondary` is white with a `--border` edge, for "Back", "Cancel" and similar. A red button (`--accent` fill, white text) is not a variant to reach for: it is kept for very specific actions, such as the editor's download button. `.btn.block` is full width, used only for the login button. Buttons that belong to a form go in `.form-actions`, a row aligned to the left. When the buttons take a step back and a step forward, the one that goes back comes first and the one that goes on (such as "Install LadyQR") comes after it.
 
 **Links.** Text links use `--accent`, underlined. Actions inside a table ("Edit", "Delete") are links, not buttons.
 
@@ -184,7 +188,7 @@ From 900 px up, the card (`.card.editor`) is 940 px wide at most and the setting
 
 ## The admin
 
-The admin pages (`/admin/`) use the shared components plus `assets/admin.css`. They have no JavaScript. Each page is one card with the ladybug and "LadyQR admin" at the top, then the content of its state. The login and locked states use a 480 px card, centered on the page; the panel uses a 760 px card at the top of the page.
+The admin pages (`/admin/`) use the shared components plus `assets/admin.css`. They have no JavaScript. Each page has the ladybug and "LadyQR admin" above the card, on the left (with "Signed in as … – Log out" on the right once logged in), and one card with the content of its state. The login and locked states use a 480 px card, centered on the page; the panel uses a 760 px card at the top of the page.
 
 **Account line.** When someone is logged in, a line above the card on the right, outside it, in `--muted`: "Signed in as **admin** – Log out". "Log out" is a link that carries the session's token, so another site cannot log you out.
 
@@ -245,9 +249,9 @@ Before adding or changing a screen:
 1. Colors, radii and the control height come from the tokens. No new gray without a row in the color table and a contrast measurement.
 2. Every control is 44 px tall, with a `--border` edge and `--radius`; containers use `--line` and `--radius-lg`.
 3. Labels go above controls, in sentence case. Hints and errors go under them.
-4. Buttons are as wide as their text and sit at the left in `.form-actions`, primary first. Only the login button is full width.
+4. Buttons are as wide as their text and sit at the left in `.form-actions`: gray for the primary action, white for the secondary one, and red only for very specific actions such as the download. A step back comes before the step forward. Only the login button is full width.
 5. Lists of things are tables with alternating rows, not boxes or cards.
-6. One `--accent` element per screen draws the eye: the main action.
+6. Red is attention: use `--accent` for links, focus, errors and the very few actions that are the point of a screen, never for an ordinary button.
 7. Every message has the right role: `status` for results, `alert` for failures.
 8. Check the screen at 390 px, 1100 px and in between, with the keyboard only, and in Spanish.
 

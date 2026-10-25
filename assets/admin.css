@@ -379,24 +379,45 @@ pre.code code {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 96px;
-	padding: 16px 20px;
+	min-height: 64px;
+	padding: 12px 20px;
 	font: inherit;
 	font-size: 1.05rem;
 	font-weight: 600;
 	line-height: 1.35;
 	text-align: center;
 	text-decoration: none;
-	color: var(--accent-ink);
-	background: var(--accent);
-	border: 1px solid var(--accent);
+	color: var(--primary-ink);
+	background: var(--primary);
+	border: 1px solid var(--primary);
 	border-radius: var(--radius);
 	cursor: pointer;
 }
 
 .start-choice:hover {
-	background: var(--accent-deep);
-	border-color: var(--accent-deep);
+	background: var(--primary-deep);
+	border-color: var(--primary-deep);
+}
+
+/* The installer's welcome: the ladybug to the left of the greeting. */
+
+.hello {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+}
+
+.hello img {
+	flex: none;
+}
+
+.hello h1 {
+	margin: 0 0 6px;
+	font-size: 1.35rem;
+}
+
+.hello p {
+	margin: 0;
 }
 
 @media (max-width: 520px) {
