@@ -46,7 +46,15 @@ body.admin.admin-panel main {
 	flex: none;
 }
 
-.admin-head h1 {
+.admin-head h1,
+.admin-head .admin-name {
+	margin: 0;
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+
+/* The installer: the screen's title inside the card. */
+.card-body h1 {
 	margin: 0;
 	font-size: 1.25rem;
 }
@@ -359,42 +367,42 @@ pre.code code {
 	background: var(--accent);
 }
 
-.choices {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+/* The first question: two big buttons side by side, one under the other on a phone. */
+
+.start-choices {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
 }
 
-.choice {
+.start-choice {
 	display: flex;
-	align-items: flex-start;
-	gap: 10px;
-	padding: 10px 12px;
-	font-size: 0.95rem;
-	color: var(--muted);
-	border: 1px solid var(--line);
+	align-items: center;
+	justify-content: center;
+	min-height: 96px;
+	padding: 16px 20px;
+	font: inherit;
+	font-size: 1.05rem;
+	font-weight: 600;
+	line-height: 1.35;
+	text-align: center;
+	text-decoration: none;
+	color: var(--accent-ink);
+	background: var(--accent);
+	border: 1px solid var(--accent);
 	border-radius: var(--radius);
 	cursor: pointer;
 }
 
-.choice strong {
-	color: var(--ink);
+.start-choice:hover {
+	background: var(--accent-deep);
+	border-color: var(--accent-deep);
 }
 
-.choice input {
-	flex: none;
-	margin: 4px 0 0;
-	accent-color: var(--accent);
-}
-
-.choice:has(input:checked) {
-	border-color: var(--border);
-	background: var(--zebra);
-}
-
-/* With "editor only" chosen, the user and password do not apply. */
-.form:has(#mode-editor:checked) .full-only {
-	display: none;
+@media (max-width: 520px) {
+	.start-choices {
+		grid-template-columns: minmax(0, 1fr);
+	}
 }
 
 .input-group .addon-after {

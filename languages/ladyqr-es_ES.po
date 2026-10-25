@@ -301,3 +301,189 @@ msgstr "Los enlaces cortos están desactivados en la configuración."
 
 msgid "The short links could not be saved. Nothing was changed."
 msgstr "No se han podido guardar los enlaces cortos. No se ha cambiado nada."
+
+msgid "(fine)"
+msgstr "(bien)"
+
+msgid "(problem)"
+msgstr "(problema)"
+
+msgid "(warning)"
+msgstr "(aviso)"
+
+msgid "A strong password is suggested. You can change it: at least 12 characters. Copy it now; it is shown once more after installing, and then never again."
+msgstr "Te sugerimos una contraseña segura. Puedes cambiarla: al menos 12 caracteres. Cópiala ahora; se muestra una vez más al terminar, y después nunca más."
+
+msgid "Address"
+msgstr "Dirección"
+
+msgid "Almost there"
+msgstr "Ya casi está"
+
+msgid "Available."
+msgstr "Disponibles."
+
+msgid "Back"
+msgstr "Atrás"
+
+msgid "Choose a language from the list."
+msgstr "Elige un idioma de la lista."
+
+msgid "Choose a language"
+msgstr "Elige un idioma"
+
+msgid "Continue"
+msgstr "Continuar"
+
+msgid "Go to the link shortener"
+msgstr "Ir al acortador de enlaces"
+
+msgid "Hi! I'm LadyQR. I make QR codes right in your browser, and what you type never leaves it. I can also keep short links on your own domain, so a QR code you print today can take people somewhere new tomorrow."
+msgstr "¡Hola! Soy LadyQR. Hago códigos QR en tu propio navegador, y lo que escribes nunca sale de él. También puedo guardar enlaces cortos en tu dominio, para que un código QR que imprimes hoy lleve a otro sitio mañana."
+
+msgid "How will you use LadyQR?"
+msgstr "¿Cómo vas a usar LadyQR?"
+
+msgid "If you change your mind, edit the ladyqr-config.php file, or delete it to use this installer again."
+msgstr "Si cambias de opinión, edita el archivo ladyqr-config.php, o bórralo para volver a usar este instalador."
+
+msgid "Install LadyQR"
+msgstr "Instalar LadyQR"
+
+msgid "It cannot be tested, because LadyQR cannot write in the site's folder."
+msgstr "No se puede comprobar, porque LadyQR no puede escribir en la carpeta del sitio."
+
+msgid "It could not be tested now. It will be tested when you install."
+msgstr "No se ha podido comprobar ahora. Se comprobará al instalar."
+
+msgid "LadyQR can create its files."
+msgstr "LadyQR puede crear sus archivos."
+
+msgid "LadyQR cannot be installed on this server until the problems above are solved."
+msgstr "LadyQR no se puede instalar en este servidor hasta que se resuelvan los problemas de arriba."
+
+msgid "LadyQR cannot write in the site's folder. You can still go on: at the end it shows the files to create and upload yourself."
+msgstr "LadyQR no puede escribir en la carpeta del sitio. Puedes seguir igualmente: al final te muestra los archivos que tienes que crear y subir tú."
+
+msgid "LadyQR could not write these files. Create each one in the site's folder, next to index.php, with exactly this content:"
+msgstr "LadyQR no ha podido escribir estos archivos. Crea cada uno en la carpeta del sitio, junto a index.php, exactamente con este contenido:"
+
+msgid "LadyQR is already installed."
+msgstr "LadyQR ya está instalado."
+
+msgid "LadyQR is installed"
+msgstr "LadyQR está instalado"
+
+msgid "LadyQR needs PHP 7.4 or later. Ask your host to change the PHP version."
+msgstr "LadyQR necesita PHP 7.4 o posterior. Pide a tu alojamiento que cambie la versión de PHP."
+
+msgid "LadyQR will only make QR codes."
+msgstr "LadyQR solo hará códigos QR."
+
+msgid "Language of the installer"
+msgstr "Idioma del instalador"
+
+msgid "Language of the site"
+msgstr "Idioma del sitio"
+
+msgid "Off. The .htaccess rules made the site stop answering, so they were undone."
+msgstr "Desactivados. Las reglas del .htaccess hicieron que el sitio dejara de responder, así que se han deshecho."
+
+msgid "Off. The existing .htaccess has a damaged LadyQR block (a \"# BEGIN LadyQR\" or \"# END LadyQR\" line is missing or repeated)."
+msgstr "Desactivados. El .htaccess que ya había tiene dañado el bloque de LadyQR (falta o se repite una línea \"# BEGIN LadyQR\" o \"# END LadyQR\")."
+
+msgid "Off. This server does not let .htaccess send addresses to PHP."
+msgstr "Desactivados. Este servidor no deja que el .htaccess envíe direcciones a PHP."
+
+msgid "On, but they could not be tested. If they do not work, check that your host allows .htaccess files."
+msgstr "Activados, pero no se han podido comprobar. Si no funcionan, comprueba que tu alojamiento admite archivos .htaccess."
+
+msgid "On, tested."
+msgstr "Activados y comprobados."
+
+msgid "Open the QR code generator"
+msgstr "Abrir el generador de códigos QR"
+
+msgid "PHP 7.4 or later is needed."
+msgstr "Hace falta PHP 7.4 o posterior."
+
+msgid "Password hashing and random numbers"
+msgstr "Cifrado de contraseñas y números aleatorios"
+
+msgid "QR code generator + link shortener"
+msgstr "Generador de códigos QR + acortador de enlaces"
+
+msgid "QR code generator only"
+msgstr "Solo generador de códigos QR"
+
+msgid "Save your user and password now."
+msgstr "Guarda ahora tu usuario y tu contraseña."
+
+msgid "Server checks"
+msgstr "Comprobaciones del servidor"
+
+msgid "Sessions do not work on this server, so the admin could not keep you logged in."
+msgstr "Las sesiones no funcionan en este servidor, así que la administración no podría mantener tu sesión abierta."
+
+msgid "Sessions"
+msgstr "Sesiones"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Short links (.htaccess)"
+msgstr "Enlaces cortos (.htaccess)"
+
+msgid "Site address"
+msgstr "Dirección del sitio"
+
+msgid "The .htaccess file was written, but LadyQR could not check that the site still answers. Open your site to make sure it works."
+msgstr "Se ha escrito el archivo .htaccess, pero LadyQR no ha podido comprobar que el sitio sigue respondiendo. Abre tu sitio para asegurarte de que funciona."
+
+msgid "The form expired. Check the values and send it again."
+msgstr "El formulario ha caducado. Revisa los datos y vuelve a enviarlo."
+
+msgid "The language your visitors will see. It can differ from this installer's."
+msgstr "El idioma que verán tus visitantes. Puede ser distinto del de este instalador."
+
+msgid "The password is stored encrypted and will not be shown again."
+msgstr "La contraseña se guarda cifrada y no se volverá a mostrar."
+
+msgid "The password is too long: it can have up to 72 bytes (72 plain letters and digits, fewer with accents or symbols)."
+msgstr "La contraseña es demasiado larga: puede tener hasta 72 bytes (72 letras y números sencillos, menos con tildes o símbolos)."
+
+msgid "The password needs at least 12 characters."
+msgstr "La contraseña necesita al menos 12 caracteres."
+
+msgid "They work, so the admin can keep you logged in."
+msgstr "Funcionan, así que la administración puede mantener tu sesión abierta."
+
+msgid "This PHP lacks password_hash() or random_bytes()."
+msgstr "A este PHP le falta password_hash() o random_bytes()."
+
+msgid "This connection is not secure: the admin's password would travel unencrypted. Use https if your host offers it."
+msgstr "Esta conexión no es segura: la contraseña de la administración viajaría sin cifrar. Usa https si tu alojamiento lo ofrece."
+
+msgid "This connection is secure."
+msgstr "Esta conexión es segura."
+
+msgid "This server does not let .htaccess send addresses to PHP, so short links will be off. The QR code generator works anyway."
+msgstr "Este servidor no deja que el .htaccess envíe direcciones a PHP, así que los enlaces cortos estarán desactivados. El generador de códigos QR funciona igualmente."
+
+msgid "This server lets .htaccess send short links to LadyQR."
+msgstr "Este servidor deja que el .htaccess envíe los enlaces cortos a LadyQR."
+
+msgid "Welcome to LadyQR"
+msgstr "Te damos la bienvenida a LadyQR"
+
+msgid "Where your visitors will find LadyQR. Fix it if it is wrong: with or without www, http or https. Once installed, every visit is sent to this address."
+msgstr "Donde tus visitantes encontrarán LadyQR. Corrígela si está mal: con o sin www, http o https. Una vez instalado, todas las visitas se envían a esta dirección."
+
+msgid "Write a user of up to 60 characters, with no spaces."
+msgstr "Escribe un usuario de hasta 60 caracteres, sin espacios."
+
+msgid "Write the address as https://example.com or http://example.com, with no folder after it."
+msgstr "Escribe la dirección como https://example.com o http://example.com, sin ninguna carpeta detrás."
+
+msgid "Writing in the site's folder"
+msgstr "Escritura en la carpeta del sitio"

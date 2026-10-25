@@ -198,15 +198,19 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
 - The zip has no `.htaccess`. `/admin/` sends to `/admin/install.php` when there is no `ladyqr-config.php`.
 - **Not installed means not usable, so nobody else can install it first.** Reviewed with a second persona, Antonio: he does not read, uploads the files, opens the site, sees the QR code creator working and never visits `/admin/`. If the site worked without being installed, the first bot to find `/admin/install.php` would install it with its own user and use his domain for phishing redirects (or, through the site address, redirect the whole site). So, without `ladyqr-config.php`, **every visit to the site goes to the installer** while `admin/install.php` exists; the owner, who opens the site right after uploading it, is the one who installs it. If `admin/install.php` does not exist, the site is the QR code creator alone, with no notice and no redirect: deleting the `admin` folder is how to use only the creator, with nothing to attack. The address the installer uses to test `.htaccess` is answered before this redirect.
 - `install.php` stops if `ladyqr-config.php` already exists, and says so.
-- It is always in English.
-- **Server checks.** Critical, and it will not go on: PHP 7.4 or later, working PHP sessions. Warnings: `.htaccess` does not reach PHP (the shortener will be off), no HTTPS (the password would travel unencrypted). If PHP cannot write to the web root, the form still works and at the end it shows the contents of each file to create and upload by hand, as WordPress does with `wp-config.php`.
-- **The form**, with the recommended options already chosen:
+- **Four screens**, and nothing is written until the third is sent, so going back is always free:
+  1. **The installer's language**, English by default. The installer is translatable like the rest. Its language travels in the address (`?lang=es_ES`), not in the session, which has not been checked yet.
+  2. **Welcome**: two or three lines in the first person ("Hi! I'm LadyQR…") and "How will you use LadyQR?", with two big buttons side by side (one under the other on a phone): **QR code generator + link shortener** and **QR code generator only**.
+  3. **The server checks for that choice, and its settings.** The site's language comes first, preselected with the installer's but separate from it: the installer can be in Spanish and the site in English.
+     - Generator only: checks PHP 7.4 or later (critical) and writing in the web root (a warning); asks only for the site's language.
+     - Generator and shortener: also password hashing and random numbers, and sessions (critical), `.htaccess` reaching PHP and HTTPS (warnings); asks for the site's address, a user and a password.
+     - If PHP cannot write to the web root, it still goes on, and screen 4 shows the contents of each file to create and upload by hand, as WordPress does with `wp-config.php`.
+  4. **The result**: the files to create by hand if needed; for the shortener, a summary, the user and the password once (warning that the password is now encrypted and will not be shown again), and buttons to the generator and to the shortener; for the generator alone, that changing your mind means editing `ladyqr-config.php` or deleting it to use the installer again, and a button to the generator.
+- **The settings of screen 3**:
   - Base address of the short links: the path is always where LadyQR is installed. The scheme and the host are proposed from the current request and can be corrected (with or without `www`, `http` or `https`), since the visit may have come in through the wrong one. Once installed, `.htaccess` forces that form.
-  - Language of the application, from the included translations.
-  - Mode: **editor and shortener** (asks for a user and password) or **editor only** (asks for nothing). An admin with no password is not offered; it stays as a manual setting in the configuration file, with its permanent warning.
+  - An admin with no password is not offered; it stays as a manual setting in the configuration file, with its permanent warning.
   - Password: a suggested one is filled in, visible, 20 random characters from `random_bytes()`, letters and digits without the ambiguous ones (`0 O o 1 l I`). Alfonso can change it: at least 12 characters, at most 72 bytes (the `password_hash()` limit), with a message instead of a silent cut. No confirmation field, since it is visible. No JavaScript; reloading gives another suggestion. Only the hash is written.
-- **On saving** it writes `ladyqr-config.php`, `ladyqr-data.php` and `.htaccess`, always in the web root next to `index.php`. They still work if moved one level up by hand.
-- **The final screen** shows a summary and links to the editor and the admin, and shows the user and the password once, warning that the password is now encrypted and will not be shown again.
+- **On saving**, the shortener writes `.htaccess`, `ladyqr-data.php` and, last, `ladyqr-config.php`; the generator alone writes only `ladyqr-config.php`, with its language and the shortener off. Always in the web root next to `index.php`; they still work if moved one level up by hand.
 
 **`.htaccess`**
 
@@ -215,7 +219,7 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
 - The block carries a version. When entering the admin, a block from another version is rewritten automatically, and a missing block (or a missing file) is put back, with the existing check and rollback, and the admin says what it did. If it cannot write, it shows the text to paste.
 - This also covers a manual install: copy the sample, set the user, the password and the shortener on, and the admin writes the block on the first visit.
 
-**Editor only mode**
+**Generator only mode**
 
 - `/admin/` shows a notice that the shortener is turned off in the configuration, without saying how to change it.
 
