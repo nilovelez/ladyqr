@@ -265,4 +265,5 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
 
 Things that are wanted but not urgent, in no particular order.
 
+- **Compatibility with nginx and LiteSpeed.** nginx does not read `.htaccess`, so its rules would have to be written in the server configuration; LiteSpeed reads `.htaccess` but has not been tested.
 - **Customize the generator page.** How is to be decided; probably an optional `header.html` and `footer.html` in the install folder, included before and after the generator when they exist.
