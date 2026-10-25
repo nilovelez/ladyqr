@@ -1,0 +1,74 @@
+LadyQR
+======
+
+LadyQR makes QR codes right in your browser: what you type never leaves it.
+It also comes with an optional link shortener for your own domain.
+
+https://github.com/nilovelez/ladyqr
+
+
+Requirements
+------------
+
+- A web hosting with PHP 7.4 or later. No database is needed.
+- For the link shortener, an Apache server that allows .htaccess files
+  (most shared hostings do). The QR code generator works without them.
+- HTTPS is recommended, so the admin's password travels encrypted.
+
+
+Installing
+----------
+
+1. Unzip ladyqr-latest.zip on your computer. You get a folder called
+   "ladyqr".
+
+2. Upload what is INSIDE the "ladyqr" folder to your site, by FTP or with
+   your hosting's file manager. It can go in the root of your domain or in a
+   folder of it, such as /qr/.
+
+3. Open your site in a browser. The installer starts by itself and asks:
+   - the language of the installer,
+   - which components you want to install: the QR code generator alone, or
+     the generator with the link shortener,
+   - and the settings for that choice.
+
+   If you choose the link shortener, write down the user and the password it
+   shows at the end. The password is not shown again.
+
+Install it right after uploading it: until it is installed, every visit to
+your site goes to the installer, and whoever gets there first could install
+it.
+
+
+Only the QR code generator, with nothing to attack
+--------------------------------------------------
+
+If you only want the QR code generator, you can also delete the "admin"
+folder from your site instead of using the installer. Without it there is no
+installer and no admin: your site is just the QR code generator.
+
+
+Updating
+--------
+
+Unzip the new ladyqr-latest.zip and upload what is inside the "ladyqr"
+folder over your current files, replacing them.
+
+Your settings (ladyqr-config.php), your short links (ladyqr-data.php) and
+your .htaccess are not in the zip, so they are kept.
+
+If you had deleted the "admin" folder, delete it again after updating.
+
+
+Installing again
+----------------
+
+Delete the ladyqr-config.php file from your site and open it in a browser:
+the installer starts again. Your short links, in ladyqr-data.php, are kept.
+
+
+If something goes wrong
+-----------------------
+
+See the "Troubleshooting" section of the README:
+https://github.com/nilovelez/ladyqr#troubleshooting
