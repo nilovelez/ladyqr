@@ -6,8 +6,9 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
 
 - Minimal dependencies: ideally none at runtime. No build step.
 - Stage 1, the QR code generator, runs entirely in the browser. Nothing is sent to the server, and a strict CSP guarantees it.
-- Stage 2, the URL shortener, is private and single-user. It is a small PHP admin that writes a delimited block of redirects into `.htaccess`, so redirects are served by Apache without running PHP. When no redirect matches, the QR code generator loads.
-- Anyone must be able to deploy the same thing: one configuration file, our own authentication and bundled documentation.
+- Stage 2, the URL shortener, is private and single-user. It is a small PHP admin that keeps the links in a data file; `index.php` answers them, and `.htaccess` only sends the paths that do not exist to it (see M5). Without a working `.htaccess` the shortener is off and the generator still works.
+- **Secure by design without `.htaccess`.** The application works and is secure if there is no `.htaccess`; it adds nothing that security depends on.
+- Anyone must be able to deploy the same thing: an installer in the style of WordPress's, one configuration file, our own authentication and bundled documentation. Updating is uploading the new files over the old ones: the zip never contains a file that the user or the application changes.
 - **The best the host allows, and never break by asking for too much.** Harden what can be hardened (secure cookies, HTTPS rules), but if the hosting does not allow something, carry on with what it does allow. A server without SSL must still work.
 - Use what PHP gives natively. Do not make the user depend on things many shared hosts forbid, such as choosing where sessions are stored.
 - License: GPL-2.0-or-later (see `LICENSE`).
@@ -15,7 +16,7 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
 ## Design decisions
 
 - **Outputs:** PNG and SVG.
-- **Configuration file:** a PHP file that returns an array. It is looked up in the web root first and, if missing, one level above, like `wp-config.php`. The file is called `ladyqr-config.php`; a `.gitignore` entry keeps the real one out of the repository and `ladyqr-config.sample.php` documents it. Reading a file above the web root works on the target hosting. As in WordPress plugins, the file starts with `defined( 'LADYQR' ) || exit;`: `index.php` defines `LADYQR` before reading it, so a direct request prints nothing and the file is safe in the web root. `.htaccess` also blocks it.
+- **Configuration file:** a PHP file that returns an array. It is looked up in the web root first and, if missing, one level above, like `wp-config.php`. The file is called `ladyqr-config.php`; a `.gitignore` entry keeps the real one out of the repository and `ladyqr-config.sample.php` documents it. Reading a file above the web root works on the target hosting. As in WordPress plugins, the file starts with `defined( 'LADYQR' ) || exit;`: `index.php` defines `LADYQR` before reading it, so a direct request prints nothing and the file is safe in the web root, with or without `.htaccess`.
 - **Authentication:** a single user, written in-house.
   - **The password is written in plain text in the configuration file, and secured by the first login.** The file has `user` and `password`. The first time someone logs in with the right user and password, the plain text is replaced in the file by `password_hash()`'s result, which holds its own random salt, the algorithm and the cost (bcrypt by default, so `$2y$…`). From then on the password is checked with `password_verify()`. To change it, write the new one in plain text in the file; it is secured again at the next login. This needs no command line and no hash generator.
   - **Telling a plain password from a hash is reliable:** a hash is what `password_get_info()` recognizes (it starts with `$2y$`, or `$argon2…`), and a plain password never does. `password_needs_rehash()` updates the hash when PHP raises its default cost.
@@ -34,10 +35,10 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
   3. **A user and a password set: normal login.**
   - The switch is a setting of its own, deliberately **not** an empty password: the sample file ships with no empty password field to copy by accident, and an empty or missing password never opens the panel by itself. If `require_login` is `false` and there are credentials as well, the panel is still open and still warns.
   - The credentials and `require_login` are only ever set by editing the configuration file, never through the web.
-- **`.htaccess` writes:** only inside a `# BEGIN` / `# END` block, validated, atomic (temporary file plus rename), with a `.bak` copy, followed by a request from the server to itself to check that the site still answers, and an automatic rollback if it does not. This works on the target hosting (see `docs/hosting.md`). A syntax error must never take the site down. If a host cannot request itself, there is no rollback and the validation must be stricter.
+- **`.htaccess` writes:** only inside a `# BEGIN` / `# END` block (from M5 it holds the routing rule, not the links), validated, atomic (temporary file plus rename), with a `.bak` copy, followed by a request from the server to itself to check that the site still answers, and an automatic rollback if it does not. This works on the target hosting (see `docs/hosting.md`). A syntax error must never take the site down. If a host cannot request itself, there is no rollback and the validation must be stricter.
 - **No lock for now.** `flock` does not work across requests on the target hosting, and with a single-user personal tool two simultaneous writes are very unlikely, so writes are done carefully and a lock is left in the backlog.
-- **Redirects:** plain `Redirect` lines inside the block. Apache answers them without PHP, and a change takes effect in well under a second on the target hosting.
-- **Force HTTPS:** the target hosting does not redirect `http://` to `https://`, so a rule using `%{HTTPS}` in the fixed part of `.htaccess` does it. It was tested and it does not loop.
+- **Redirects:** until M4, `RedirectMatch` lines inside the block, answered by Apache without PHP. From M5 they live in `ladyqr-data.php` and `index.php` answers them, so a lost or replaced `.htaccess` can never lose the links.
+- **Force HTTPS:** the target hosting does not redirect `http://` to `https://`, so a rule using `%{HTTPS}` does it. It was tested and it does not loop. From M5 the installer writes it, with the chosen host (with or without `www`), at the top of a `.htaccess` it creates.
 - **Distribution:** clonable repository first, and later a release `.zip` ready for FTP.
 - **PHP is required anyway:** the project needs PHP regardless (the shortener), so the editor page is generated by PHP and what reaches the user is static HTML.
 - **Multilingual:** the interface is translatable the WordPress way, so standard tools (`wp i18n make-pot`, Poedit, Loco, GlotPress) work on it.
@@ -50,7 +51,7 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
 
 ## Milestones
 
-Work is done one milestone at a time, each in its own branch, and a milestone is only started when explicitly authorized.
+Work is done one milestone at a time, and a milestone is only started when explicitly authorized.
 
 ### M0. First publishable QR code generator — done
 
@@ -162,9 +163,9 @@ The short links, managed in the admin. Built and tested locally; **nothing has b
 
 Done when a link created in the admin redirects without PHP and a mistake can never leave the site returning errors.
 
-### Design revision — built, waiting for approval
+### Design revision — done
 
-A round of design and UX corrections from the author, on branch `design/cleaner-ui`, before M5.
+A round of design and UX corrections from the author, before M5.
 
 - **Light only.** The dark theme is gone from the editor, the admin, the not-found page and the website. The "manual light/dark switch" leaves the backlog.
 - **A simpler, cleaner look.** Neutral grays, 6 px radius on controls and 10 px on cards, a near-flat card, 44 px controls with labels above them in sentence case, buttons as wide as their text, and fields with an add-on (the site's address before a short name) that line up with the rest.
@@ -172,12 +173,61 @@ A round of design and UX corrections from the author, on branch `design/cleaner-
 - **Logging out moved** from a button in the card to a line above it, on the right: "Signed in as admin – Log out", where "Log out" is a link carrying the session's token.
 - **DESIGN.md is now a design system**: tokens with measured contrast, shape and spacing scales, the shared components, each screen, and a consistency checklist. The shared components moved to `assets/app.css`.
 - The website's editor screenshot was retaken, and its roadmap no longer says the admin and the shortener are only planned.
+- **The editor's settings** are a folded "Customize" box under the QR code on narrow screens, showing the current values, and the side column on wide ones. Inside: error correction, the two colors side by side, the margin and the reset button.
+- **The short link forms** put the labels beside the fields from 720 px up.
 
-### M5. Documentation and packaging
+### M5. Installer, and a site that works without `.htaccess` — in progress
 
-Installation guide, troubleshooting based on `hosting.md`, a complete `ladyqr-config.sample.php`, and a release `.zip` ready for FTP.
+Reviewed with a user persona: Alfonso, a web implementer used to WordPress, PrestaShop and Joomla. He can create a hosting, unzip a file, edit a configuration file and upload by FTP or with the host's file manager, but he does not read code and knows that an application's code files are not to be touched, only its configuration. What M4 left him: a zip with an `.htaccess` that mixes fixed rules, settings he has to edit by hand (HTTPS, the subfolder) and all his short links, so uploading a new version over the old one would wipe them.
 
-### M6. Automated tests and encoder consolidation
+**Principles**
+
+- **Secure by design without `.htaccess`.** The application must work and be secure if there is no `.htaccess`. Every PHP file that is not a page stops when requested directly, and no copy of the configuration or the data is ever written with another extension.
+- **The zip never contains a file that the user or the application changes.** No `ladyqr-config.php`, no `ladyqr-data.php`, no `.htaccess`. Updating is "upload everything over the old one".
+- **The release zip is clean** (runtime files only), with an `INSTALL.txt` (not a `README.txt`) that covers installing and updating. Not built yet.
+
+**Short links**
+
+- Stored in `ladyqr-data.php` and always answered by PHP. `.htaccess` only sends the paths that do not exist to `index.php`.
+- `index.php` is the single entry point: the root is the editor, a known name is a short link, anything else is a 404.
+- Without a working `.htaccess` the shortener is turned off and only the editor works.
+- Whether the shortener is on is a setting in `ladyqr-config.php`. The installer tests once that `.htaccess` really reaches PHP (a request to a test path) and writes the result; the application does not test it again.
+
+**Installer, in the style of WordPress's five minute install**
+
+- The zip has no `.htaccess`. `/admin/` sends to `/admin/install.php` when there is no `ladyqr-config.php`.
+- `install.php` stops if `ladyqr-config.php` already exists, and says so.
+- It is always in English.
+- **Server checks.** Critical, and it will not go on: PHP 7.4 or later, working PHP sessions. Warnings: `.htaccess` does not reach PHP (the shortener will be off), no HTTPS (the password would travel unencrypted). If PHP cannot write to the web root, the form still works and at the end it shows the contents of each file to create and upload by hand, as WordPress does with `wp-config.php`.
+- **The form**, with the recommended options already chosen:
+  - Base address of the short links: the path is always where LadyQR is installed. The scheme and the host are proposed from the current request and can be corrected (with or without `www`, `http` or `https`), since the visit may have come in through the wrong one. Once installed, `.htaccess` forces that form.
+  - Language of the application, from the included translations.
+  - Mode: **editor and shortener** (asks for a user and password) or **editor only** (asks for nothing). An admin with no password is not offered; it stays as a manual setting in the configuration file, with its permanent warning.
+  - Password: a suggested one is filled in, visible, 20 random characters from `random_bytes()`, letters and digits without the ambiguous ones (`0 O o 1 l I`). Alfonso can change it: at least 12 characters, at most 72 bytes (the `password_hash()` limit), with a message instead of a silent cut. No confirmation field, since it is visible. No JavaScript; reloading gives another suggestion. Only the hash is written.
+- **On saving** it writes `ladyqr-config.php`, `ladyqr-data.php` and `.htaccess`, always in the web root next to `index.php`. They still work if moved one level up by hand.
+- **The final screen** shows a summary and links to the editor and the admin, and shows the user and the password once, warning that the password is now encrypted and will not be shown again.
+
+**`.htaccess`**
+
+- If one exists, only the LadyQR block is added, between `# BEGIN LadyQR` and `# END LadyQR`, with the rule that sends the paths that do not exist to `index.php`. Nothing else is touched.
+- If it is created from scratch, the generic rules go at the top (force HTTPS, and the host with or without `www`), and then the LadyQR block.
+- The block carries a version. When entering the admin, a block from another version is rewritten automatically, and a missing block (or a missing file) is put back, with the existing check and rollback, and the admin says what it did. If it cannot write, it shows the text to paste.
+- This also covers a manual install: copy the sample, set the user, the password and the shortener on, and the admin writes the block on the first visit.
+
+**Editor only mode**
+
+- `/admin/` shows a notice that the shortener is turned off in the configuration, without saying how to change it.
+
+**Consequences**
+
+- The M4 shortener is rebuilt: the links move from `RedirectMatch` lines in `.htaccess` to `ladyqr-data.php`, served by `index.php`.
+- The removal of the empty block when the last link is deleted (commit `12ac1d7`) no longer applies.
+
+### M6. Documentation and packaging
+
+`INSTALL.txt` (installing and updating), troubleshooting based on `hosting.md`, a complete `ladyqr-config.sample.php`, and a clean release `.zip` ready for FTP, with the runtime files only.
+
+### M7. Automated tests and encoder consolidation
 
 Automated tests with Node's built-in runner, kept apart from the runtime code (the test-only tools would be development dependencies), including the checks that today live in throwaway scripts. Optionally, numeric and alphanumeric modes for smaller codes.
 
