@@ -1,7 +1,8 @@
 <?php
 /**
- * LadyQR configuration. Copy this file to `ladyqr-config.php`, either in the
- * web root or one level above it, and change what you need.
+ * LadyQR configuration. The installer, at /admin/, writes this file for you.
+ * To write it by hand instead, copy this file to `ladyqr-config.php`, either in
+ * the web root or one level above it, and change what you need.
  *
  * Keep the line below. index.php defines LADYQR before it reads this file, so
  * if someone requests the file directly it stops and prints nothing, and it is
@@ -13,6 +14,15 @@ return array(
 	// Interface language, as a WordPress-style locale. Leave it as 'en_US' for
 	// English, or use another one for which languages/ladyqr-<locale>.mo exists.
 	'language' => 'en_US',
+
+	// The address of the site, without a final slash, such as https://example.com
+	// or https://example.com/qr. Without it, LadyQR uses the address of each visit.
+	// 'url' => 'https://example.com',
+
+	// Short links. Remove the two slashes to turn them on. They need a user and a
+	// password below, and an .htaccess that sends the addresses that are not
+	// files to index.php: the admin writes it the first time you log in.
+	// 'shortener' => true,
 
 	// The admin, at /admin/. Remove the two slashes in front of both lines and
 	// write your user and password. The password goes in plain text: the first

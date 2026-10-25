@@ -1,15 +1,13 @@
 <?php
 /**
- * The page Apache shows when nothing matches: no short link, no file.
- *
- * It answers with a real 404 status. It is set as the ErrorDocument in
- * .htaccess, so it also runs for a missing file inside any folder.
+ * The not-found page, with a real 404 status. index.php shows it for any
+ * address that is neither a file nor a short link.
  */
 
-define( 'LADYQR', true );
-require __DIR__ . '/includes/functions.php';
-require __DIR__ . '/includes/config.php';
-require __DIR__ . '/includes/i18n.php';
+defined( 'LADYQR' ) || define( 'LADYQR', true );
+require_once __DIR__ . '/includes/functions.php';
+require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/i18n.php';
 
 $ladyqr_config = ladyqr_config();
 ladyqr_load_textdomain( $ladyqr_config['language'] );

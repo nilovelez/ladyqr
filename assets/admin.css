@@ -308,6 +308,134 @@ pre.code code {
 	font: inherit;
 }
 
+/* Installer */
+
+.checks {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 0.95rem;
+}
+
+.checks li {
+	display: flex;
+	gap: 10px;
+	color: var(--muted);
+}
+
+.checks strong {
+	color: var(--ink);
+}
+
+.check-mark {
+	flex: none;
+	width: 22px;
+	height: 22px;
+	font-size: 0.8rem;
+	font-weight: 700;
+	line-height: 22px;
+	text-align: center;
+	color: var(--accent-ink);
+	background: var(--muted);
+	border-radius: 50%;
+}
+
+.check-warn .check-mark {
+	background: var(--warn);
+}
+
+.check-fail .check-mark {
+	background: var(--accent);
+}
+
+.choices {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.choice {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	padding: 10px 12px;
+	font-size: 0.95rem;
+	color: var(--muted);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	cursor: pointer;
+}
+
+.choice strong {
+	color: var(--ink);
+}
+
+.choice input {
+	flex: none;
+	margin: 4px 0 0;
+	accent-color: var(--accent);
+}
+
+.choice:has(input:checked) {
+	border-color: var(--border);
+	background: var(--zebra);
+}
+
+/* With "editor only" chosen, the user and password do not apply. */
+.form:has(#mode-editor:checked) .full-only {
+	display: none;
+}
+
+.input-group .addon-after {
+	border-right: 1px solid var(--border);
+	border-left: 0;
+	border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.input-group .input:has(+ .addon-after),
+.input-group .input:not(:last-child) {
+	border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.input.mono {
+	font-family: var(--mono);
+}
+
+table.summary {
+	border-collapse: collapse;
+	font-size: 0.95rem;
+}
+
+table.summary th,
+table.summary td {
+	padding: 6px 16px 6px 0;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.summary th {
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+table.summary code {
+	font-family: var(--mono);
+	font-size: 1rem;
+}
+
+.credentials {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 12px 14px;
+	background: var(--zebra);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+
 /* Buttons keep their own width and line up on the left, like the form's. */
 
 .card-body > .btn {

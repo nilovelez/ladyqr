@@ -77,9 +77,6 @@ msgstr "Todavía no hay usuario ni contraseña, así que nadie puede entrar. Par
 msgid "Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash."
 msgstr "Escribe la contraseña en texto plano. La primera vez que entres, LadyQR la sustituye por un hash seguro."
 
-msgid "If you do not have a configuration file yet, copy ladyqr-config.sample.php to ladyqr-config.php."
-msgstr "Si todavía no tienes un archivo de configuración, copia ladyqr-config.sample.php como ladyqr-config.php."
-
 msgid "Sessions do not work on this server, so the admin cannot keep you logged in."
 msgstr "Las sesiones no funcionan en este servidor, así que la administración no puede mantenerte conectado."
 
@@ -199,9 +196,6 @@ msgstr "Editar"
 msgid "Goes to"
 msgstr "Lleva a"
 
-msgid "LadyQR cannot write to the .htaccess file. Make it writable (for example, permissions 644 and owned by the web server's user) and try again."
-msgstr "LadyQR no puede escribir en el archivo .htaccess. Hazlo escribible (por ejemplo, permisos 644 y propiedad del usuario del servidor web) e inténtalo de nuevo."
-
 msgid "Make a QR code"
 msgstr "Crear un código QR"
 
@@ -210,9 +204,6 @@ msgstr "Página no encontrada"
 
 msgid "Save changes"
 msgstr "Guardar cambios"
-
-msgid "Saved, but LadyQR could not check that the site still answers. Open your site to make sure it works."
-msgstr "Guardado, pero LadyQR no pudo comprobar que el sitio sigue respondiendo. Abre tu sitio para asegurarte de que funciona."
 
 msgid "Short name"
 msgstr "Nombre corto"
@@ -223,20 +214,8 @@ msgstr "Ese nombre está reservado, porque lo usa un archivo o una carpeta del s
 msgid "That short link no longer exists. Reload the list."
 msgstr "Ese enlace corto ya no existe. Recarga la lista."
 
-msgid "The .htaccess file cannot be read."
-msgstr "No se puede leer el archivo .htaccess."
-
-msgid "The .htaccess file could not be saved. Nothing was changed."
-msgstr "No se pudo guardar el archivo .htaccess. No se ha cambiado nada."
-
 msgid "The address must start with http:// or https://, have no spaces, and use only plain ASCII characters (write other characters percent-encoded)."
 msgstr "La dirección debe empezar por http:// o https://, no tener espacios y usar solo caracteres ASCII simples (escribe los demás codificados con %)."
-
-msgid "The block of short links in the .htaccess file is damaged (a \"BEGIN LadyQR short links\" or \"END LadyQR short links\" line is missing or repeated), so LadyQR will not touch it. Fix it by hand or remove the block."
-msgstr "El bloque de enlaces cortos del archivo .htaccess está dañado (falta o se repite una línea «BEGIN LadyQR short links» o «END LadyQR short links»), así que LadyQR no lo tocará. Arréglalo a mano o elimina el bloque."
-
-msgid "The change made the site stop answering, so it was undone. Nothing was changed."
-msgstr "El cambio hizo que el sitio dejara de responder, así que se deshizo. No se ha cambiado nada."
 
 msgid "The short link was added."
 msgstr "Se añadió el enlace corto."
@@ -252,9 +231,6 @@ msgstr "El nombre corto solo puede tener letras, dígitos y guiones, hasta 64 ca
 
 msgid "There is already a short link with that name."
 msgstr "Ya hay un enlace corto con ese nombre."
-
-msgid "There is no .htaccess file in the site's folder, and the short links are stored in it. Upload the .htaccess file that comes with LadyQR."
-msgstr "No hay ningún archivo .htaccess en la carpeta del sitio, y los enlaces cortos se guardan en él. Sube el archivo .htaccess que viene con LadyQR."
 
 msgid "This short link does not exist, or it was removed."
 msgstr "Este enlace corto no existe, o fue eliminado."
@@ -292,3 +268,36 @@ msgstr "Editar enlace corto"
 
 msgid "Delete short link"
 msgstr "Eliminar enlace corto"
+
+msgid "LadyQR cannot write its rules in the .htaccess file, so short links will not work. Put this text in the .htaccess file of the site's folder, or make the file writable and reload this page:"
+msgstr "LadyQR no puede escribir sus reglas en el archivo .htaccess, así que los enlaces cortos no funcionarán. Pon este texto en el archivo .htaccess de la carpeta del sitio, o permite escribir en el archivo y recarga esta página:"
+
+msgid "LadyQR cannot write to the ladyqr-data.php file, where the short links are kept. Make it writable (for example, permissions 644 and owned by the web server's user) and try again."
+msgstr "LadyQR no puede escribir en el archivo ladyqr-data.php, donde se guardan los enlaces cortos. Permite escribir en él (por ejemplo, permisos 644 y del usuario del servidor web) y vuelve a intentarlo."
+
+msgid "LadyQR could not check that the site still answers. Open your site to make sure it works."
+msgstr "LadyQR no ha podido comprobar que el sitio sigue respondiendo. Abre tu sitio para asegurarte de que funciona."
+
+msgid "LadyQR tried to write its rules in the .htaccess file, but the site stopped answering, so the change was undone. Short links will not work until the rules are in place."
+msgstr "LadyQR intentó escribir sus reglas en el archivo .htaccess, pero el sitio dejó de responder, así que el cambio se ha deshecho. Los enlaces cortos no funcionarán hasta que las reglas estén en su sitio."
+
+msgid "LadyQR updated its rules in the .htaccess file for this version."
+msgstr "LadyQR ha actualizado sus reglas del archivo .htaccess para esta versión."
+
+msgid "LadyQR's block in the .htaccess file is damaged (a \"# BEGIN LadyQR\" or \"# END LadyQR\" line is missing or repeated), so LadyQR will not touch it, and short links may not work. Remove the block and reload this page."
+msgstr "El bloque de LadyQR en el archivo .htaccess está dañado (falta o se repite una línea \"# BEGIN LadyQR\" o \"# END LadyQR\"), así que LadyQR no lo tocará, y puede que los enlaces cortos no funcionen. Quita el bloque y recarga esta página."
+
+msgid "LadyQR's rules were missing from the .htaccess file, so short links did not work. They are back."
+msgstr "Faltaban las reglas de LadyQR en el archivo .htaccess, así que los enlaces cortos no funcionaban. Ya están de vuelta."
+
+msgid "The .htaccess file cannot be read, so LadyQR cannot check its rules, and short links may not work."
+msgstr "No se puede leer el archivo .htaccess, así que LadyQR no puede comprobar sus reglas, y puede que los enlaces cortos no funcionen."
+
+msgid "The ladyqr-data.php file, where the short links are kept, cannot be read or is damaged, so LadyQR will not touch it."
+msgstr "El archivo ladyqr-data.php, donde se guardan los enlaces cortos, no se puede leer o está dañado, así que LadyQR no lo tocará."
+
+msgid "The short links are turned off in the configuration."
+msgstr "Los enlaces cortos están desactivados en la configuración."
+
+msgid "The short links could not be saved. Nothing was changed."
+msgstr "No se han podido guardar los enlaces cortos. No se ha cambiado nada."

@@ -2,10 +2,12 @@
 /**
  * LadyQR admin.
  *
- * A single page with four states: locked (no user and password set), open (the
- * owner turned the login off on purpose, with a permanent warning), the login
- * form, and the panel once logged in. The panel lists, adds, edits and deletes
- * the short links, which live in the managed block of the root .htaccess.
+ * Without a configuration file it sends to the installer. With the shortener
+ * turned off it only says so. Otherwise it is a single page with four states:
+ * locked (no user and password set), open (the owner turned the login off on
+ * purpose, with a permanent warning), the login form, and the panel once logged
+ * in. The panel lists, adds, edits and deletes the short links, which live in
+ * ladyqr-data.php, and keeps LadyQR's block in .htaccess in place.
  */
 
 define( 'LADYQR', true );
@@ -16,7 +18,13 @@ require $ladyqr_root . '/includes/i18n.php';
 require $ladyqr_root . '/includes/auth.php';
 require $ladyqr_root . '/includes/config-writer.php';
 require $ladyqr_root . '/includes/links.php';
+require $ladyqr_root . '/includes/data.php';
 require $ladyqr_root . '/includes/htaccess.php';
+
+if ( null === ladyqr_config_file() ) {
+	header( 'Location: install.php', true, 302 );
+	exit;
+}
 
 $ladyqr_config = ladyqr_config();
 ladyqr_load_textdomain( $ladyqr_config['language'] );
@@ -28,8 +36,8 @@ header( 'Referrer-Policy: no-referrer' );
 header( 'Cache-Control: no-store' );
 header( 'X-Robots-Tag: noindex, nofollow' );
 
-$ladyqr_mode      = ladyqr_auth_mode();
-$ladyqr_view      = $ladyqr_mode; // locked, open or login.
+$ladyqr_mode      = $ladyqr_config['shortener'] ? ladyqr_auth_mode() : 'off';
+$ladyqr_view      = $ladyqr_mode; // off, locked, open or login.
 $ladyqr_error     = '';           // login, csrf or session.
 $ladyqr_expired   = false;
 $ladyqr_secured   = '';           // What happened to the plain password after login.
@@ -96,14 +104,18 @@ $ladyqr_links       = array();
 $ladyqr_screen      = 'list'; // list, edit or delete.
 $ladyqr_form        = array( 'original' => '', 'slug' => '', 'target' => '', 'status' => 302 );
 $ladyqr_problems    = array();
-$ladyqr_save        = '';     // What went wrong when saving: not_writable, rolled_back or failed.
+$ladyqr_save        = '';     // What went wrong when saving: not_writable or failed.
 $ladyqr_done        = '';
-$ladyqr_done_check  = false;
-$ladyqr_host        = isset( $_SERVER['HTTP_HOST'] ) ? (string) $_SERVER['HTTP_HOST'] : '';
-$ladyqr_base        = ladyqr_base_path( 1 );
-$ladyqr_origin      = ( ladyqr_is_https() ? 'https://' : 'http://' ) . $ladyqr_host . $ladyqr_base . '/';
+$ladyqr_site        = ladyqr_site_url( 1 );
+$ladyqr_host        = (string) parse_url( $ladyqr_site, PHP_URL_HOST );
+$ladyqr_base        = rtrim( (string) parse_url( $ladyqr_site, PHP_URL_PATH ), '/' );
+$ladyqr_origin      = $ladyqr_site . '/';
+$ladyqr_htaccess    = null;
 
 if ( in_array( $ladyqr_view, array( 'panel', 'open' ), true ) ) {
+	// The short links need LadyQR's block in .htaccess: put it back if it went
+	// missing, and rewrite it if it comes from another version.
+	$ladyqr_htaccess    = ladyqr_htaccess_ensure( $ladyqr_site );
 	$ladyqr_links_state = ladyqr_links_load();
 	if ( 'ok' === $ladyqr_links_state['state'] ) {
 		$ladyqr_links = $ladyqr_links_state['links'];
@@ -153,9 +165,9 @@ if ( in_array( $ladyqr_view, array( 'panel', 'open' ), true ) ) {
 			}
 
 			if ( array() === $ladyqr_problems ) {
-				$ladyqr_result = ladyqr_links_save( $ladyqr_links_state, $ladyqr_new );
-				if ( 'saved' === $ladyqr_result || 'unverified' === $ladyqr_result ) {
-					header( 'Location: ' . $ladyqr_self . '?done=' . $ladyqr_word . ( 'unverified' === $ladyqr_result ? '&check=none' : '' ), true, 303 );
+				$ladyqr_result = ladyqr_links_save( $ladyqr_new );
+				if ( 'saved' === $ladyqr_result ) {
+					header( 'Location: ' . $ladyqr_self . '?done=' . $ladyqr_word, true, 303 );
 					exit;
 				}
 				$ladyqr_save = $ladyqr_result;
@@ -171,8 +183,7 @@ if ( in_array( $ladyqr_view, array( 'panel', 'open' ), true ) ) {
 		}
 
 		if ( isset( $_GET['done'] ) && in_array( $_GET['done'], array( 'added', 'updated', 'deleted' ), true ) ) {
-			$ladyqr_done       = $_GET['done'];
-			$ladyqr_done_check = isset( $_GET['check'] ) && 'none' === $_GET['check'];
+			$ladyqr_done = $_GET['done'];
 		}
 	}
 }
@@ -254,15 +265,56 @@ function ladyqr_save_notice( $result ) {
 		return;
 	}
 	if ( 'not_writable' === $result ) {
-		$text = esc_html__( 'LadyQR cannot write to the .htaccess file. Make it writable (for example, permissions 644 and owned by the web server\'s user) and try again.', 'ladyqr' );
-	} elseif ( 'rolled_back' === $result ) {
-		$text = esc_html__( 'The change made the site stop answering, so it was undone. Nothing was changed.', 'ladyqr' );
+		$text = esc_html__( 'LadyQR cannot write to the ladyqr-data.php file, where the short links are kept. Make it writable (for example, permissions 644 and owned by the web server\'s user) and try again.', 'ladyqr' );
 	} else {
-		$text = esc_html__( 'The .htaccess file could not be saved. Nothing was changed.', 'ladyqr' );
+		$text = esc_html__( 'The short links could not be saved. Nothing was changed.', 'ladyqr' );
 	}
 	echo '<p class="notice error" role="alert">';
 	ladyqr_icon_warning();
 	echo '<span>' . $text . '</span></p>';
+}
+
+/**
+ * Prints what happened to LadyQR's block in .htaccess when the panel opened.
+ *
+ * @param array|null $ensure What ladyqr_htaccess_ensure() returned.
+ */
+function ladyqr_htaccess_notice( $ensure ) {
+	if ( null === $ensure ) {
+		return;
+	}
+	$state  = $ensure['state'];
+	$result = $ensure['result'];
+	$paste  = false;
+	$class  = 'notice error';
+	if ( 'damaged' === $state ) {
+		$text = esc_html__( 'LadyQR\'s block in the .htaccess file is damaged (a "# BEGIN LadyQR" or "# END LadyQR" line is missing or repeated), so LadyQR will not touch it, and short links may not work. Remove the block and reload this page.', 'ladyqr' );
+	} elseif ( 'unreadable' === $state ) {
+		$text = esc_html__( 'The .htaccess file cannot be read, so LadyQR cannot check its rules, and short links may not work.', 'ladyqr' );
+	} elseif ( '' === $result ) {
+		return;
+	} elseif ( 'saved' === $result || 'unverified' === $result ) {
+		$class = 'notice info';
+		$text  = 'outdated' === $state
+			? esc_html__( 'LadyQR updated its rules in the .htaccess file for this version.', 'ladyqr' )
+			: esc_html__( 'LadyQR\'s rules were missing from the .htaccess file, so short links did not work. They are back.', 'ladyqr' );
+		if ( 'unverified' === $result ) {
+			$text .= ' ' . esc_html__( 'LadyQR could not check that the site still answers. Open your site to make sure it works.', 'ladyqr' );
+		}
+	} elseif ( 'rolled_back' === $result ) {
+		$text = esc_html__( 'LadyQR tried to write its rules in the .htaccess file, but the site stopped answering, so the change was undone. Short links will not work until the rules are in place.', 'ladyqr' );
+	} else {
+		$text  = esc_html__( 'LadyQR cannot write its rules in the .htaccess file, so short links will not work. Put this text in the .htaccess file of the site\'s folder, or make the file writable and reload this page:', 'ladyqr' );
+		$paste = true;
+	}
+	echo '<p class="' . $class . '" role="' . ( 'notice info' === $class ? 'status' : 'alert' ) . '">';
+	if ( 'notice info' !== $class ) {
+		ladyqr_icon_warning();
+	}
+	echo '<span>' . $text . '</span></p>';
+	if ( $paste ) {
+		echo '<pre class="code"><code>' . htmlspecialchars( $ensure['text'], ENT_QUOTES, 'UTF-8' ) . '</code></pre>';
+	}
 }
 ?>
 <!doctype html>
@@ -302,14 +354,17 @@ function ladyqr_save_notice( $result ) {
 				<h1><?php esc_html_e( 'LadyQR admin', 'ladyqr' ); ?></h1>
 			</div>
 
-			<?php if ( 'locked' === $ladyqr_view ) : ?>
+			<?php if ( 'off' === $ladyqr_view ) : ?>
+
+				<p class="notice info" role="status"><span><?php esc_html_e( 'The short links are turned off in the configuration.', 'ladyqr' ); ?></span></p>
+
+			<?php elseif ( 'locked' === $ladyqr_view ) : ?>
 
 				<h2><?php esc_html_e( 'The admin is locked', 'ladyqr' ); ?></h2>
 				<p><?php esc_html_e( 'No user and password are set yet, so nobody can log in. To set them, add these two lines to the configuration file, ladyqr-config.php, which goes in the web root or one level above it:', 'ladyqr' ); ?></p>
 				<pre class="code"><code>'user'     => 'your-user',
 'password' => 'your-password',</code></pre>
 				<p><?php esc_html_e( 'Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash.', 'ladyqr' ); ?></p>
-				<p><?php esc_html_e( 'If you do not have a configuration file yet, copy ladyqr-config.sample.php to ladyqr-config.php.', 'ladyqr' ); ?></p>
 
 			<?php elseif ( 'login' === $ladyqr_view && 'session' === $ladyqr_error ) : ?>
 
@@ -366,16 +421,10 @@ function ladyqr_save_notice( $result ) {
 				$ladyqr_action_url = htmlspecialchars( $ladyqr_self, ENT_QUOTES, 'UTF-8' );
 				?>
 
+				<?php ladyqr_htaccess_notice( $ladyqr_htaccess ); ?>
+
 				<?php if ( 'ok' !== $ladyqr_links_state['state'] ) : ?>
-					<p class="notice error" role="alert"><?php ladyqr_icon_warning(); ?><span>
-						<?php if ( 'missing' === $ladyqr_links_state['state'] ) : ?>
-							<?php esc_html_e( 'There is no .htaccess file in the site\'s folder, and the short links are stored in it. Upload the .htaccess file that comes with LadyQR.', 'ladyqr' ); ?>
-						<?php elseif ( 'damaged' === $ladyqr_links_state['state'] ) : ?>
-							<?php esc_html_e( 'The block of short links in the .htaccess file is damaged (a "BEGIN LadyQR short links" or "END LadyQR short links" line is missing or repeated), so LadyQR will not touch it. Fix it by hand or remove the block.', 'ladyqr' ); ?>
-						<?php else : ?>
-							<?php esc_html_e( 'The .htaccess file cannot be read.', 'ladyqr' ); ?>
-						<?php endif; ?>
-					</span></p>
+					<p class="notice error" role="alert"><?php ladyqr_icon_warning(); ?><span><?php esc_html_e( 'The ladyqr-data.php file, where the short links are kept, cannot be read or is damaged, so LadyQR will not touch it.', 'ladyqr' ); ?></span></p>
 
 				<?php elseif ( 'edit' === $ladyqr_screen ) : ?>
 
@@ -421,9 +470,6 @@ function ladyqr_save_notice( $result ) {
 						<p class="notice info" role="status"><span><?php esc_html_e( 'The short link was updated.', 'ladyqr' ); ?></span></p>
 					<?php elseif ( 'deleted' === $ladyqr_done ) : ?>
 						<p class="notice info" role="status"><span><?php esc_html_e( 'The short link was deleted.', 'ladyqr' ); ?></span></p>
-					<?php endif; ?>
-					<?php if ( $ladyqr_done_check ) : ?>
-						<p class="notice" role="status"><?php ladyqr_icon_warning(); ?><span><?php esc_html_e( 'Saved, but LadyQR could not check that the site still answers. Open your site to make sure it works.', 'ladyqr' ); ?></span></p>
 					<?php endif; ?>
 					<?php ladyqr_save_notice( $ladyqr_save ); ?>
 

@@ -46,3 +46,47 @@ function ladyqr_base_path( $levels = 0 ) {
 	}
 	return $path;
 }
+
+/**
+ * Returns the address that was asked for, relative to the site's folder and
+ * without the query: '' for the root (and for index.php itself), 'menu' for
+ * /menu. Only index.php uses it.
+ */
+function ladyqr_request_path() {
+	$uri  = isset( $_SERVER['REQUEST_URI'] ) ? (string) strtok( (string) $_SERVER['REQUEST_URI'], '?' ) : '/';
+	$base = ladyqr_base_path();
+	if ( 0 !== strpos( $uri, $base . '/' ) ) {
+		return '';
+	}
+	$rest = (string) substr( $uri, strlen( $base ) + 1 );
+	return 'index.php' === $rest ? '' : $rest;
+}
+
+/**
+ * Puts text in a file in one move: a temporary file next to it, then a rename.
+ * If the folder does not allow that, the file itself is written. The temporary
+ * file ends with the name of the target, so it is just as safe if requested.
+ *
+ * @param string $file The target.
+ * @param string $text The new contents.
+ */
+function ladyqr_file_replace( $file, $text ) {
+	$dir = dirname( $file );
+	if ( is_writable( $dir ) ) {
+		$tmp = $dir . '/.ladyqr-tmp-' . bin2hex( random_bytes( 4 ) ) . '-' . basename( $file );
+		if ( false !== file_put_contents( $tmp, $text ) ) {
+			@chmod( $tmp, is_file( $file ) ? fileperms( $file ) & 0777 : 0644 );
+			if ( @rename( $tmp, $file ) ) {
+				clearstatcache( true, $file );
+				return true;
+			}
+		}
+		@unlink( $tmp );
+	}
+	if ( is_file( $file ) && ! is_writable( $file ) ) {
+		return false;
+	}
+	$done = false !== @file_put_contents( $file, $text );
+	clearstatcache( true, $file );
+	return $done;
+}

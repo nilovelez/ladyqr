@@ -1,9 +1,12 @@
 <?php
 /**
- * LadyQR: the QR code editor page.
+ * LadyQR: the single entry point.
  *
- * PHP only generates the page, with the interface in the configured language.
- * The QR code itself is made in the visitor's browser, and a strict
+ * The root of the site is the QR code editor. When `.htaccess` sends here an
+ * address that is not a file, it is a short link or the not-found page.
+ *
+ * PHP only generates the editor page, with the interface in the configured
+ * language. The QR code itself is made in the visitor's browser, and a strict
  * Content-Security-Policy stops the page from talking to any server.
  */
 
@@ -14,6 +17,27 @@ require __DIR__ . '/includes/i18n.php';
 
 $ladyqr_config = ladyqr_config();
 ladyqr_load_textdomain( $ladyqr_config['language'] );
+
+$ladyqr_path = ladyqr_request_path();
+if ( '' !== $ladyqr_path ) {
+	// The installer asks for this address to learn whether .htaccess reaches PHP.
+	if ( 'ladyqr-route-test' === $ladyqr_path ) {
+		header( 'X-LadyQR-Route: ok' );
+		http_response_code( 204 );
+		exit;
+	}
+	if ( $ladyqr_config['shortener'] ) {
+		require __DIR__ . '/includes/links.php';
+		require __DIR__ . '/includes/data.php';
+		$ladyqr_link = ladyqr_link_find( $ladyqr_path );
+		if ( null !== $ladyqr_link ) {
+			header( 'Location: ' . $ladyqr_link['target'], true, $ladyqr_link['status'] );
+			exit;
+		}
+	}
+	require __DIR__ . '/404.php';
+	exit;
+}
 
 header( 'Content-Type: text/html; charset=utf-8' );
 $ladyqr_csp = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; " .
