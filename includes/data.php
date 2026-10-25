@@ -3,16 +3,13 @@
  * The short links, stored in `ladyqr-data.php`.
  *
  * The file is looked up like the configuration: in the web root and, if it is
- * not there, one level above. It is never included as code. Its first line is
- * `<?php exit; ?>`, so a direct request runs it and prints nothing, with or
- * without .htaccess; the links follow as JSON and are read as text. Reading it
- * as text also means a link saved a moment ago is never hidden by PHP's cache
- * of compiled files.
+ * not there, one level above. It is a PHP file that returns an array of the
+ * links, written by LadyQR with var_export(). Like the configuration, it starts
+ * with `defined( 'LADYQR' ) || exit;`, so a direct request prints nothing,
+ * with or without .htaccess.
  */
 
 defined( 'LADYQR' ) || exit;
-
-const LADYQR_DATA_HEAD = "<?php exit; ?>\n";
 
 /**
  * Returns the path of the data file: the one that exists, or the one in the web
@@ -35,7 +32,8 @@ function ladyqr_data_file() {
  */
 function ladyqr_data_text( array $links ) {
 	ksort( $links, SORT_NATURAL | SORT_FLAG_CASE );
-	return LADYQR_DATA_HEAD . json_encode( array( 'links' => (object) $links ), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "\n";
+	return "<?php\n/**\n * LadyQR short links. Written by LadyQR: change them in the admin.\n */\n"
+		. "defined( 'LADYQR' ) || exit;\n\nreturn " . var_export( $links, true ) . ";\n";
 }
 
 /**
@@ -50,16 +48,16 @@ function ladyqr_links_load() {
 	if ( ! is_file( $file ) ) {
 		return array( 'state' => 'ok', 'links' => array() );
 	}
-	$text = is_readable( $file ) ? file_get_contents( $file ) : false;
-	if ( false === $text || 0 !== strpos( $text, LADYQR_DATA_HEAD ) ) {
-		return array( 'state' => 'damaged' );
+	try {
+		$data = is_readable( $file ) ? include $file : null;
+	} catch ( Throwable $e ) {
+		$data = null;
 	}
-	$data = json_decode( substr( $text, strlen( LADYQR_DATA_HEAD ) ), true );
-	if ( ! is_array( $data ) || ! isset( $data['links'] ) || ! is_array( $data['links'] ) ) {
+	if ( ! is_array( $data ) ) {
 		return array( 'state' => 'damaged' );
 	}
 	$links = array();
-	foreach ( $data['links'] as $slug => $link ) {
+	foreach ( $data as $slug => $link ) {
 		$slug = (string) $slug;
 		if ( '' === ladyqr_link_check_slug_format( $slug ) && is_array( $link )
 			&& isset( $link['status'], $link['target'] ) && in_array( $link['status'], array( 301, 302 ), true )
@@ -88,6 +86,11 @@ function ladyqr_links_save( array $links ) {
 			ladyqr_file_replace( $file, $old );
 		}
 		return 'failed';
+	}
+	// PHP keeps compiled copies of files and only checks them for changes every
+	// few seconds, so the next request could still see the old links.
+	if ( function_exists( 'opcache_invalidate' ) ) {
+		@opcache_invalidate( $file, true );
 	}
 	return 'saved';
 }

@@ -335,7 +335,7 @@ function ladyqr_htaccess_notice( $ensure ) {
 	<?php if ( 'open' === $ladyqr_view ) : ?>
 		<div class="banner" role="alert">
 			<strong><?php esc_html_e( 'No login is required', 'ladyqr' ); ?></strong>
-			<span><?php esc_html_e( 'Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the require_login setting.', 'ladyqr' ); ?></span>
+			<span><?php esc_html_e( 'Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the LADYQR_REQUIRE_LOGIN line.', 'ladyqr' ); ?></span>
 		</div>
 	<?php elseif ( 'panel' === $ladyqr_view ) : ?>
 		<p class="account">
@@ -362,8 +362,8 @@ function ladyqr_htaccess_notice( $ensure ) {
 
 				<h2><?php esc_html_e( 'The admin is locked', 'ladyqr' ); ?></h2>
 				<p><?php esc_html_e( 'No user and password are set yet, so nobody can log in. To set them, add these two lines to the configuration file, ladyqr-config.php, which goes in the web root or one level above it:', 'ladyqr' ); ?></p>
-				<pre class="code"><code>'user'     => 'your-user',
-'password' => 'your-password',</code></pre>
+				<pre class="code"><code>define( 'LADYQR_USER', 'your-user' );
+define( 'LADYQR_PASSWORD', 'your-password' );</code></pre>
 				<p><?php esc_html_e( 'Write the password in plain text. The first time you log in, LadyQR replaces it with a secure hash.', 'ladyqr' ); ?></p>
 
 			<?php elseif ( 'login' === $ladyqr_view && 'session' === $ladyqr_error ) : ?>
@@ -412,7 +412,7 @@ function ladyqr_htaccess_notice( $ensure ) {
 				<?php elseif ( 'not_writable' === $ladyqr_secured ) : ?>
 					<p class="notice" role="alert"><?php ladyqr_icon_warning(); ?><span><?php esc_html_e( 'Your password is still stored in plain text, because LadyQR cannot write to the configuration file. Make the file writable and log in again, and it will be secured.', 'ladyqr' ); ?></span></p>
 				<?php elseif ( 'unsupported' === $ladyqr_secured ) : ?>
-					<p class="notice" role="alert"><?php ladyqr_icon_warning(); ?><span><?php esc_html_e( 'Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as \'password\' => \'your-password\', with plain quotes, and log in again.', 'ladyqr' ); ?></span></p>
+					<p class="notice" role="alert"><?php ladyqr_icon_warning(); ?><span><?php esc_html_e( 'Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as define( \'LADYQR_PASSWORD\', \'your-password\' ); with plain single quotes, and log in again.', 'ladyqr' ); ?></span></p>
 				<?php elseif ( 'failed' === $ladyqr_secured ) : ?>
 					<p class="notice" role="alert"><?php ladyqr_icon_warning(); ?><span><?php esc_html_e( 'Your password could not be secured, because the new configuration file did not pass its safety check. The file was not changed.', 'ladyqr' ); ?></span></p>
 				<?php endif; ?>

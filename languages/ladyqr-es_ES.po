@@ -65,8 +65,8 @@ msgstr "Administración de LadyQR"
 msgid "No login is required"
 msgstr "No hace falta iniciar sesión"
 
-msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the require_login setting."
-msgstr "Cualquiera que pueda llegar a esta página puede cambiar tus enlaces cortos. Para protegerla, pon un usuario y una contraseña en el archivo de configuración y quita el ajuste require_login."
+msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the LADYQR_REQUIRE_LOGIN line."
+msgstr "Cualquiera que pueda llegar a esta página puede cambiar tus enlaces cortos. Para protegerla, pon un usuario y una contraseña en el archivo de configuración y quita la línea de LADYQR_REQUIRE_LOGIN."
 
 msgid "The admin is locked"
 msgstr "La administración está bloqueada"
@@ -110,8 +110,8 @@ msgstr "Tu contraseña ya está guardada como un hash seguro en el archivo de co
 msgid "Your password is still stored in plain text, because LadyQR cannot write to the configuration file. Make the file writable and log in again, and it will be secured."
 msgstr "Tu contraseña sigue guardada en texto plano, porque LadyQR no puede escribir en el archivo de configuración. Hazlo escribible y vuelve a entrar, y quedará protegida."
 
-msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as 'password' => 'your-password', with plain quotes, and log in again."
-msgstr "Tu contraseña sigue guardada en texto plano, porque no está escrita de una forma que LadyQR pueda sustituir por sí mismo. Escríbela como 'password' => 'tu-contraseña', con comillas simples normales, y vuelve a entrar."
+msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as define( 'LADYQR_PASSWORD', 'your-password' ); with plain single quotes, and log in again."
+msgstr "Tu contraseña sigue guardada en texto plano, porque no está escrita de una forma que LadyQR pueda sustituir por sí mismo. Escríbela como define( 'LADYQR_PASSWORD', 'tu-contraseña' ); con comillas simples normales, y vuelve a entrar."
 
 msgid "Your password could not be secured, because the new configuration file did not pass its safety check. The file was not changed."
 msgstr "No se pudo proteger tu contraseña, porque el nuevo archivo de configuración no pasó su comprobación de seguridad. El archivo no se ha modificado."

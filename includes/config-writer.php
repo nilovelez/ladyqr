@@ -1,6 +1,6 @@
 <?php
 /**
- * Rewrites one value in the configuration file without breaking it.
+ * Rewrites the password in the configuration file without breaking it.
  *
  * Used to replace the plain text password with its hash. The file is the
  * user's own, with comments and settings that must survive, so only the text of
@@ -10,37 +10,19 @@
 defined( 'LADYQR' ) || exit;
 
 /**
- * Includes a configuration file and returns its array, or null if it cannot be
- * loaded or does not return an array. A syntax error is caught, not fatal.
- *
- * @param string $path File to include.
- * @return array|null
- */
-function ladyqr_config_include( $path ) {
-	try {
-		$value = include $path;
-	} catch ( Throwable $e ) {
-		$value = null;
-	}
-	if ( function_exists( 'opcache_invalidate' ) ) {
-		@opcache_invalidate( $path, true );
-	}
-	return is_array( $value ) ? $value : null;
-}
-
-/**
- * Finds the text of the string value that follows a quoted array key, such as
- * the 'text' in `'password' => 'text'`, skipping comments.
+ * Finds the value of a constant defined with a plain string, such as the
+ * 'text' in `define( 'LADYQR_PASSWORD', 'text' );`, skipping comments.
  *
  * It does not run the code. It walks the source, jumping over comments and
  * reading each quoted string, and returns null if the value is not a plain
  * string literal (for example a concatenation or a variable).
  *
- * @param string $src Source of the configuration file.
- * @param string $key Array key to look for.
- * @return array|null The start and the end (exclusive) of the value, with its quotes.
+ * @param string $src  Source of the configuration file.
+ * @param string $name Name of the constant.
+ * @return array|null The start and the end (exclusive) of the value, with its
+ *                    quotes, and the value itself.
  */
-function ladyqr_config_string_span( $src, $key ) {
+function ladyqr_config_define_span( $src, $name ) {
 	$len     = strlen( $src );
 	$strings = array();
 	$i       = 0;
@@ -69,7 +51,7 @@ function ladyqr_config_string_span( $src, $key ) {
 					++$i;
 				}
 			}
-			$strings[] = array( $start, $i + 1, $value );
+			$strings[] = array( $start, $i + 1, $value, $c );
 			++$i;
 		} else {
 			++$i;
@@ -78,30 +60,33 @@ function ladyqr_config_string_span( $src, $key ) {
 
 	$count = count( $strings );
 	for ( $k = 0; $k + 1 < $count; $k++ ) {
-		if ( $key !== $strings[ $k ][2] ) {
+		if ( $name !== $strings[ $k ][2] ) {
 			continue;
 		}
+		// define( 'NAME', 'value' ): the call before the name, a comma between
+		// the two strings, and the end of the call after the value.
+		$before  = substr( $src, max( 0, $strings[ $k ][0] - 40 ), min( 40, $strings[ $k ][0] ) );
 		$between = substr( $src, $strings[ $k ][1], $strings[ $k + 1 ][0] - $strings[ $k ][1] );
-		if ( ! preg_match( '/^\s*=>\s*$/', $between ) ) {
+		$after   = substr( $src, $strings[ $k + 1 ][1], 20 );
+		if ( ! preg_match( '/define\s*\(\s*$/i', $before ) || ! preg_match( '/^\s*,\s*$/', $between ) || ! preg_match( '/^\s*\)/', $after ) ) {
 			continue;
 		}
-		// What follows the value must end it, not continue an expression.
-		$after = ltrim( substr( $src, $strings[ $k + 1 ][1], 60 ) );
-		if ( '' !== $after && false === strpos( ",)]/#\n", $after[0] ) ) {
+		// A double-quoted value may hold a variable, so only plain single quotes count.
+		if ( "'" !== $strings[ $k + 1 ][3] ) {
 			return null;
 		}
-		return array( $strings[ $k + 1 ][0], $strings[ $k + 1 ][1] );
+		return array( $strings[ $k + 1 ][0], $strings[ $k + 1 ][1], $strings[ $k + 1 ][2] );
 	}
 	return null;
 }
 
 /**
- * Replaces the `password` value in the configuration file.
+ * Replaces the value of LADYQR_PASSWORD in the configuration file.
  *
- * The new version is built in a temporary file and loaded to check that it is
- * valid and gives the same settings except the password, and only then it is
- * put in place. No backup is left, because it would keep the plain password.
- * If the final check fails, the original text is written back.
+ * Only the text of the value changes: one single-quoted string for another, so
+ * the file stays valid PHP. The new text is checked before it is put in place
+ * and read back afterwards. No backup is left, because it would keep the plain
+ * password. If the final check fails, the original text is written back.
  *
  * @param string $hash The value to store.
  * @return string 'secured' when done; 'not_writable', 'unsupported' (the value
@@ -119,63 +104,31 @@ function ladyqr_config_set_password( $hash ) {
 	if ( ! is_writable( $file ) ) {
 		return 'not_writable';
 	}
-	$dir         = dirname( $file );
-	$dir_ok      = is_writable( $dir );
-	$can_rename  = $dir_ok;
-	$can_inplace = true;
 
 	$src = file_get_contents( $file );
 	if ( false === $src ) {
 		return 'failed';
 	}
-	$span = ladyqr_config_string_span( $src, 'password' );
+	$span = ladyqr_config_define_span( $src, 'LADYQR_PASSWORD' );
 	if ( null === $span ) {
 		return 'unsupported';
 	}
-	$original = ladyqr_config_include( $file );
-	if ( null === $original ) {
+
+	$literal = "'" . str_replace( array( '\\', "'" ), array( '\\\\', "\\'" ), $hash ) . "'";
+	$new     = substr( $src, 0, $span[0] ) . $literal . substr( $src, $span[1] );
+	$check   = ladyqr_config_define_span( $new, 'LADYQR_PASSWORD' );
+	if ( null === $check || $hash !== $check[2] ) {
 		return 'failed';
 	}
 
-	$literal  = "'" . str_replace( array( '\\', "'" ), array( '\\\\', "\\'" ), $hash ) . "'";
-	$new      = substr( $src, 0, $span[0] ) . $literal . substr( $src, $span[1] );
-	$expected = $original;
-
-	$expected['password'] = $hash;
-
-	// Build the new version aside and make sure it loads to what is expected.
-	$tmp = ( $dir_ok ? $dir : sys_get_temp_dir() ) . '/ladyqr-config.tmp.' . bin2hex( random_bytes( 4 ) );
-	if ( false === file_put_contents( $tmp, $new ) ) {
-		return 'failed';
-	}
-	if ( ladyqr_config_include( $tmp ) !== $expected ) {
-		@unlink( $tmp );
-		return 'failed';
-	}
-
-	$done = false;
-	if ( $can_rename ) {
-		@chmod( $tmp, fileperms( $file ) & 0777 );
-		$done = @rename( $tmp, $file );
-	}
-	if ( ! $done ) {
-		// The folder is not writable or the rename failed: write the file itself.
-		$done = $can_inplace && false !== file_put_contents( $file, $new );
-	}
-	@unlink( $tmp );
-	clearstatcache( true, $file );
-
-	if ( $done && ladyqr_config_include( $file ) === $expected ) {
-		return 'secured';
-	}
-
-	// Something went wrong after the check: put the original text back.
-	if ( $can_inplace ) {
-		file_put_contents( $file, $src );
-		clearstatcache( true, $file );
+	if ( ladyqr_file_replace( $file, $new ) && file_get_contents( $file ) === $new ) {
 		if ( function_exists( 'opcache_invalidate' ) ) {
 			@opcache_invalidate( $file, true );
 		}
+		return 'secured';
 	}
+
+	// Something went wrong: put the original text back.
+	ladyqr_file_replace( $file, $src );
 	return 'failed';
 }

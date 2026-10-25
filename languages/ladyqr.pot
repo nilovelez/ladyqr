@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-25T08:35:22+00:00\n"
+"POT-Creation-Date: 2026-10-25T08:42:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ladyqr\n"
@@ -120,7 +120,7 @@ msgid "No login is required"
 msgstr ""
 
 #: admin/index.php:338
-msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the require_login setting."
+msgid "Anyone who can reach this page can change your short links. To protect it, set a user and a password in the configuration file and remove the LADYQR_REQUIRE_LOGIN line."
 msgstr ""
 
 #. translators: %s: the user's name.
@@ -203,7 +203,7 @@ msgid "Your password is still stored in plain text, because LadyQR cannot write 
 msgstr ""
 
 #: admin/index.php:415
-msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as 'password' => 'your-password', with plain quotes, and log in again."
+msgid "Your password is still stored in plain text, because it is not written in a form that LadyQR can replace by itself. Write it as define( 'LADYQR_PASSWORD', 'your-password' ); with plain single quotes, and log in again."
 msgstr ""
 
 #: admin/index.php:417

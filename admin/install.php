@@ -116,24 +116,22 @@ function ladyqr_install_config_text( array $values ) {
 	$lines[] = ' */';
 	$lines[] = "defined( 'LADYQR' ) || exit;";
 	$lines[] = '';
-	$lines[] = 'return array(';
-	$lines[] = '	// Interface language, as a WordPress-style locale.';
-	$lines[] = "	'language'  => " . var_export( $values['language'], true ) . ',';
+	$lines[] = '// Interface language, as a WordPress-style locale.';
+	$lines[] = "define( 'LADYQR_LANGUAGE', " . var_export( $values['language'], true ) . ' );';
 	$lines[] = '';
-	$lines[] = '	// The address of the site, without a final slash.';
-	$lines[] = "	'url'       => " . var_export( $values['url'], true ) . ',';
+	$lines[] = '// The address of the site, without a final slash.';
+	$lines[] = "define( 'LADYQR_URL', " . var_export( $values['url'], true ) . ' );';
 	$lines[] = '';
-	$lines[] = '	// Short links. They need .htaccess to send the addresses that are not';
-	$lines[] = '	// files to index.php.';
-	$lines[] = "	'shortener' => " . ( $values['shortener'] ? 'true' : 'false' ) . ',';
+	$lines[] = '// Short links. They need .htaccess to send the addresses that are not files';
+	$lines[] = '// to index.php.';
+	$lines[] = "define( 'LADYQR_SHORTENER', " . ( $values['shortener'] ? 'true' : 'false' ) . ' );';
 	if ( isset( $values['user'] ) ) {
 		$lines[] = '';
-		$lines[] = '	// The admin\'s user and password. The password is stored as a hash. To change';
-		$lines[] = '	// it, write the new one here in plain text: LadyQR secures it at the next login.';
-		$lines[] = "	'user'      => " . var_export( $values['user'], true ) . ',';
-		$lines[] = "	'password'  => " . var_export( $values['password'], true ) . ',';
+		$lines[] = '// The admin\'s user and password. The password is stored as a hash. To change';
+		$lines[] = '// it, write the new one here in plain text: LadyQR secures it at the next login.';
+		$lines[] = "define( 'LADYQR_USER', " . var_export( $values['user'], true ) . ' );';
+		$lines[] = "define( 'LADYQR_PASSWORD', " . var_export( $values['password'], true ) . ' );';
 	}
-	$lines[] = ');';
 	return implode( "\n", $lines ) . "\n";
 }
 
@@ -342,8 +340,7 @@ if ( ! $ladyqr_blocked && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 			// 4. The configuration, last: once it exists, LadyQR is installed.
 			$ladyqr_config_text = ladyqr_install_config_text( $ladyqr_values );
 			$ladyqr_config_file = $ladyqr_root . '/ladyqr-config.php';
-			$ladyqr_expected    = $ladyqr_values;
-			if ( ! ladyqr_file_replace( $ladyqr_config_file, $ladyqr_config_text ) || ladyqr_config_include( $ladyqr_config_file ) !== $ladyqr_expected ) {
+			if ( ! ladyqr_file_replace( $ladyqr_config_file, $ladyqr_config_text ) || file_get_contents( $ladyqr_config_file ) !== $ladyqr_config_text ) {
 				@unlink( $ladyqr_config_file );
 				$ladyqr_done['manual']['ladyqr-config.php'] = $ladyqr_config_text;
 			}

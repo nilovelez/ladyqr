@@ -2,10 +2,11 @@
 /**
  * Configuration loader.
  *
- * The configuration file is `ladyqr-config.php`, a PHP file that returns an
- * array. It is looked up in the web root first and, if it is not there, one
- * level above it, like wp-config.php. If both exist, the one in the web root
- * wins; they are never merged.
+ * The configuration file is `ladyqr-config.php`, a PHP file of constants with
+ * the LADYQR_ prefix, such as `define( 'LADYQR_LANGUAGE', 'es_ES' );`. It is
+ * looked up in the web root first and, if it is not there, one level above it,
+ * like wp-config.php. If both exist, the one in the web root wins; they are
+ * never merged.
  */
 
 defined( 'LADYQR' ) || exit;
@@ -63,11 +64,16 @@ function ladyqr_config() {
 		'session_timeout' => 15,
 	);
 
+	// Each setting comes from the constant of the same name: 'language' from
+	// LADYQR_LANGUAGE, and so on.
 	$file = ladyqr_config_file();
 	if ( null !== $file ) {
-		$loaded = include $file;
-		if ( is_array( $loaded ) ) {
-			$config = array_merge( $config, $loaded );
+		require_once $file;
+	}
+	foreach ( array_keys( $config ) as $key ) {
+		$constant = 'LADYQR_' . strtoupper( $key );
+		if ( defined( $constant ) ) {
+			$config[ $key ] = constant( $constant );
 		}
 	}
 
