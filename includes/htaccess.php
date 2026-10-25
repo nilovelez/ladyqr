@@ -184,6 +184,9 @@ function ladyqr_links_load() {
  * @return string The result of ladyqr_htaccess_write().
  */
 function ladyqr_links_save( array $loaded, array $links ) {
+	if ( array() === $links && array() === $loaded['other'] ) {
+		return ladyqr_htaccess_write( ladyqr_block_remove( $loaded['parts'] ) );
+	}
 	$block = ladyqr_links_build( $links, $loaded['other'], ladyqr_base_path( 1 ) );
 	return ladyqr_htaccess_write( ladyqr_block_join( $loaded['parts'], $block ) );
 }

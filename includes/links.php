@@ -194,3 +194,19 @@ function ladyqr_block_join( array $parts, $block ) {
 	$after = ltrim( $parts['after'], "\n" );
 	return $parts['before'] . ( '' === $parts['before'] ? '' : "\n" ) . $block . "\n" . ( '' === $after ? '' : $after );
 }
+
+/**
+ * Takes the managed block out of the text of an `.htaccess`, so that a file
+ * whose last link was deleted is left as it was before the first one.
+ *
+ * @param array $parts The result of ladyqr_block_split() on the current text.
+ * @return string
+ */
+function ladyqr_block_remove( array $parts ) {
+	$before = rtrim( $parts['before'] );
+	$after  = ltrim( $parts['after'], "\n" );
+	if ( '' === $before ) {
+		return $after;
+	}
+	return $before . "\n" . ( '' === $after ? '' : "\n" . $after );
+}
