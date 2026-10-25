@@ -36,7 +36,7 @@ LadyQR is a privacy-oriented QR code generator and URL shortener, built to run o
   - The switch is a setting of its own, deliberately **not** an empty password: the sample file ships with no empty password field to copy by accident, and an empty or missing password never opens the panel by itself. If `require_login` is `false` and there are credentials as well, the panel is still open and still warns.
   - The credentials and `require_login` are only ever set by editing the configuration file, never through the web.
 - **`.htaccess` writes:** only inside a `# BEGIN` / `# END` block (from M5 it holds the routing rule, not the links), validated, atomic (temporary file plus rename), with a `.bak` copy, followed by a request from the server to itself to check that the site still answers, and an automatic rollback if it does not. This works on the target hosting (see `docs/hosting.md`). A syntax error must never take the site down. If a host cannot request itself, there is no rollback and the validation must be stricter.
-- **No lock for now.** `flock` does not work across requests on the target hosting, and with a single-user personal tool two simultaneous writes are very unlikely, so writes are done carefully and a lock is left in the backlog.
+- **No lock for now.** `flock` does not work across requests on the target hosting, and with a single-user personal tool two simultaneous writes are very unlikely, so writes are done carefully. A lock is not planned: `.htaccess` is rarely written now.
 - **Redirects:** until M4, `RedirectMatch` lines inside the block, answered by Apache without PHP. From M5 they live in `ladyqr-data.php` and `index.php` answers them, so a lost or replaced `.htaccess` can never lose the links.
 - **Force HTTPS:** the target hosting does not redirect `http://` to `https://`, so a rule using `%{HTTPS}` does it. It was tested and it does not loop. From M5 the installer writes it, with the chosen host (with or without `www`), at the top of a `.htaccess` it creates.
 - **Distribution:** clonable repository first, and later a release `.zip` ready for FTP.
@@ -260,15 +260,10 @@ Automated tests with Node's built-in runner, kept apart from the runtime code (t
 
 Things that are wanted but not urgent, in no particular order.
 
-- **A lock for `.htaccess` writes.** `mkdir` is atomic on the target hosting (1 success out of 6 simultaneous attempts), unlike `flock`. Use it with a timeout for stale locks.
-- **Import the old short links** the author had on `1qr.es`, configured by the author.
-- **Automate the deployment** to the hosting over SFTP (for example from GitHub Actions), instead of uploading by hand.
 - **A QR code for each short link** in the admin, using the editor.
 - **Real login rate limiting.** It needs somewhere to store attempts, which the "native only" principle avoids; the current answer is a short delay.
-- **More testing:** Firefox, Safari, touch devices, screen readers, and PHP 7.4, which is the stated target but has not been run.
 - **The website's demo in Spanish.**
 - **Confirm the real disk quota** (100 MB) in the OVH panel: PHP only sees the disk of the whole cluster.
-- **A script for the SFTP deployment**, which M2 did by hand.
 - **A new icon that works at small sizes** (a 32 and 16 px favicon). Today the 128 px icon is used everywhere. Nilo will draw it; 1.0.0 ships with the current one.
 - **QR codes from the shortener.** Each link gets a QR icon that opens the editor with the short link filled in. Pieces:
   - The editor takes its initial text from the address fragment (`#text=…`), so it never reaches the server.

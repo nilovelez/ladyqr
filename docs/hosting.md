@@ -56,7 +56,7 @@ What does work, because it is atomic:
 - `mkdir()`: of 6 simultaneous attempts, exactly 1 succeeded.
 - `fopen( $file, 'x' )` (exclusive creation): of 6 simultaneous attempts, exactly 1 succeeded.
 
-For now there is no lock, because this is a personal single-user tool. A lock based on `mkdir()` with a timeout for stale locks is in the backlog.
+There is no lock, because this is a personal single-user tool. A lock is not planned either: `.htaccess` is rarely written now.
 
 ## Things that differ from what one might assume
 
