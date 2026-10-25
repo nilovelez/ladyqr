@@ -243,6 +243,12 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
 - **`INSTALL.txt`** (not a `README.txt`): installing and updating, written for someone like Alfonso.
 - **The README brought up to date** with M5: no `.htaccess` in the repository, the installer, the links in `ladyqr-data.php`, the configuration as constants.
 - **Troubleshooting** based on `docs/hosting.md`, and a complete `ladyqr-config.sample.php`.
+- **Installer changes after the first real install** on `1qr.es`:
+  - "Generator only" also asks for the site's address. A new `.htaccess` gets only the address rules (with or without `www`, and https when the server reports it), with the same check and rollback; an existing one is left alone; if it cannot be written, its text is shown to create by hand.
+  - With the shortener, the address hint says it is also the start of the short links, with an example.
+  - The final summary shows the admin panel's address on its second line.
+  - The two final buttons are both secondary, the shortener first: nothing is left to decide.
+- **`CLAUDE.md` and `docs/HANDOFF.md`**, so a new session can pick the project up from the repository alone. The test tools moved out of a temporary folder to `D:\Claude\ladyqr-tools\`.
 
 ### M7. Automated tests and encoder consolidation
 
@@ -261,3 +267,5 @@ Things that are wanted but not urgent, in no particular order.
 - **The website's demo in Spanish.**
 - **Confirm the real disk quota** (100 MB) in the OVH panel: PHP only sees the disk of the whole cluster.
 - **A script for the SFTP deployment**, which M2 did by hand.
+- **A new icon that works at small sizes** (a 32 and 16 px favicon). Today the 128 px icon is used everywhere. Nilo will draw it; 1.0.0 ships with the current one.
+- **Customize the generator page.** How is to be decided; probably an optional `header.html` and `footer.html` in the install folder, included before and after the generator when they exist.

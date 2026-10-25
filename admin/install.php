@@ -445,12 +445,12 @@ if ( ! $ladyqr_blocked && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	if ( ! isset( $ladyqr_languages[ $ladyqr_form['language'] ] ) ) {
 		$ladyqr_errors['language'] = __( 'Choose a language from the list.', 'ladyqr' );
 	}
+	$ladyqr_site = ladyqr_clean_url( $ladyqr_form['site'] );
+	if ( null === $ladyqr_site || '' !== (string) parse_url( $ladyqr_site, PHP_URL_PATH ) ) {
+		$ladyqr_errors['site'] = __( 'Write the address as https://example.com or http://example.com, with no folder after it.', 'ladyqr' );
+	}
 	if ( $ladyqr_shortener ) {
-		$ladyqr_site = ladyqr_clean_url( $ladyqr_form['site'] );
-		if ( null === $ladyqr_site || '' !== (string) parse_url( $ladyqr_site, PHP_URL_PATH ) ) {
-			$ladyqr_errors['site'] = __( 'Write the address as https://example.com or http://example.com, with no folder after it.', 'ladyqr' );
-		}
-		if ( '' === $ladyqr_form['user'] || strlen( $ladyqr_form['user'] ) > 60 || preg_match( '/[\x00-\x20\x7f]/', $ladyqr_form['user'] ) ) {
+		if ( '' ===$ladyqr_form['user'] || strlen( $ladyqr_form['user'] ) > 60 || preg_match( '/[\x00-\x20\x7f]/', $ladyqr_form['user'] ) ) {
 			$ladyqr_errors['user'] = __( 'Write a user of up to 60 characters, with no spaces.', 'ladyqr' );
 		}
 		if ( preg_match_all( '/./us', $ladyqr_form['password'] ) < 12 ) {
@@ -462,18 +462,34 @@ if ( ! $ladyqr_blocked && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 
 	if ( array() === $ladyqr_errors ) {
 		$ladyqr_config_file = $ladyqr_root . '/ladyqr-config.php';
+		$ladyqr_url         = $ladyqr_site . $ladyqr_base;
+		$ladyqr_file        = $ladyqr_root . '/.htaccess';
 		$ladyqr_done        = array(
 			'shortener' => $ladyqr_shortener,
 			'language'  => $ladyqr_languages[ $ladyqr_form['language'] ],
-			'url'       => $ladyqr_base,
+			'url'       => $ladyqr_url,
 			'manual'    => array(),
+			'htaccess'  => '',
 		);
 
 		if ( ! $ladyqr_shortener ) {
-			// The QR code generator alone: only the configuration file.
+			// The QR code generator alone. A new .htaccess gets only the address
+			// rules; an existing one is the owner's and is left alone.
+			if ( ! is_file( $ladyqr_file ) ) {
+				$ladyqr_htaccess = ladyqr_htaccess_generic( $ladyqr_url ) . "\n";
+				if ( $ladyqr_writable ) {
+					$ladyqr_done['htaccess'] = ladyqr_htaccess_write( $ladyqr_htaccess, $ladyqr_url );
+				}
+				if ( ! $ladyqr_writable || 'not_writable' === $ladyqr_done['htaccess'] || 'failed' === $ladyqr_done['htaccess'] ) {
+					$ladyqr_done['manual']['.htaccess'] = $ladyqr_htaccess;
+				}
+			}
+
+			// The configuration, last: once it exists, LadyQR is installed.
 			$ladyqr_config_text = ladyqr_install_config_text(
 				array(
 					'language'  => $ladyqr_form['language'],
+					'url'       => $ladyqr_url,
 					'shortener' => false,
 				)
 			);
@@ -482,8 +498,6 @@ if ( ! $ladyqr_blocked && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 				$ladyqr_done['manual']['ladyqr-config.php'] = $ladyqr_config_text;
 			}
 		} else {
-			$ladyqr_url  = $ladyqr_site . $ladyqr_base;
-			$ladyqr_file = $ladyqr_root . '/.htaccess';
 			$ladyqr_old  = is_file( $ladyqr_file ) ? file_get_contents( $ladyqr_file ) : null;
 			if ( false === $ladyqr_old ) {
 				$ladyqr_old = null;
@@ -494,11 +508,9 @@ if ( ! $ladyqr_blocked && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 			$ladyqr_done   = array_merge(
 				$ladyqr_done,
 				array(
-					'url'      => $ladyqr_url,
 					'user'     => $ladyqr_form['user'],
 					'password' => $ladyqr_form['password'],
 					'route'    => null,
-					'htaccess' => '',
 				)
 			);
 			$ladyqr_values = array(
@@ -563,6 +575,11 @@ if ( null !== $ladyqr_done ) {
 			if ( ! $d['shortener'] ) {
 				?>
 				<p><?php esc_html_e( 'LadyQR will only make QR codes.', 'ladyqr' ); ?></p>
+				<?php if ( 'rolled_back' === $d['htaccess'] ) : ?>
+					<p class="notice"><?php ladyqr_install_icon(); ?><span><?php esc_html_e( 'The address rules in the .htaccess file made the site stop answering, so they were undone. Visits are not sent to the chosen address.', 'ladyqr' ); ?></span></p>
+				<?php elseif ( 'unverified' === $d['htaccess'] ) : ?>
+					<p class="notice"><?php ladyqr_install_icon(); ?><span><?php esc_html_e( 'The .htaccess file was written, but LadyQR could not check that the site still answers. Open your site to make sure it works.', 'ladyqr' ); ?></span></p>
+				<?php endif; ?>
 				<p><?php esc_html_e( 'If you change your mind, edit the ladyqr-config.php file, or delete it to use this installer again.', 'ladyqr' ); ?></p>
 				<div class="form-actions">
 					<a class="btn" href="<?php echo ladyqr_h( $d['url'] . '/' ); ?>"><?php esc_html_e( 'Open the QR code generator', 'ladyqr' ); ?></a>
@@ -573,6 +590,7 @@ if ( null !== $ladyqr_done ) {
 			?>
 			<table class="summary">
 				<tr><th scope="row"><?php esc_html_e( 'Address', 'ladyqr' ); ?></th><td><?php echo ladyqr_h( $d['url'] ); ?>/</td></tr>
+				<tr><th scope="row"><?php esc_html_e( 'Admin panel', 'ladyqr' ); ?></th><td><a href="<?php echo ladyqr_h( $d['url'] . '/admin/' ); ?>"><?php echo ladyqr_h( $d['url'] ); ?>/admin/</a></td></tr>
 				<tr><th scope="row"><?php esc_html_e( 'Language of the site', 'ladyqr' ); ?></th><td><?php echo ladyqr_h( $d['language'] ); ?></td></tr>
 				<tr><th scope="row"><?php esc_html_e( 'Short links', 'ladyqr' ); ?></th><td>
 					<?php
@@ -599,8 +617,8 @@ if ( null !== $ladyqr_done ) {
 				</table>
 			</div>
 			<div class="form-actions">
-				<a class="btn" href="<?php echo ladyqr_h( $d['url'] . '/' ); ?>"><?php esc_html_e( 'Open the QR code generator', 'ladyqr' ); ?></a>
 				<a class="btn secondary" href="<?php echo ladyqr_h( $d['url'] . '/admin/' ); ?>"><?php esc_html_e( 'Go to the link shortener', 'ladyqr' ); ?></a>
+				<a class="btn secondary" href="<?php echo ladyqr_h( $d['url'] . '/' ); ?>"><?php esc_html_e( 'Open the QR code generator', 'ladyqr' ); ?></a>
 			</div>
 			<?php
 		}
@@ -631,19 +649,28 @@ ladyqr_install_page(
 
 			<?php ladyqr_install_language_field( $ladyqr_languages, $ladyqr_form['language'] ); ?>
 
-			<?php if ( $ladyqr_shortener ) : ?>
-				<div class="field-row">
-					<label class="label" for="site"><?php esc_html_e( 'Site address', 'ladyqr' ); ?></label>
-					<div class="input-group">
-						<input class="input" id="site" name="site" type="text" inputmode="url" value="<?php echo ladyqr_h( $ladyqr_form['site'] ); ?>" autocapitalize="off" autocomplete="off" spellcheck="false"<?php echo ladyqr_install_invalid( $ladyqr_errors, 'site' ); ?>>
-						<?php if ( '' !== $ladyqr_base ) : ?>
-							<span class="addon addon-after"><?php echo ladyqr_h( $ladyqr_base ); ?>/</span>
-						<?php endif; ?>
-					</div>
-					<?php ladyqr_install_error( $ladyqr_errors, 'site' ); ?>
-					<p class="hint"><?php esc_html_e( 'Where your visitors will find LadyQR. Fix it if it is wrong: with or without www, http or https. Once installed, every visit is sent to this address.', 'ladyqr' ); ?></p>
+			<div class="field-row">
+				<label class="label" for="site"><?php esc_html_e( 'Site address', 'ladyqr' ); ?></label>
+				<div class="input-group">
+					<input class="input" id="site" name="site" type="text" inputmode="url" value="<?php echo ladyqr_h( $ladyqr_form['site'] ); ?>" autocapitalize="off" autocomplete="off" spellcheck="false"<?php echo ladyqr_install_invalid( $ladyqr_errors, 'site' ); ?>>
+					<?php if ( '' !== $ladyqr_base ) : ?>
+						<span class="addon addon-after"><?php echo ladyqr_h( $ladyqr_base ); ?>/</span>
+					<?php endif; ?>
 				</div>
+				<?php ladyqr_install_error( $ladyqr_errors, 'site' ); ?>
+				<?php if ( $ladyqr_shortener ) : ?>
+					<p class="hint">
+						<?php
+						/* translators: %s: an example short link, such as https://example.com/abc */
+						echo ladyqr_h( sprintf( __( 'The address of your site: your visitors will find the QR code generator here, and your short links will start with it (for example, %s). Fix it if it is wrong: with or without www, http or https. Once installed, every visit is sent to this address.', 'ladyqr' ), $ladyqr_form['site'] . $ladyqr_base . '/abc' ) );
+						?>
+					</p>
+				<?php else : ?>
+					<p class="hint"><?php esc_html_e( 'Where your visitors will find LadyQR. Fix it if it is wrong: with or without www, http or https. Once installed, every visit is sent to this address.', 'ladyqr' ); ?></p>
+				<?php endif; ?>
+			</div>
 
+			<?php if ( $ladyqr_shortener ) : ?>
 				<div class="field-row">
 					<label class="label" for="user"><?php esc_html_e( 'User', 'ladyqr' ); ?></label>
 					<input class="input" id="user" name="user" type="text" value="<?php echo ladyqr_h( $ladyqr_form['user'] ); ?>" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="60"<?php echo ladyqr_install_invalid( $ladyqr_errors, 'user' ); ?>>

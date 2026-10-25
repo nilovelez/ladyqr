@@ -490,3 +490,14 @@ msgstr "Generador de códigos QR"
 
 msgid "+ link shortener"
 msgstr "+ acortador de enlaces"
+
+msgid "Admin panel"
+msgstr "Panel de administración"
+
+#. translators: %s: an example short link, such as https://example.com/abc
+#, php-format
+msgid "The address of your site: your visitors will find the QR code generator here, and your short links will start with it (for example, %s). Fix it if it is wrong: with or without www, http or https. Once installed, every visit is sent to this address."
+msgstr "La dirección de tu sitio: aquí los visitantes encontrarán el generador de códigos QR, y tus enlaces cortos empezarán por ella (por ejemplo, %s). Corrígela si está mal: con o sin www, http o https. Una vez instalado, todas las visitas se envían a esta dirección."
+
+msgid "The address rules in the .htaccess file made the site stop answering, so they were undone. Visits are not sent to the chosen address."
+msgstr "Las reglas de dirección del archivo .htaccess hicieron que el sitio dejara de responder, así que se han deshecho. Las visitas no se envían a la dirección elegida."
