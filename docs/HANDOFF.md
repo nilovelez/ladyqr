@@ -4,16 +4,16 @@ What a new working session needs to pick LadyQR up. The rules for working with N
 
 ## Where it stands
 
-- Milestones 0 to 5 are done. Milestone 6 (documentation and packaging) is in progress, heading for the first release, **1.0.0**.
-- Nilo is installing a test zip by hand on his own site, https://1qr.es/, before publishing the release. Only he touches that site.
+- Milestones 0 to 6 are done. **1.0.0** is the first release: the README, `INSTALL.txt` and the configuration sample are up to date, and the design is accepted for this version.
+- The release is prepared as a draft on GitHub. Publishing it runs `release.yml`, which attaches `ladyqr-latest.zip`. Permanent link: https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip
+- Nilo runs LadyQR on his own site, https://1qr.es/. Only he touches that site.
 - The website and demo, https://ladyqr.nilovelez.com/, are deployed by GitHub Pages on every push to `main`.
 
-## Left for 1.0.0
+## Next
 
-- **README** brought up to date with M5: the installer, no `.htaccess` in the repository, the links in `ladyqr-data.php`, the configuration as constants. It needs a **Troubleshooting** section (based on `docs/hosting.md`), because `INSTALL.txt` links to https://github.com/nilovelez/ladyqr#troubleshooting.
-- Review `ladyqr-config.sample.php`.
-- Nilo publishes the release on GitHub; the `release.yml` workflow attaches `ladyqr-latest.zip`. Permanent link: https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip
-- Nilo is sending more changes from his install on 1qr.es; some go into 1.0.0 and some into the backlog.
+- M7: automated tests (the checks in `D:\Claude\ladyqr-tools\tests` are a start) and the encoder's numeric and alphanumeric modes.
+- Then, from the backlog: QR codes from the shortener (`#text=` in the editor, `LADYQR_QR_BASE`), and customizing the generator page.
+- To release a new version: publish a GitHub release with a new tag (such as `v1.0.1`); the workflow attaches the zip.
 
 ## How the code fits together
 

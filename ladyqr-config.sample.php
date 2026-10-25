@@ -1,8 +1,9 @@
 <?php
 /**
- * LadyQR configuration. The installer, at /admin/, writes this file for you.
- * To write it by hand instead, copy this file to `ladyqr-config.php`, either in
- * the web root or one level above it, and change what you need.
+ * LadyQR configuration. The installer writes this file for you: open your site
+ * after uploading LadyQR and it starts by itself. To write it by hand instead,
+ * copy this file to `ladyqr-config.php`, either in the web root or one level
+ * above it, and change what you need. Once it exists, LadyQR is installed.
  *
  * Keep the line below. index.php defines LADYQR before it reads this file, so
  * if someone requests the file directly it stops and prints nothing, and it is
@@ -15,12 +16,14 @@ defined( 'LADYQR' ) || exit;
 define( 'LADYQR_LANGUAGE', 'en_US' );
 
 // The address of the site, without a final slash, such as https://example.com
-// or https://example.com/qr. Without it, LadyQR uses the address of each visit.
+// or https://example.com/qr. Short links are built on it. Without it, LadyQR
+// uses the address of each visit.
 // define( 'LADYQR_URL', 'https://example.com' );
 
 // Short links. Remove the two slashes to turn them on. They need a user and a
 // password below, and an .htaccess that sends the addresses that are not files
-// to index.php: the admin writes it the first time you log in.
+// to index.php: the admin writes it the first time you open it. The links are
+// kept in ladyqr-data.php, next to this file.
 // define( 'LADYQR_SHORTENER', true );
 
 // The admin, at /admin/. Remove the two slashes in front of both lines and

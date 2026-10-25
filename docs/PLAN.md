@@ -236,7 +236,7 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
 
 **Verification** (a local Apache 2.4 with PHP-CGI, on its own port and folder, apart from the author's test site): 76 checks end to end. The four screens in both languages and going back; nothing written before confirming; the shortener install at the root and in a subfolder, with the route test, the address rules and the redirect of another host; the generator alone; a manual install from the sample, with the password hashed at the first login; adding, renaming, changing the code and deleting links; a lost or outdated block put back by the admin; a foreign `.htaccess` kept; direct requests to the configuration, the data and `includes/` printing nothing; every visit sent to the installer until it is installed, and the creator alone when the `admin` folder is deleted. Separately, a folder PHP cannot write to: the installer shows the three files and writes nothing.
 
-### M6. Documentation and packaging — in progress
+### M6. Documentation and packaging — done (1.0.0)
 
 - **A clean release zip, built by a GitHub Action** when a release is published, with the runtime files only. `assets/icon-full.png`, the full-size icon, is for development and stays out.
 - **A permanent download link:** each release gets the zip attached as `ladyqr-latest.zip`, so https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip always gives the latest version. A short link on `1qr.es` can point to it later.
