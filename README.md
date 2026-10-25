@@ -292,11 +292,11 @@ php tools/build-site.php
 php tools/build-release.php
 ```
 
-**How the encoder was verified.** The module matrix is identical to the one made by an independent implementation, the `qrcode` package on npm, for 328 inputs that cover all 40 versions at the four error correction levels (with the same version and mask, in byte mode). The codes decode back to the original text with the jsQR decoder in 346 of 348 cases, and the two it cannot read fail in the same way on the reference implementation's own symbol. In a real Chrome, the 500 px PNG, the 1000 px PNG and the SVG that the editor downloads also decode to the exact text, with accents and emoji. It has been tested in Chrome only; Firefox and Safari have not been tested yet. Automated tests are planned for a later milestone.
+**How the encoder was verified.** The module matrix is identical to the one made by an independent implementation, the `qrcode` package on npm, for 328 inputs that cover all 40 versions at the four error correction levels (with the same version and mask, in byte mode). The codes decode back to the original text with the jsQR decoder in 346 of 348 cases, and the two it cannot read fail in the same way on the reference implementation's own symbol. In a real Chrome, the 500 px PNG, the 1000 px PNG and the SVG that the editor downloads also decode to the exact text, with accents and emoji. It has been tested in Chrome only; Firefox and Safari have not been tested yet. Automated tests come in the next milestone, M7.
 
 ## Roadmap
 
-See [docs/PLAN.md](docs/PLAN.md). Next come automated tests and the encoder's numeric and alphanumeric modes, and then QR codes made straight from the shortener's links.
+See [docs/PLAN.md](docs/PLAN.md). Next comes M7: automated tests, the encoder's numeric and alphanumeric modes, and QR codes made straight from the shortener's links.
 
 ## License
 

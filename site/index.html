@@ -66,7 +66,7 @@
 			</li>
 			<li>
 				<h3>Small and dependency-free</h3>
-				<p>It has its own QR encoder, with no libraries and no build step. PHP only generates the page, so it runs on the cheapest shared hosting.</p>
+				<p>It has its own QR encoder, with no libraries and no build step. PHP only generates the page and answers the short links, so it runs on the cheapest shared hosting.</p>
 			</li>
 			<li>
 				<h3>Accessible and translatable</h3>
@@ -77,9 +77,9 @@
 
 	<section class="shots" aria-labelledby="shots-title">
 		<h2 id="shots-title">One screen, one job</h2>
-		<p>A text field, the QR code and a download button. Everything else is one click away in the settings.</p>
+		<p>A text field, the QR code and a download button. Everything else is one click away under Customize.</p>
 		<figure>
-			<img src="img/editor.png" alt="The LadyQR editor: a collapsed Settings bar, a text field containing a web address, the QR code for it, and a large red Download button." width="560" height="610">
+			<img src="img/editor.png" alt="The LadyQR editor: a text field containing a web address, the QR code for it, a collapsed Customize box showing the current settings, and a large red Download button." width="560" height="630">
 		</figure>
 	</section>
 
@@ -100,9 +100,9 @@ connect-src 'none'; base-uri 'none'; form-action 'none'</code></pre>
 		<h2>Run your own</h2>
 		<p>LadyQR is a handful of files. It needs a web server that can run PHP (Apache is the target) and nothing else, not even a database.</p>
 		<ol class="steps">
-			<li><a href="https://github.com/nilovelez/ladyqr">Download the repository</a> or clone it.</li>
-			<li>Upload it to the root of your site.</li>
-			<li>Optionally, copy <code>ladyqr-config.sample.php</code> to <code>ladyqr-config.php</code> and set the interface language.</li>
+			<li><a href="https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip">Download the latest release</a>, a zip ready to upload.</li>
+			<li>Unzip it and upload the files to your site, for example by FTP.</li>
+			<li>Open your site. A short installer asks for the language and whether you want the link shortener, and sets everything up.</li>
 		</ol>
 		<p>The <a href="https://github.com/nilovelez/ladyqr#readme">README</a> has the details, and <a href="https://github.com/nilovelez/ladyqr/blob/main/DESIGN.md">DESIGN.md</a> explains how it looks and why.</p>
 	</section>
@@ -111,8 +111,8 @@ connect-src 'none'; base-uri 'none'; form-action 'none'</code></pre>
 		<h2>Where it is going</h2>
 		<ul class="roadmap">
 			<li class="done"><strong>Done:</strong> the QR code generator, with PNG and SVG, settings, warnings and translations. It runs on a free 100 MB shared hosting plan, at <a href="https://1qr.es/">1qr.es</a>.</li>
-			<li><strong>Built, being polished:</strong> a private, single-user admin, and a URL shortener that writes its redirects into <code>.htaccess</code> so Apache serves them without running PHP.</li>
-			<li><strong>Later:</strong> installation guide and a release you can upload by FTP.</li>
+			<li class="done"><strong>Done in 1.0.0:</strong> an optional link shortener with a private, single-user admin, a web installer, and a release zip you can upload by FTP.</li>
+			<li><strong>Next:</strong> automated tests, smaller codes with the encoder's numeric and alphanumeric modes, and a QR code for each short link, straight from the admin.</li>
 		</ul>
 		<p>The full plan is in <a href="https://github.com/nilovelez/ladyqr/blob/main/docs/PLAN.md">docs/PLAN.md</a>.</p>
 	</section>
