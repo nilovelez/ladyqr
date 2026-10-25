@@ -176,7 +176,7 @@ A round of design and UX corrections from the author, before M5.
 - **The editor's settings** are a folded "Customize" box under the QR code on narrow screens, showing the current values, and the side column on wide ones. Inside: error correction, the two colors side by side, the margin and the reset button.
 - **The short link forms** put the labels beside the fields from 720 px up.
 
-### M5. Installer, and a site that works without `.htaccess` — in progress
+### M5. Installer, and a site that works without `.htaccess` — done
 
 Reviewed with a user persona: Alfonso, a web implementer used to WordPress, PrestaShop and Joomla. He can create a hosting, unzip a file, edit a configuration file and upload by FTP or with the host's file manager, but he does not read code and knows that an application's code files are not to be touched, only its configuration. What M4 left him: a zip with an `.htaccess` that mixes fixed rules, settings he has to edit by hand (HTTPS, the subfolder) and all his short links, so uploading a new version over the old one would wipe them.
 
@@ -227,10 +227,22 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
 
 - The M4 shortener is rebuilt: the links move from `RedirectMatch` lines in `.htaccess` to `ladyqr-data.php`, served by `index.php`.
 - The removal of the empty block when the last link is deleted (commit `12ac1d7`) no longer applies.
+- The configuration file became constants with the `LADYQR_` prefix, and the links file a PHP array.
 
-### M6. Documentation and packaging
+**Also in M5**
 
-`INSTALL.txt` (installing and updating), troubleshooting based on `hosting.md`, a complete `ladyqr-config.sample.php`, and a clean release `.zip` ready for FTP, with the runtime files only.
+- The admin's name and the ladybug sit above the card, on the left, with the account line on the right. The footer link reads "Back to the QR code creator".
+- Ordinary buttons are gray (primary) or white (secondary); red is kept for very specific actions, such as the download. A step back comes before the step forward. See DESIGN.md.
+
+**Verification** (a local Apache 2.4 with PHP-CGI, on its own port and folder, apart from the author's test site): 76 checks end to end. The four screens in both languages and going back; nothing written before confirming; the shortener install at the root and in a subfolder, with the route test, the address rules and the redirect of another host; the generator alone; a manual install from the sample, with the password hashed at the first login; adding, renaming, changing the code and deleting links; a lost or outdated block put back by the admin; a foreign `.htaccess` kept; direct requests to the configuration, the data and `includes/` printing nothing; every visit sent to the installer until it is installed, and the creator alone when the `admin` folder is deleted. Separately, a folder PHP cannot write to: the installer shows the three files and writes nothing.
+
+### M6. Documentation and packaging — in progress
+
+- **A clean release zip, built by a GitHub Action** when a release is published, with the runtime files only. `assets/icon-full.png`, the full-size icon, is for development and stays out.
+- **A permanent download link:** each release gets the zip attached as `ladyqr-latest.zip`, so https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip always gives the latest version. A short link on `1qr.es` can point to it later.
+- **`INSTALL.txt`** (not a `README.txt`): installing and updating, written for someone like Alfonso.
+- **The README brought up to date** with M5: no `.htaccess` in the repository, the installer, the links in `ladyqr-data.php`, the configuration as constants.
+- **Troubleshooting** based on `docs/hosting.md`, and a complete `ladyqr-config.sample.php`.
 
 ### M7. Automated tests and encoder consolidation
 

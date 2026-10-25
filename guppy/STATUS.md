@@ -1,11 +1,12 @@
 # Status
 
-LadyQR is a privacy-oriented QR code generator and URL shortener. Milestones 0 to 4 are done: the generator works and is verified, there is a public website with a live demo at https://ladyqr.nilovelez.com/, the OVH hosting has been tested (see `docs/hosting.md`), and the editor is published on the author's own domain, https://1qr.es/, over HTTPS. The admin login (M3) and the short link manager (M4) are built and tested locally, and not yet published on 1qr.es. The editor also has a wide-screen layout with the settings in a right column. Next are the documentation and the release package (M5). The roadmap is in `docs/PLAN.md`.
+LadyQR is a privacy-oriented QR code generator and URL shortener. Milestones 0 to 5 are done. The generator works and is verified, there is a public website with a live demo at https://ladyqr.nilovelez.com/, the OVH hosting has been tested (see `docs/hosting.md`), and the editor is published on the author's own domain, https://1qr.es/. The admin (M3), the short links (M4) and the installer (M5) are built and tested locally, and not yet published on 1qr.es. Since M5 the site works and is secure without .htaccess: short links live in ladyqr-data.php and index.php answers them, the configuration is a file of LADYQR_ constants, and every visit goes to a four-screen installer until LadyQR is installed. Next is M6: the release zip (built by a GitHub Action, with a permanent ladyqr-latest.zip link), INSTALL.txt and the README. The roadmap is in `docs/PLAN.md`.
 
 ## Log
 
 Newest entries first. One per work session, brief.
 
+- 2026-10-25: Milestone 5 done. A web installer (four screens, translatable, generator alone or with the shortener), short links served by PHP from ladyqr-data.php, the configuration as constants, and every visit sent to the installer until it is installed. Design revision: light only, gray buttons, the editor settings under the QR code. Nothing published to 1qr.es yet. Next: milestone 6, docs and the release zip.
 - 2026-10-24: Milestone 4 done and merged. Short links managed in the admin, stored in a block of .htaccess, with safe writes (copy, check, rollback) and a real 404 page. Nothing published to 1qr.es yet. Next: milestone 5, docs and packaging.
 - 2026-10-24: Milestone 3 done and merged. Admin login with locked, open and login states, password hashed on first login, idle timeout, CSRF and noindex. Flat assets folder and a wide-screen editor layout. Nothing published to 1qr.es yet. Next: milestone 4, the redirect manager.
 - 2026-10-24: Milestone 2 done. The editor is published on 1qr.es with a fixed .htaccess (HTTPS and www redirects), checked in production. Found that SFTP changes take 3 to 16 seconds to be seen by PHP. Next: milestone 3, the admin login.
