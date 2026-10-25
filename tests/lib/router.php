@@ -3,9 +3,9 @@
  * Router for PHP's built-in server, standing in for Apache in the tests.
  *
  * Real files and folders are served as they are. Any other address goes to
- * index.php only when the site's .htaccess holds LadyQR's block, which is what
- * the block's rewrite rule does on Apache; otherwise it is a plain 404. The
- * address rules (https and the host) are not imitated.
+ * the index.php of the nearest folder above it whose .htaccess holds LadyQR's
+ * block, which is what the block's rewrite rule does on Apache; without one it
+ * is a plain 404. The address rules (https and the host) are not imitated.
  */
 
 $ladyqr_root = $_SERVER['DOCUMENT_ROOT'];
@@ -15,15 +15,23 @@ if ( file_exists( $ladyqr_root . $ladyqr_path ) ) {
 	return false;
 }
 
-$ladyqr_htaccess = $ladyqr_root . '/.htaccess';
-if ( ! is_file( $ladyqr_htaccess ) || false === strpos( (string) file_get_contents( $ladyqr_htaccess ), '# BEGIN LadyQR' ) ) {
-	http_response_code( 404 );
-	echo 'Not Found';
-	return true;
+$ladyqr_folder = substr( $ladyqr_path, 0, (int) strrpos( $ladyqr_path, '/' ) );
+while ( true ) {
+	$ladyqr_htaccess = $ladyqr_root . $ladyqr_folder . '/.htaccess';
+	if ( is_file( $ladyqr_htaccess ) && false !== strpos( (string) file_get_contents( $ladyqr_htaccess ), '# BEGIN LadyQR' ) ) {
+		$_SERVER['SCRIPT_NAME']     = $ladyqr_folder . '/index.php';
+		$_SERVER['PHP_SELF']        = $ladyqr_folder . '/index.php';
+		$_SERVER['SCRIPT_FILENAME'] = $ladyqr_root . $ladyqr_folder . '/index.php';
+		chdir( $ladyqr_root . $ladyqr_folder );
+		require $ladyqr_root . $ladyqr_folder . '/index.php';
+		return true;
+	}
+	if ( '' === $ladyqr_folder ) {
+		break;
+	}
+	$ladyqr_folder = substr( $ladyqr_folder, 0, (int) strrpos( $ladyqr_folder, '/' ) );
 }
 
-$_SERVER['SCRIPT_NAME']     = '/index.php';
-$_SERVER['PHP_SELF']        = '/index.php';
-$_SERVER['SCRIPT_FILENAME'] = $ladyqr_root . '/index.php';
-chdir( $ladyqr_root );
-require $ladyqr_root . '/index.php';
+http_response_code( 404 );
+echo 'Not Found';
+return true;

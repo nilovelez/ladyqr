@@ -29,13 +29,17 @@ function freePort() {
  * @param {object} [options]
  * @param {string} [options.config] Contents of ladyqr-config.php, if any.
  * @param {string} [options.data]   Contents of ladyqr-data.php, if any.
+ * @param {string} [options.folder] A folder of the web root to install it in,
+ *   such as 'sub', instead of the web root itself.
  * @returns {Promise<{root: string, url: string, file: (name: string) => string, stop: () => Promise<void>}>}
+ *   root and file() are the site's own folder; url is the web root's address.
  */
-export async function startSite({ config, data } = {}) {
-	// The site goes one level down, because the configuration is also looked
-	// up in the folder above the site.
+export async function startSite({ config, data, folder = '' } = {}) {
+	// The web root goes one level down, because the configuration is also
+	// looked up in the folder above the site.
 	const base = fs.mkdtempSync(path.join(os.tmpdir(), 'ladyqr-test-'));
-	const root = path.join(base, 'www');
+	const docroot = path.join(base, 'www');
+	const root = path.join(docroot, folder);
 	for (const name of RUNTIME) {
 		fs.cpSync(path.join(REPO, name), path.join(root, name), { recursive: true });
 	}
@@ -48,10 +52,10 @@ export async function startSite({ config, data } = {}) {
 
 	const port = await freePort();
 	const url = `http://127.0.0.1:${port}`;
-	const php = spawn('php', ['-S', `127.0.0.1:${port}`, '-t', root, path.join(REPO, 'tests/lib/router.php')], { stdio: 'ignore' });
+	const php = spawn('php', ['-S', `127.0.0.1:${port}`, '-t', docroot, path.join(REPO, 'tests/lib/router.php')], { stdio: 'ignore' });
 	for (let tries = 0; ; tries++) {
 		try {
-			await fetch(url + '/assets/app.css');
+			await fetch(`${url}/${folder ? folder + '/' : ''}assets/app.css`);
 			break;
 		} catch (error) {
 			if (tries > 50) {
