@@ -311,7 +311,7 @@ php tools/build-release.php
 
 ## Roadmap
 
-See [docs/PLAN.md](docs/PLAN.md). Next comes M7: automated tests, the encoder's numeric and alphanumeric modes, and QR codes made straight from the shortener's links.
+See [docs/PLAN.md](docs/PLAN.md). M7 is done and goes out in the next release: automated tests, the encoder's numeric and alphanumeric modes, and a QR code for each short link, straight from the admin. The backlog has what may come later.
 
 ## License
 

@@ -198,6 +198,7 @@ The admin pages (`/admin/`) use the shared components plus `assets/admin.css`. T
 - **Login:** a "Log in" heading, an optional notice that the session expired, an optional error, the user and password fields, a `--warn` notice when the connection is not HTTPS, and a full-width button. A wrong attempt shows the same message whatever was wrong.
 - **Short links:** the result of securing the password if it just happened, the result of the last change, the table of links, and the "Add a short link" form.
   - The table has four columns: the short link (`/name`, a link to it), where it goes (muted, cut with an ellipsis), the code (`301` or `302` in a code tag), and the "Edit" and "Delete" links.
+  - Before each short link, a 16 px QR icon in `--muted` (`--ink` on hover) opens the generator in a new tab with the link filled in. It is an inline SVG with `aria-hidden`; the link carries its label ("QR code for /name") in `aria-label` and `title`.
   - The form has the short name (with the site's address as an add-on in front), the address it goes to, and the type, a select whose options start with the code: "301 – Permanent redirect" and "302 – Temporary redirect" (the default). A hint under it explains that browsers remember permanent redirects.
 - **Edit short link:** the same fields, filled in, with "Save changes" and "Cancel".
 - **Delete short link:** the link in a `--zebra` box (name, code and target) and the question, with "Delete" and "Cancel".
@@ -268,4 +269,3 @@ Before adding or changing a screen:
 ## Not designed yet
 
 - Right-to-left languages.
-- A QR code for each short link in the admin.

@@ -252,14 +252,16 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
 - **The new icons:** the ladybug fitted to its drawing in the pages, the square ones as favicon and Apple touch icon. See DESIGN.md.
 - **`CLAUDE.md` and `docs/HANDOFF.md`**, so a new session can pick the project up from the repository alone. The test tools moved out of a temporary folder to `D:\Claude\ladyqr-tools\`.
 
-### M7. Automated tests, encoder modes and QR codes from the shortener
+### M7. Automated tests, encoder modes and QR codes from the shortener — done
 
-- **Automated tests** with Node's built-in runner, kept apart from the runtime code (the test-only tools would be development dependencies), including the checks that today live in throwaway scripts.
-- **Numeric and alphanumeric modes in the encoder,** for smaller codes. Nothing changes for the user and nothing new is shown: the encoder picks the most efficient mode for the text. Numeric if every character is a digit, alphanumeric if every character is in that set (digits, uppercase letters, space and `$%*+-./:`), and byte mode otherwise. A version 1-M code holds 14 characters in byte mode (`1QR.ES/1234567`) and 20 in alphanumeric mode (`HTTP://1QR.ES/123456`).
-- **QR codes from the shortener.** In the admin, each short link gets a QR icon that opens the generator with the short link filled in. Pieces:
-  - The generator takes its initial text from the address fragment (`#text=…`), so it never reaches the server.
-  - An optional `LADYQR_QR_BASE` (such as `1QR.ES/`) for the short links in QR codes: no scheme and in uppercase, to use the alphanumeric mode. The admin still copies links with `https://`.
-  - Slugs and the alphanumeric set: `_` is not in it, and short links already ignore case (done in 1.0.0, see M6).
+- **Automated tests** in `tests/`, with Node's built-in runner (`node --test`) and development dependencies of their own (`qrcode`, `jsqr`, `puppeteer-core`), never part of the release. No CI workflow: the encoder will hardly change once finished, so the tests are run by hand.
+  - **The encoder** is compared with the `qrcode` package in each mode, at all 40 versions and four levels, and decoded back with jsQR.
+  - **The editor, the admin and the installer** run in a real Chrome on throwaway sites served by PHP's built-in server. A small router (`tests/lib/router.php`) stands in for Apache: it sends addresses that are not files to `index.php` only when `.htaccess` holds LadyQR's block. The checks of the old installer script moved here.
+  - **Not covered:** whether Apache obeys the rules written in `.htaccess` (the route check, the address redirects). That stays a manual check on a real Apache, outside the repository; the `.htaccess` format is not expected to change. On PHP's built-in server the installer's checks answer "could not be tested", which is also a path worth testing.
+- **Numeric and alphanumeric modes in the encoder,** for smaller codes. Nothing changes for the user and nothing new is shown: the encoder picks the most compact mode that holds the whole text. Numeric if every character is a digit, alphanumeric if every character is in that set (digits, uppercase letters, space and `$%*+-./:`), and byte mode otherwise; there are no mixed segments. A version 1-M code holds 14 characters in byte mode (`1QR.ES/1234567`), 20 in alphanumeric mode (`HTTP://1QR.ES/123456`) and 34 digits.
+- **QR codes from the shortener.** In the admin, a small QR icon at the start of each short link's row opens the generator in a new tab with the short link filled in.
+  - The generator takes its initial text from the address fragment (`#text=…`), so it never reaches the server, and then clears it from the address.
+  - An optional `LADYQR_QR_BASE` (such as `1QR.ES/`), set only in the configuration file and documented in the README and the sample: an advanced setting nobody needs. The code then holds the base and the slug in uppercase, which still finds the link and fits the alphanumeric mode. Slugs only allow letters, digits and hyphens, so in uppercase they always fit.
 
 ## Backlog
 
