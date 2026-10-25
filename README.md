@@ -239,6 +239,8 @@ site/                      The website's landing page
 tools/build-release.php    Builds the release zip
 tools/build-site.php       Builds the website
 tools/make-qr.mjs          Makes a QR code SVG with the encoder
+tests/                     Automated tests, for development only
+CHANGELOG.md               What each version changed
 docs/hosting.md            What the target hosting allows, from the M1 tests
 docs/PLAN.md               Roadmap and design decisions
 docs/HANDOFF.md            Where the work stands, for whoever picks it up
@@ -311,7 +313,7 @@ php tools/build-release.php
 
 ## Roadmap
 
-See [docs/PLAN.md](docs/PLAN.md). M7 is done and goes out in the next release: automated tests, the encoder's numeric and alphanumeric modes, and a QR code for each short link, straight from the admin. The backlog has what may come later.
+See [docs/PLAN.md](docs/PLAN.md). 1.1.0 brought automated tests, the encoder's numeric and alphanumeric modes, and a QR code for each short link, straight from the admin. The backlog has what may come later, and [CHANGELOG.md](CHANGELOG.md) what each version changed.
 
 ## License
 

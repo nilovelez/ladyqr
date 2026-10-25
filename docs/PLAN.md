@@ -252,7 +252,7 @@ Reviewed with a user persona: Alfonso, a web implementer used to WordPress, Pres
 - **The new icons:** the ladybug fitted to its drawing in the pages, the square ones as favicon and Apple touch icon. See DESIGN.md.
 - **`CLAUDE.md` and `docs/HANDOFF.md`**, so a new session can pick the project up from the repository alone. The test tools moved out of a temporary folder to `D:\Claude\ladyqr-tools\`.
 
-### M7. Automated tests, encoder modes and QR codes from the shortener — done
+### M7. Automated tests, encoder modes and QR codes from the shortener — done (1.1.0)
 
 - **Automated tests** in `tests/`, with Node's built-in runner (`node --test`) and development dependencies of their own (`qrcode`, `jsqr`, `puppeteer-core`), never part of the release. No CI workflow: the encoder will hardly change once finished, so the tests are run by hand.
   - **The encoder** is compared with the `qrcode` package in each mode, at all 40 versions and four levels, and decoded back with jsQR.

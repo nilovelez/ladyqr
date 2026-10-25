@@ -5,15 +5,16 @@ What a new working session needs to pick LadyQR up. The rules for working with N
 ## Where it stands
 
 - Milestones 0 to 6 are done. **1.0.0** is the first release: the README, `INSTALL.txt` and the configuration sample are up to date, and the design is accepted for this version.
-- M7 is done on `main` and not released yet: automated tests in `tests/`, numeric and alphanumeric encoder modes, and a QR icon for each short link in the admin (with the optional `LADYQR_QR_BASE`).
+- M7 is done and released as **1.1.0**: automated tests in `tests/`, numeric and alphanumeric encoder modes, and a QR icon for each short link in the admin (with the optional `LADYQR_QR_BASE`).
+- `CHANGELOG.md` (in the repository, not in the zip) lists the notable changes of each version, for users. Add to it as changes land, not every detail.
 - 1.0.0 is published on GitHub; `release.yml` attached `ladyqr-latest.zip` to it. Permanent link: https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip
 - Nilo runs LadyQR on his own site, https://1qr.es/. Only he touches that site.
 - The website and demo, https://ladyqr.nilovelez.com/, are deployed by GitHub Pages on every push to `main`.
 
 ## Next
 
-- Whatever Nilo picks next: a release with M7 (such as 1.1.0), or an item from the backlog in `docs/PLAN.md`.
-- To release a new version: publish a GitHub release with a new tag (such as `v1.0.1`); the workflow attaches the zip.
+- Whatever Nilo picks next from the backlog in `docs/PLAN.md`.
+- To release a new version: run the tests, move the changes into a new section of `CHANGELOG.md`, then publish a GitHub release with a new tag (such as `v1.1.1`) and the same notes; the workflow attaches the zip.
 
 ## How the code fits together
 
