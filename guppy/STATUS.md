@@ -6,7 +6,7 @@ LadyQR is a privacy-oriented QR code generator with an optional link shortener. 
 
 Newest entries first. One per work session, brief.
 
-- 2026-10-25: 1.1.0 published, with M7. CHANGELOG.md added. The website's demo was not being built on GitHub Actions (index.php sent the build to the installer); fixed. Next: the backlog.
+- 2026-10-25: 1.1.0 published, with M7. CHANGELOG.md added. The website's demo was not being built on GitHub Actions (index.php sent the build to the installer); fixed. The website's hero buttons now say "Try it live" and "Download latest version". Next: the backlog.
 - 2026-10-25: Milestone 7 done, not released. Automated tests with node --test (encoder against the qrcode package, editor, admin and installer in Chrome on PHP's built-in server), numeric and alphanumeric encoder modes, and a QR icon for each short link in the admin. nginx and LiteSpeed added to the backlog. Next: a release, or the backlog.
 - 2026-10-25: Roadmap cleanup. The QR codes from the shortener moved into M7 with the encoder modes; most of the backlog dropped. The website (roadmap, install steps, editor screenshot) and the README brought up to date; HANDOFF.md points to PLAN.md instead of repeating it. Next: M7.
 - 2026-10-25: Milestone 6 done, 1.0.0 published. New icons, short links that ignore case, README with Troubleshooting, configuration sample reviewed. The release zip is attached by the release workflow. Next: M7, automated tests and the alphanumeric mode.
