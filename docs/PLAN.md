@@ -268,4 +268,9 @@ Things that are wanted but not urgent, in no particular order.
 - **Confirm the real disk quota** (100 MB) in the OVH panel: PHP only sees the disk of the whole cluster.
 - **A script for the SFTP deployment**, which M2 did by hand.
 - **A new icon that works at small sizes** (a 32 and 16 px favicon). Today the 128 px icon is used everywhere. Nilo will draw it; 1.0.0 ships with the current one.
+- **QR codes from the shortener.** Each link gets a QR icon that opens the editor with the short link filled in. Pieces:
+  - The editor takes its initial text from the address fragment (`#text=…`), so it never reaches the server.
+  - An optional `LADYQR_QR_BASE` (such as `1QR.ES/`) for the short links in QR codes: no scheme and in uppercase, to use the alphanumeric mode. The admin still copies links with `https://`.
+  - The encoder's alphanumeric mode (now in M7). A version 1-M code holds 14 characters in byte mode (`1QR.ES/1234567`) and 20 in alphanumeric mode (`HTTP://1QR.ES/123456`).
+  - Short links stop being case-sensitive: `/pepe`, `/PEPE` and `/Pepe` are the same link. The slug is stored as typed, and the admin refuses a new slug that differs from an existing one only in case, saying a link with that name already exists. `_` is not in the alphanumeric set.
 - **Customize the generator page.** How is to be decided; probably an optional `header.html` and `footer.html` in the install folder, included before and after the generator when they exist.
