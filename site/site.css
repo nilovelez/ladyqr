@@ -292,7 +292,7 @@ main {
 	border-color: var(--primary-deep);
 }
 
-/* Phones: one column, the bug and the bubble first, then the editor */
+/* Phones: one column, the bubble and the bug (which looks left, at the bubble) first, then the editor */
 
 @media (max-width: 860px) {
 	.hero {
@@ -316,20 +316,20 @@ main {
 	.welcome {
 		z-index: 2;
 		display: grid;
-		grid-template-columns: 112px minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr) 112px;
 		align-items: end;
 		gap: 6px;
 	}
 
 	.bug {
-		grid-column: 1;
+		grid-column: 2;
 		grid-row: 1;
 		width: 112px;
 		margin-bottom: -7px;
 	}
 
 	.bubble {
-		grid-column: 2;
+		grid-column: 1;
 		grid-row: 1;
 		max-width: none;
 		margin: 0 0 14px;
@@ -338,11 +338,12 @@ main {
 	}
 
 	.bubble::after {
-		left: -8px;
+		left: auto;
+		right: -8px;
 		bottom: 14px;
 		width: 18px;
 		height: 18px;
-		border-radius: 0 0 0 6px;
+		border-radius: 0 6px 0 0;
 	}
 
 	.bubble h1 {
@@ -496,5 +497,27 @@ pre code {
 
 	.top nav a:not(:nth-last-child(-n + 2)) {
 		display: none;
+	}
+
+	/* Small enough for the logo, the name and two links to share a 320 px line */
+	.top {
+		flex-wrap: nowrap;
+	}
+
+	.brand {
+		gap: 8px;
+		font-size: 1.1rem;
+	}
+
+	.brand img {
+		width: 40px;
+		height: auto;
+	}
+
+	.top nav {
+		flex-wrap: nowrap;
+		gap: 12px;
+		font-size: 0.9rem;
+		white-space: nowrap;
 	}
 }

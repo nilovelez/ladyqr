@@ -217,7 +217,7 @@ The landing page at https://ladyqr.nilovelez.com/ (`site/index.html` and `site/s
 - The hero is the welcome (the speech bubble, the bug and two buttons, over a drawn meadow) and the real editor, built from `index.php` by `tools/build-site.php`. On a wide screen the editor is the narrow layout, in half of the hero: the card has the `compact` class, which keeps that layout at every width (the wide layout, with the settings on the right, is only for the installed editor). On a phone the bug stands on the editor's top edge and the buttons are hidden.
 - The hero's images are `assets/ladyqr-web.webp` (the bug, 640 × 480) and `assets/web-background-kawaii.webp` (the meadow, 1408 × 768), copied to `img/` by the build. `assets/web-background-kawaii.jpg` is the original of the meadow; none of them goes in the release zip.
 
-When the editor's look changes, take a new screenshot: the card alone, 560 px wide, with `https://ladyqr.nilovelez.com/` typed in and the settings closed.
+When the editor's look changes, take a new screenshot: the card alone, 560 px wide, with `LADYQR.NILOVELEZ.COM` typed in (it fits a version 1 code) and the settings closed.
 
 ## Accessibility
 

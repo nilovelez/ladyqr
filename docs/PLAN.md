@@ -91,7 +91,7 @@ A landing page with the real editor in its hero is published at https://ladyqr.n
 - **Source:** the landing page is in `site/` (static HTML and CSS, with the editor's CSP in a `<meta>` tag). It uses the same tokens as the editor.
 - **Editor:** `tools/build-site.php` renders `index.php` in English and puts the editor into the landing page, because GitHub Pages cannot run PHP.
 - **Deployment:** `.github/workflows/pages.yml` builds `_site/` and deploys it on every push to `main`. Pages is set to the "GitHub Actions" source with `ladyqr.nilovelez.com` as the custom domain; the DNS record is a `CNAME` to `nilovelez.github.io`. No `CNAME` file is needed with this kind of deployment.
-- **The QR code** in the README (`site/qr.svg`) is made with the project's own encoder: `node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg L 4`.
+- **The QR code** in the README (`site/qr.svg`) is made with the project's own encoder: `node tools/make-qr.mjs LADYQR.NILOVELEZ.COM site/qr.svg M 4`. The text is in uppercase without `https://` so that it fits the smallest QR code, version 1 at level M, which impresses more than people expect.
 - The editor on the website is in English only for now.
 
 ### M1. Hosting spike — done

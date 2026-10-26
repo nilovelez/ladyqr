@@ -293,7 +293,7 @@ The browser and admin tests run on a throwaway copy of the site served by PHP's 
 **Make a QR code** as an SVG with the project's own encoder, for example the one on the website:
 
 ```
-node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg L 4
+node tools/make-qr.mjs LADYQR.NILOVELEZ.COM site/qr.svg M 4
 ```
 
 **Build the website** into `_site/`, which is ignored by Git:

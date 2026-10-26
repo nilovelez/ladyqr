@@ -4,8 +4,8 @@
   "description": "Privacy-oriented QR code generator and URL shortener.",
   "status": "active",
   "status_text": "LadyQR 1.1.0 is published on GitHub. The website was redesigned: a welcome with the ladybug and the real editor in the hero, and a section on the link shortener. Next: Nilo's fixes, then the backlog.",
-  "last_update": "2026-10-26 11:26:48 +0100",
-  "last_update_unix": 1793010408,
+  "last_update": "2026-10-26 11:34:37 +0100",
+  "last_update_unix": 1793010877,
   "url": "https://github.com/nilovelez/ladyqr",
   "status_url": "https://raw.githubusercontent.com/nilovelez/ladyqr/main/guppy/STATUS.md",
   "icon": "https://raw.githubusercontent.com/nilovelez/ladyqr/main/assets/icon-128.png"
