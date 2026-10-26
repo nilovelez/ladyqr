@@ -32,6 +32,7 @@ You type a link and the QR code appears as you type. You download it as a PNG or
 - **Optional link shortener.** Short links on your own domain, such as `https://example.com/menu`, managed from a private single-user admin.
 - **Installs like WordPress.** Upload the files, open your site, and a short web installer asks what it needs. No database.
 - **Own encoder.** About 450 lines of JavaScript with no dependencies and no build step. Versions 1 to 40, in the most compact mode for the text: numeric, alphanumeric, or byte mode (UTF-8, so accents and emoji work, up to 2953 bytes at level L).
+- **Made to be customized.** A `theme` folder with your own CSS, header, footer and head tags, without touching LadyQR's files, so updates keep it. See [Customizing the generator page](#customizing-the-generator-page).
 - **Accessible.** High-contrast borders, full keyboard use and screen reader labels. See [DESIGN.md](DESIGN.md).
 - **Translatable.** Translations work like WordPress, with standard `.po` files. English and Spanish are included.
 
@@ -92,6 +93,8 @@ To write it by hand, copy `ladyqr-config.sample.php` to `ladyqr-config.php` and 
 | `LADYQR_SESSION_TIMEOUT` | `15` | Minutes without activity after which the admin asks for the password again. |
 | `LADYQR_REQUIRE_LOGIN` | `true` | Only an explicit `false` opens the admin without a login, with a permanent warning. |
 | `LADYQR_QR_BASE` | the site's address | Advanced, and not needed. What the QR codes of short links start with, such as `1QR.ES/` (see [Admin](#admin)). |
+| `LADYQR_SITE_TITLE` | `LadyQR` | The title of the page with the QR code generator. |
+| `LADYQR_SITE_DESCRIPTION` | none | The meta description of the page with the QR code generator. Without it, the page has none. |
 
 Keep the line `defined( 'LADYQR' ) || exit;` at the top: it makes the file print nothing when requested directly. `ladyqr-config.php` and `ladyqr-data.php` are ignored by Git, so your settings and links never end up in the repository.
 
@@ -176,6 +179,17 @@ If the installer turned the shortener off because the server did not allow it, f
 
 What LadyQR needs from a host, and what was found on the author's own, is in [docs/hosting.md](docs/hosting.md).
 
+## Customizing the generator page
+
+For developers. Create a folder called `theme` next to `index.php` and put in it any of these files, all optional:
+
+- `custom.css` is linked after LadyQR's own styles, on the generator, the admin pages and the not-found page.
+- `head.html` goes right before `</head>`, on the generator.
+- `header.html` goes inside a `<header>` right after `<body>`, on the generator.
+- `footer.html` replaces what is inside the `<footer>`, on the generator.
+
+The installer is never themed. The Content-Security-Policy is not relaxed, so a theme cannot make the page talk to another server: no inline styles or scripts, no external images, scripts or fonts. [docs/THEME.md](docs/THEME.md) has the full guide, with what you can and cannot include, the CSS variables and class names that are safe to rely on, and examples. The release has an example folder, [theme.zip](https://github.com/nilovelez/ladyqr/releases/latest/download/theme.zip), and an update never touches your `theme` folder. The title and the description of the page are the two settings above.
+
 ## Translations
 
 All text in the code is written in English with WordPress-style functions: `__()`, `_e()`, `esc_html__()`, `esc_html_e()` and `esc_attr__()`, always with the `ladyqr` text domain. A string without a translation stays in English.
@@ -219,7 +233,7 @@ includes/config-writer.php Safely replaces the password in the configuration fil
 includes/data.php          Reads and writes the short links in ladyqr-data.php
 includes/links.php         Short link validation
 includes/htaccess.php      LadyQR's block in .htaccess, with safe writes, a check and rollback
-includes/functions.php     Small shared helpers
+includes/functions.php     Small shared helpers, including the theme's
 includes/i18n.php          Translation functions and the .mo reader
 assets/qr.js               The QR code encoder
 assets/render.js           SVG and PNG output, matrix and color helpers
@@ -235,13 +249,15 @@ languages/                 Translation template and translations
 ladyqr-config.sample.php   Configuration sample
 INSTALL.txt                Installing and updating, for the release zip
 site/                      The website's landing page
-tools/build-release.php    Builds the release zip
+tools/build-release.php    Builds the release zips
 tools/build-site.php       Builds the website
 tools/make-qr.mjs          Makes a QR code SVG with the encoder
 tests/                     Automated tests, for development only
 CHANGELOG.md               What each version changed
 docs/hosting.md            What the target hosting allows, from the M1 tests
 docs/PLAN.md               Roadmap and design decisions
+docs/THEME.md              Customizing the generator page, for developers
+docs/theme/                The example theme that goes in theme.zip
 docs/HANDOFF.md            Where the work stands, for whoever picks it up
 DESIGN.md                  Look, behavior and accessibility
 guppy/                     Project status published to Guppy (the author's project manager)

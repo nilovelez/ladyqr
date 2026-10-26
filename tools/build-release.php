@@ -1,7 +1,8 @@
 <?php
 /**
- * Builds the release zip: _release/ladyqr-latest.zip, with a ladyqr/ folder
- * holding only what goes on the server.
+ * Builds the release zips in _release/: ladyqr-latest.zip, with a ladyqr/
+ * folder holding only what goes on the server, and theme.zip, an example theme
+ * folder.
  *
  * Run it from anywhere: php tools/build-release.php
  *
@@ -74,6 +75,28 @@ foreach ( $list as $path ) {
 	$zip->addFile( $root . '/' . $path, 'ladyqr/' . $path );
 }
 $zip->close();
+
+// The example theme: a theme folder to unzip next to index.php. The blank
+// index.html keeps a server that lists folders from listing it. It is a
+// separate zip because the theme is the owner's own and a release must never
+// overwrite it.
+$theme_out = dirname( $out ) . '/theme.zip';
+if ( is_file( $theme_out ) ) {
+	unlink( $theme_out );
+}
+$theme = new ZipArchive();
+if ( true !== $theme->open( $theme_out, ZipArchive::CREATE ) ) {
+	fwrite( STDERR, "Cannot create $theme_out\n" );
+	exit( 1 );
+}
+foreach ( array( 'index.html', 'custom.css' ) as $name ) {
+	if ( ! is_file( $root . '/docs/theme/' . $name ) ) {
+		fwrite( STDERR, "Missing: docs/theme/$name\n" );
+		exit( 1 );
+	}
+	$theme->addFile( $root . '/docs/theme/' . $name, 'theme/' . $name );
+}
+$theme->close();
 
 echo count( $list ) . " files in $out (" . round( filesize( $out ) / 1024 ) . " KB)\n";
 foreach ( $list as $path ) {

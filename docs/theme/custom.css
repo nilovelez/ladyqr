@@ -1,0 +1,23 @@
+/* Your own styles for LadyQR.
+ *
+ * This file is loaded after LadyQR's own styles on the page with the QR code
+ * generator, on the admin pages and on the not-found page, so what you write
+ * here wins. Nothing is needed: delete what you do not use.
+ *
+ * Guide, with the list of colors and class names that are safe to rely on:
+ * https://github.com/nilovelez/ladyqr/blob/main/docs/THEME.md
+ */
+
+/* The colors. The red is also used for links, the selected state and focus. */
+:root {
+	/* --accent: #0b6b3a; */
+	/* --accent-deep: #07522c; */
+	/* --bg: #f0f7f2; */
+}
+
+/* Where the generator's help button and the top of the page start. */
+:root {
+	/* --page-top: 72px; */
+	/* --help-top: 16px; */
+	/* --help-right: 16px; */
+}

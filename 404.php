@@ -35,6 +35,7 @@ $ladyqr_base = ladyqr_base_path();
 	<link rel="apple-touch-icon" href="<?php echo ladyqr_asset( 'assets/icon-128.png', $ladyqr_base . '/' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css', $ladyqr_base . '/' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/admin.css', $ladyqr_base . '/' ); ?>">
+<?php echo ladyqr_theme_stylesheet( $ladyqr_base . '/' ); ?>
 </head>
 <body class="admin">
 

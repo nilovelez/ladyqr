@@ -45,6 +45,11 @@ define( 'LADYQR_LANGUAGE', 'en_US' );
 // site: test one of the codes before you print it.
 // define( 'LADYQR_QR_BASE', '1QR.ES/' );
 
+// The title and the description (the meta tag) of the page with the QR code
+// generator. Without them the title is LadyQR and there is no description.
+// define( 'LADYQR_SITE_TITLE', 'QR codes by Example Inc.' );
+// define( 'LADYQR_SITE_DESCRIPTION', 'Make a QR code for a link, right in your browser.' );
+
 // Opens the admin without a login, with a permanent warning on every page.
 // Only for trying it locally. Anyone who can reach the page could change
 // your short links, so do not use this on a public site.

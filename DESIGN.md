@@ -186,6 +186,17 @@ From 900 px up, the card (`.card.editor`) is 940 px wide at most and the setting
 - Text is never stored. Settings (level, margin, colors) are saved to `localStorage` under `ladyqr-settings`, validated when read; the editor works if storage is blocked or corrupt.
 - Download file names: `qrcode-500.png`, `qrcode-1000.png` and `qrcode.svg`. PNG output is exactly the requested size, with module edges rounded to whole pixels.
 
+## The theme
+
+Developers can restyle the generator page, the admin pages and the not-found page from a `theme` folder, without touching LadyQR's files. The rules for users are in [docs/THEME.md](docs/THEME.md); these are the rules for us.
+
+- **The theme never relaxes the CSP.** It works inside `default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'`. Inline styles and scripts, other sites' images and scripts, `data:` images and web fonts (`font-src` falls back to `default-src 'none'`) are blocked, and the guide says so. Do not add a way around it without asking.
+- **`custom.css`** is linked after `app.css` (and after `admin.css` on the admin and the not-found page), with `?v=` and its modification time, like the other assets. The installer never gets any theme file.
+- **`head.html`, `header.html` and `footer.html`** are printed as they are, only on the generator. They are HTML: PHP in them does not run.
+- **What themes can rely on** is what `docs/THEME.md` lists: the color and shape tokens, three layout variables and a short list of markup. Anything else is internal. When you change one of the listed things, update that guide and mention it in the changelog.
+- **Layout variables:** `--page-top` (the top padding of `body`, 72 px), `--help-top` and `--help-right` (where the help button sits). They are read with a fallback, so `app.css` still works when they are not set.
+- **The title and the description** of the generator page are `LADYQR_SITE_TITLE` and `LADYQR_SITE_DESCRIPTION`; the admin and the not-found page keep their own titles.
+
 ## The admin
 
 The admin pages (`/admin/`) use the shared components plus `assets/admin.css`. They have no JavaScript. Each page has the ladybug and "LadyQR admin" above the card, on the left (with "Signed in as … – Log out" on the right once logged in), and one card with the content of its state. The login and locked states use a 480 px card, centered on the page; the panel uses a 760 px card at the top of the page.

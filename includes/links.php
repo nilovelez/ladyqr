@@ -15,7 +15,7 @@ defined( 'LADYQR' ) || exit;
  * @return string[]
  */
 function ladyqr_reserved_slugs() {
-	return array( 'admin', 'assets', 'includes', 'languages', 'old', 'index', 'docs', 'site', 'tools', 'ladyqr-config', 'ladyqr-data', 'ladyqr-route-test' );
+	return array( 'admin', 'assets', 'includes', 'languages', 'old', 'index', 'docs', 'site', 'tools', 'theme', 'ladyqr-config', 'ladyqr-data', 'ladyqr-route-test' );
 }
 
 /**

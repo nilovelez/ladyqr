@@ -99,6 +99,12 @@ function ladyqr_skeleton_path() {
 }
 
 $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
+
+// The theme: the owner's optional files in the theme folder (see docs/THEME.md).
+$ladyqr_theme_css    = ladyqr_theme_stylesheet();
+$ladyqr_theme_head   = ladyqr_theme_file( 'head.html' );
+$ladyqr_theme_header = ladyqr_theme_file( 'header.html' );
+$ladyqr_theme_footer = ladyqr_theme_file( 'footer.html' );
 ?>
 <!doctype html>
 <html lang="<?php echo htmlspecialchars( $ladyqr_lang, ENT_QUOTES, 'UTF-8' ); ?>">
@@ -106,12 +112,27 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="color-scheme" content="light">
-	<title>LadyQR</title>
+	<title><?php echo htmlspecialchars( '' !== $ladyqr_config['site_title'] ? $ladyqr_config['site_title'] : 'LadyQR', ENT_QUOTES, 'UTF-8' ); ?></title>
+<?php if ( '' !== $ladyqr_config['site_description'] ) : ?>
+	<meta name="description" content="<?php echo htmlspecialchars( $ladyqr_config['site_description'], ENT_QUOTES, 'UTF-8' ); ?>">
+<?php endif; ?>
 	<link rel="icon" type="image/png" href="<?php echo ladyqr_asset( 'assets/icon-64.png' ); ?>">
 	<link rel="apple-touch-icon" href="<?php echo ladyqr_asset( 'assets/icon-128.png' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css' ); ?>">
+<?php if ( '' !== $ladyqr_theme_css ) : ?>
+	<?php echo $ladyqr_theme_css; ?>
+<?php endif; ?>
+<?php if ( null !== $ladyqr_theme_head ) : ?>
+<?php echo $ladyqr_theme_head; ?>
+
+<?php endif; ?>
 </head>
 <body>
+<?php if ( null !== $ladyqr_theme_header ) : ?>
+<header>
+<?php echo $ladyqr_theme_header; ?>
+</header>
+<?php endif; ?>
 
 <button class="help" id="help-open" type="button" aria-label="<?php echo esc_attr__( 'Help', 'ladyqr' ); ?>">
 	<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5"/><circle cx="12" cy="17.8" r=".6" fill="currentColor"/></svg>
@@ -212,6 +233,9 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 </main>
 
 <footer>
+<?php if ( null !== $ladyqr_theme_footer ) : ?>
+<?php echo $ladyqr_theme_footer; ?>
+<?php else : ?>
 	<a href="https://ladyqr.nilovelez.com/" target="_blank" rel="noopener">
 		<img alt="" src="<?php echo ladyqr_asset( 'assets/ladyqr.png' ); ?>" width="32" height="24">
 		<span>
@@ -221,6 +245,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 			?>
 		</span>
 	</a>
+<?php endif; ?>
 </footer>
 
 <script type="application/json" id="ladyqr-i18n"><?php echo json_encode( $ladyqr_js_strings, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE ); ?></script>

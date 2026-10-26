@@ -19,6 +19,41 @@ function ladyqr_asset( $path, $prefix = '' ) {
 }
 
 /**
+ * Returns the contents of a file of the theme folder (head.html, header.html or
+ * footer.html), or null when there is no such file. The theme is the owner's
+ * own HTML: it is printed as it is, and PHP in it is not run.
+ *
+ * @param string $name The file name.
+ * @return string|null
+ */
+function ladyqr_theme_file( $name ) {
+	if ( ! in_array( $name, array( 'head.html', 'header.html', 'footer.html' ), true ) ) {
+		return null;
+	}
+	$file = dirname( __DIR__ ) . '/theme/' . $name;
+	if ( ! is_file( $file ) ) {
+		return null;
+	}
+	$html = file_get_contents( $file );
+	return false === $html ? null : $html;
+}
+
+/**
+ * Returns the <link> tag of the theme's custom.css, with a line break at the
+ * end, or an empty string when there is no such file. It goes after the link to
+ * app.css, so its rules win.
+ *
+ * @param string $prefix What goes before the path, such as ../ from the admin.
+ * @return string
+ */
+function ladyqr_theme_stylesheet( $prefix = '' ) {
+	if ( ! is_file( dirname( __DIR__ ) . '/theme/custom.css' ) ) {
+		return '';
+	}
+	return '<link rel="stylesheet" href="' . ladyqr_asset( 'theme/custom.css', $prefix ) . '">' . "\n";
+}
+
+/**
  * Tells whether the request came over HTTPS, also behind a proxy that ends the
  * TLS connection and says so in a header.
  */

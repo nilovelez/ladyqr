@@ -269,4 +269,3 @@ Things that are wanted but not urgent, in no particular order.
 
 - **Compatibility with nginx and LiteSpeed.** nginx does not read `.htaccess`, so its rules would have to be written in the server configuration; LiteSpeed reads `.htaccess` but has not been tested.
 - **Publish the encoder as a library of its own.** `qr.js` and `render.js` are plain ES modules with no dependencies, verified by the tests against the `qrcode` package. To decide: a repository and npm package of their own (LadyQR would keep a copy in `assets/`, with no build step), a more permissive license such as MIT, and a stable API with semver. Often expected and missing today: mixed segments, forcing the version or the mask, ECI, and TypeScript types (they can come from the JSDoc).
-- **Customize the generator page.** How is to be decided; probably an optional `header.html` and `footer.html` in the install folder, included before and after the generator when they exist.

@@ -48,23 +48,27 @@ function ladyqr_config() {
 
 	$config = array(
 		// Interface language, as a WordPress-style locale. English needs no file.
-		'language'        => 'en_US',
+		'language'         => 'en_US',
 		// The address of the site, such as https://1qr.es or https://example.com/qr,
 		// without a final slash. Empty means the address of the current request.
-		'url'             => '',
+		'url'              => '',
 		// Whether the short links are on. Only an explicit true turns them on.
-		'shortener'       => false,
+		'shortener'        => false,
 		// The admin's user and password. The password may be written in plain
 		// text: the first successful login replaces it with a hash.
-		'user'            => '',
-		'password'        => '',
+		'user'             => '',
+		'password'         => '',
 		// Only an explicit false opens the admin without a login.
-		'require_login'   => true,
+		'require_login'    => true,
 		// Minutes without activity after which the admin asks for the password again.
-		'session_timeout' => 15,
+		'session_timeout'  => 15,
 		// What the QR codes of short links start with, such as 1QR.ES/, instead
 		// of the site's address. Empty means the site's address.
-		'qr_base'         => '',
+		'qr_base'          => '',
+		// The title and the meta description of the generator page. Empty means
+		// the title LadyQR and no description.
+		'site_title'       => '',
+		'site_description' => '',
 	);
 
 	// Each setting comes from the constant of the same name: 'language' from
@@ -83,11 +87,13 @@ function ladyqr_config() {
 	if ( ! is_string( $config['language'] ) || ! preg_match( '/^[a-z]{2,3}(_[A-Z]{2})?$/', $config['language'] ) ) {
 		$config['language'] = 'en_US';
 	}
-	foreach ( array( 'user', 'password', 'qr_base' ) as $key ) {
+	foreach ( array( 'user', 'password', 'qr_base', 'site_title', 'site_description' ) as $key ) {
 		if ( ! is_string( $config[ $key ] ) ) {
 			$config[ $key ] = '';
 		}
 	}
+	$config['site_title']       = trim( $config['site_title'] );
+	$config['site_description'] = trim( $config['site_description'] );
 	// The slug goes right after it, so it always ends with one slash.
 	$config['qr_base'] = rtrim( trim( $config['qr_base'] ), '/' );
 	if ( '' !== $config['qr_base'] ) {

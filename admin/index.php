@@ -329,6 +329,7 @@ function ladyqr_htaccess_notice( $ensure ) {
 	<link rel="apple-touch-icon" href="<?php echo ladyqr_asset( 'assets/icon-128.png', '../' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css', '../' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/admin.css', '../' ); ?>">
+<?php echo ladyqr_theme_stylesheet( '../' ); ?>
 </head>
 <body class="admin<?php echo in_array( $ladyqr_view, array( 'panel', 'open' ), true ) ? ' admin-panel' : ''; ?>">
 
