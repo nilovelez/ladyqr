@@ -298,12 +298,15 @@ main {
 	.hero {
 		min-height: 100vh;
 		min-height: 100svh;
-		background-position: 82% bottom;
+		background-position: 0 bottom;
 	}
 
 	.stage {
 		max-width: 560px;
 		grid-template-columns: minmax(0, 1fr);
+		/* The rows keep their size when the screen is taller than the content,
+		   so the bug stays on the card instead of floating above it. */
+		align-content: start;
 		gap: 0;
 		padding: 60px max(16px, env(safe-area-inset-right, 0px)) 110px max(16px, env(safe-area-inset-left, 0px));
 	}
