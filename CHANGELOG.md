@@ -4,7 +4,7 @@ The notable changes in each version of LadyQR. It is not part of the release zip
 
 ## Unreleased
 
-- **The installer's screens have a background**: the same drawn meadow as the website's hero.
+- **The installer's screens have a background**: the same drawn meadow as the website's hero, with the card centered on short screens.
 
 ## 1.1.0 — 2026-10-25
 

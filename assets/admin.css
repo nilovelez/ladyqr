@@ -59,6 +59,12 @@ body.installer {
 	background: url("web-background-kawaii_1080.webp") center bottom / cover no-repeat rgb(191, 230, 247);
 }
 
+/* The card is centered on short screens and starts at the top on tall ones. */
+
+body.admin.admin-panel.installer main {
+	justify-content: center;
+}
+
 /* The installer: the screen's title inside the card. */
 .card-body h1 {
 	margin: 0;

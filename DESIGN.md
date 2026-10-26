@@ -246,7 +246,7 @@ The ladybug with a QR code on its back comes in two shapes. No other sizes are g
 - **Fitted to the drawing, 4:3**, shown in the pages:
   - `assets/ladyqr.png`, 64 × 48 px: the footer of the editor, at 32 × 24.
   - `assets/ladyqr@2X.png`, 128 × 96 px: next to headings. 48 × 36 in the help dialog, the admin bar and the website's header; 64 × 48 on the not-found page; 128 × 96 at the top of the README.
-  - `assets/web-background-kawaii_1080.webp`, 1980 × 1080 px: the background of the installer's screens (`body.installer`: `center bottom / cover`, over `rgb(191, 230, 247)`), the same meadow as the website's hero. The cards stay white on top of it.
+  - `assets/web-background-kawaii_1080.webp`, 1980 × 1080 px: the background of the installer's screens (`body.installer`: `center bottom / cover`, over `rgb(191, 230, 247)`), the same meadow as the website's hero. The cards stay white on top of it, centered vertically on a short screen and at the top on a tall one.
   - `assets/ladyqr@4X.png`, 256 × 192 px: the installer's welcome ("Hi! I'm LadyQR"), at 128 × 96.
 - **Square**, for the browser and the system:
   - `assets/icon-64.png`, 64 × 64 px: the favicon.
