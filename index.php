@@ -212,7 +212,7 @@ $ladyqr_lang = str_replace( '_', '-', $ladyqr_config['language'] );
 </main>
 
 <footer>
-	<a href="https://github.com/nilovelez/ladyqr" target="_blank" rel="noopener">
+	<a href="https://ladyqr.nilovelez.com/" target="_blank" rel="noopener">
 		<img alt="" src="<?php echo ladyqr_asset( 'assets/ladyqr.png' ); ?>" width="32" height="24">
 		<span>
 			<?php
