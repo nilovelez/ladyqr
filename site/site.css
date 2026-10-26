@@ -27,10 +27,13 @@ html {
 	scroll-behavior: smooth;
 }
 
+/* assets/app.css is loaded first, for the editor, and styles body and main for
+   the editor page: the rules here undo that. */
 body {
+	min-height: 0;
+	display: block;
 	margin: 0;
-	padding-left: max(20px, env(safe-area-inset-left, 0px));
-	padding-right: max(20px, env(safe-area-inset-right, 0px));
+	padding: 0;
 	font-family: var(--font);
 	font-size: 1.0625rem;
 	line-height: 1.6;
@@ -88,24 +91,31 @@ h3 {
 	z-index: 10;
 }
 
-/* Header */
-
-.top,
-main,
-.bottom {
-	width: 100%;
-	max-width: 1040px;
-	margin-left: auto;
-	margin-right: auto;
-}
+/* Header: fixed over the hero. The name and logo and the bar's background only
+   appear once the first screen is scrolled, because the welcome already says it.
+   Browsers without scroll-driven animations show them from the start. */
 
 .top {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px 24px;
-	padding: 20px 0;
+	padding: 12px max(28px, env(safe-area-inset-right, 0px)) 12px max(28px, env(safe-area-inset-left, 0px));
+}
+
+.top::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: rgba(255, 255, 255, 0.94);
+	box-shadow: 0 1px 0 var(--line);
 }
 
 .brand {
@@ -126,7 +136,7 @@ main,
 }
 
 .top nav a {
-	color: var(--muted);
+	font-weight: 600;
 	text-decoration: none;
 }
 
@@ -134,33 +144,126 @@ main,
 	color: var(--accent);
 }
 
-/* Hero */
+@supports (animation-timeline: scroll()) {
+	.brand,
+	.top::before {
+		opacity: 0;
+		animation: appear linear both;
+		animation-timeline: scroll(root);
+		animation-range: 120px 320px;
+	}
+}
+
+@keyframes appear {
+	to {
+		opacity: 1;
+	}
+}
+
+/* The page under the hero, and the footer */
+
+main {
+	display: block;
+	max-width: none;
+	margin: 0;
+}
+
+.page,
+.bottom {
+	width: 100%;
+	max-width: 1080px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: max(20px, env(safe-area-inset-left, 0px));
+	padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* Hero: the welcome and the real editor over a drawn meadow. The bug stands on
+   the editor's top edge: it is above the card and overlaps it a little. */
 
 .hero {
-	display: grid;
-	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-	align-items: center;
-	gap: 40px;
-	padding: 56px 0 72px;
+	min-height: 100vh;
+	min-height: 100svh;
+	display: flex;
+	flex-direction: column;
+	padding: 72px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+	background: #bfe6f7 url("img/web-background-kawaii.webp") center bottom / cover no-repeat;
 }
 
-.hero h1 {
-	margin: 0 0 20px;
-	font-size: clamp(2.2rem, 5.6vw, 3.6rem);
+.stage {
+	flex: 1;
+	width: 100%;
+	max-width: 560px;
+	margin: 0 auto;
+	padding-bottom: 110px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
-.lead {
-	max-width: 34em;
-	margin: 0 0 28px;
-	font-size: 1.2rem;
+.welcome {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	align-items: flex-end;
+	gap: 6px;
+	margin-bottom: -14px;
+}
+
+.bug {
+	flex: none;
+	width: 112px;
+	height: auto;
+	margin-bottom: -28px;
+	filter: drop-shadow(0 8px 6px rgba(40, 90, 30, 0.25));
+}
+
+.bubble {
+	position: relative;
+	margin: 0 0 14px;
+	padding: 12px 14px;
+	background: var(--surface);
+	border-radius: 18px;
+	box-shadow: 0 4px 18px rgba(30, 80, 120, 0.15);
+}
+
+.bubble::after {
+	content: "";
+	position: absolute;
+	left: -8px;
+	bottom: 14px;
+	width: 18px;
+	height: 18px;
+	background: var(--surface);
+	border-radius: 0 0 0 6px;
+	transform: rotate(45deg);
+}
+
+.bubble h1 {
+	margin: 0 0 4px;
+	font-size: 1.3rem;
+}
+
+.bubble p {
+	margin: 0;
+	font-size: 0.9rem;
 	color: var(--muted);
 }
 
+.hero .card.editor {
+	position: relative;
+	z-index: 1;
+	font-size: 1rem;
+	line-height: 1.5;
+	box-shadow: 0 8px 30px rgba(30, 80, 120, 0.18);
+}
+
 .actions {
-	display: flex;
+	display: none;
 	flex-wrap: wrap;
+	justify-content: center;
 	gap: 12px;
-	margin: 0;
+	margin: 28px 0 0;
 }
 
 .button {
@@ -179,36 +282,57 @@ main,
 }
 
 .button.primary {
-	color: var(--accent-ink);
-	background: var(--accent);
-	border-color: var(--accent);
+	color: var(--primary-ink);
+	background: var(--primary);
+	border-color: var(--primary);
 }
 
 .button.primary:hover {
-	color: var(--accent-ink);
-	background: var(--accent-deep);
-	border-color: var(--accent-deep);
+	color: var(--primary-ink);
+	background: var(--primary-deep);
+	border-color: var(--primary-deep);
 }
 
-.hero-qr {
-	justify-self: center;
-	margin: 0;
-	text-align: center;
-}
+/* Wide screens: the editor is the wide card of the installed one, with the
+   settings on its right. The welcome sits on its top-left corner. */
 
-.hero-qr img {
-	display: block;
-	width: min(240px, 100%);
-	height: auto;
-	margin: 0 auto 14px;
-	border: 1px solid var(--border);
-}
+@media (min-width: 900px) {
+	.stage {
+		max-width: 940px;
+	}
 
-.hero-qr figcaption {
-	font-size: 0.9rem;
-	color: var(--muted);
-}
+	.welcome {
+		margin-bottom: -10px;
+	}
 
+	.bug {
+		width: 170px;
+		margin-bottom: 0;
+	}
+
+	.bubble {
+		max-width: 520px;
+		margin-bottom: 20px;
+		padding: 16px 20px;
+		border-radius: 22px;
+	}
+
+	.bubble::after {
+		bottom: 20px;
+	}
+
+	.bubble h1 {
+		font-size: 1.9rem;
+	}
+
+	.bubble p {
+		font-size: 1.05rem;
+	}
+
+	.actions {
+		display: flex;
+	}
+}
 /* Sections */
 
 .band,
@@ -334,20 +458,22 @@ pre code {
 	height: auto;
 }
 
-@media (max-width: 720px) {
-	.hero {
-		grid-template-columns: minmax(0, 1fr);
-		gap: 32px;
-		padding: 32px 0 48px;
-	}
-
-	.hero-qr {
-		order: -1;
-	}
-}
-
 @media (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;
+	}
+}
+
+@media (max-width: 899px) {
+	.top {
+		padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));
+	}
+
+	.top nav a:not(:first-child):not(:last-child) {
+		display: none;
+	}
+
+	.hero {
+		background-position: 82% bottom;
 	}
 }

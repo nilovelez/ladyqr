@@ -210,11 +210,12 @@ The admin is not linked from anywhere else, and every state carries `noindex` (s
 
 ## The website
 
-The landing page at https://ladyqr.nilovelez.com/ (`site/index.html` and `site/site.css`) repeats the app's tokens (a copy, because the site is deployed on its own) and follows the same rules: light only, system fonts, `--radius` buttons, `--radius-lg` cards with a `--line` edge, the primary action in `--accent` and the secondary one with a `--border` edge.
+The landing page at https://ladyqr.nilovelez.com/ (`site/index.html` and `site/site.css`) repeats the app's tokens (a copy, because the site is deployed on its own) and follows the same rules: light only, system fonts, `--radius` buttons, `--radius-lg` cards with a `--line` edge, the primary buttons in `--primary` and the secondary ones with a `--border` edge.
 
-- It has no JavaScript and its own `<meta>` CSP, because GitHub Pages cannot send headers.
-- Layout: a header with the name and links, a hero with the headline and a QR code that points to the site itself, a grid of six features, a screenshot of the editor (`site/img/editor.png`, the narrow layout at 560 px), a "verify it yourself" section, a self-hosting section and the roadmap.
-- The live demo under `/try/` is the real editor, built from `index.php`.
+- It carries the same `<meta>` CSP as the editor (scripts from its own origin, no connections), because GitHub Pages cannot send headers, and it loads `assets/app.css` and `assets/app.js` for the editor.
+- Layout: a fixed header whose name and logo only appear after scrolling, a hero, a grid of six features, a screenshot of the editor (`site/img/editor.png`, the narrow layout at 560 px), the optional link shortener with a screenshot of the admin (`site/img/shortener.png`), a "verify it yourself" section, a self-hosting section and the roadmap.
+- The hero is the welcome (the bug and its speech bubble, over a drawn meadow) and the real editor, built from `index.php` by `tools/build-site.php`. The bug stands on the editor's top edge.
+- The hero's images are `assets/ladyqr-web.webp` (the bug, 640 × 480) and `assets/web-background-kawaii.webp` (the meadow, 1408 × 768), copied to `img/` by the build. `assets/web-background-kawaii.jpg` is the original of the meadow; none of them goes in the release zip.
 
 When the editor's look changes, take a new screenshot: the card alone, 560 px wide, with `https://ladyqr.nilovelez.com/` typed in and the settings closed.
 

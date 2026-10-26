@@ -82,17 +82,17 @@ Built, verified and merged into `main`. Publishing it on the author's own `1qr.e
 
 - Borders were 1.31:1 against the card, far below the 3:1 that WCAG asks for the edges of controls. Measuring them, and measuring text with the same contrast function the editor uses, also found small button labels at 3.89:1 because of an 85% opacity. See `DESIGN.md`.
 - The JSON block for translated strings avoids the need for CSP hashes or nonces for inline scripts.
-- GitHub Pages cannot send HTTP headers, so the demo carries its policy in a `<meta>` tag, which cannot use `frame-ancestors`.
+- GitHub Pages cannot send HTTP headers, so the website carries its policy in a `<meta>` tag, which cannot use `frame-ancestors`.
 
 ### Public website — done (first version)
 
-A landing page and a live demo of the editor are published at https://ladyqr.nilovelez.com/ with GitHub Pages.
+A landing page with the real editor in its hero is published at https://ladyqr.nilovelez.com/ with GitHub Pages.
 
-- **Source:** the landing page is in `site/` (static HTML and CSS, no JavaScript, with its own `<meta>` CSP). It uses the same tokens as the editor.
-- **Demo:** `tools/build-site.php` renders `index.php` in English to static HTML under `/try/`, because GitHub Pages cannot run PHP.
+- **Source:** the landing page is in `site/` (static HTML and CSS, with the editor's CSP in a `<meta>` tag). It uses the same tokens as the editor.
+- **Editor:** `tools/build-site.php` renders `index.php` in English and puts the editor into the landing page, because GitHub Pages cannot run PHP.
 - **Deployment:** `.github/workflows/pages.yml` builds `_site/` and deploys it on every push to `main`. Pages is set to the "GitHub Actions" source with `ladyqr.nilovelez.com` as the custom domain; the DNS record is a `CNAME` to `nilovelez.github.io`. No `CNAME` file is needed with this kind of deployment.
-- **The QR code** on the landing page and in the README (`site/qr.svg`) is made with the project's own encoder: `node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg L 4`.
-- The demo is in English only for now.
+- **The QR code** in the README (`site/qr.svg`) is made with the project's own encoder: `node tools/make-qr.mjs https://ladyqr.nilovelez.com/ site/qr.svg L 4`.
+- The editor on the website is in English only for now.
 
 ### M1. Hosting spike — done
 

@@ -8,8 +8,7 @@
 
 <p align="center">
   <a href="https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip">Download</a> ·
-  <a href="https://ladyqr.nilovelez.com/">Website</a> ·
-  <a href="https://ladyqr.nilovelez.com/try/">Try it</a> ·
+  <a href="https://ladyqr.nilovelez.com/">Website and live demo</a> ·
   <a href="docs/PLAN.md">Roadmap</a> ·
   <a href="DESIGN.md">Design</a>
 </p>
@@ -47,7 +46,7 @@ You type a link and the QR code appears as you type. You download it as a PNG or
 
   `connect-src 'none'` makes the browser refuse any connection from the page, whatever the code tries to do. There are no inline scripts or styles, and no fonts, images or scripts from other sites. You can check it yourself: open the developer tools on the Network tab and type something.
 - Only the settings (error correction, margin and colors) are remembered, under the `ladyqr-settings` key in `localStorage`. They never leave your browser.
-- The live demo on the website has no HTTP headers to send, because GitHub Pages does not allow them. It carries the same policy in a `<meta>` tag instead.
+- The live editor on the website has no HTTP headers to send, because GitHub Pages does not allow them. It carries the same policy in a `<meta>` tag instead.
 - **Secure without `.htaccess`.** LadyQR does not rely on `.htaccess` to protect anything. Every PHP file that is not a page stops when it is requested directly, and the configuration and the links are PHP files that print nothing. `.htaccess` only adds the routing for short links and the rules that force your site's address.
 - **Not installed means not usable.** Until LadyQR is installed, every visit to the site goes to the installer, so a bot cannot find a working site with an open installer and take it over. Install it right after uploading it.
 

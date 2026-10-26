@@ -211,14 +211,17 @@ document.addEventListener('keydown', (event) => {
 	}
 });
 
+// The website embeds the editor without its help button and dialog.
 const dialog = $('help-dialog');
-$('help-open').addEventListener('click', () => dialog.showModal());
-$('help-close').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', (event) => {
-	if (event.target === dialog) {
-		dialog.close();
-	}
-});
+if (dialog) {
+	$('help-open').addEventListener('click', () => dialog.showModal());
+	$('help-close').addEventListener('click', () => dialog.close());
+	dialog.addEventListener('click', (event) => {
+		if (event.target === dialog) {
+			dialog.close();
+		}
+	});
+}
 
 // On wide screens the settings are a column on the right and always open. On
 // narrow ones they fold under the QR code, and each size remembers its own state.

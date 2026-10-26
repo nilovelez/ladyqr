@@ -5,9 +5,11 @@
  * Usage: php tools/build-site.php
  *
  * - site/ is copied as is: the landing page.
- * - try/ is a live demo of the real editor. PHP renders index.php (in English)
- *   to static HTML, because GitHub Pages cannot run PHP and cannot send HTTP
- *   headers, so the Content-Security-Policy goes into a <meta> tag instead.
+ * - The landing page embeds the real editor. PHP renders index.php (in English)
+ *   to static HTML, because GitHub Pages cannot run PHP, and the editor's
+ *   markup goes where site/index.html has <!-- ladyqr:editor -->. GitHub Pages
+ *   cannot send HTTP headers either, so the Content-Security-Policy goes into
+ *   a <meta> tag, in place of <!-- ladyqr:csp -->.
  *
  * The GitHub Actions workflow .github/workflows/pages.yml runs this and
  * deploys _site/ to GitHub Pages.
@@ -48,12 +50,16 @@ function ladyqr_copy_dir( $from, $to, array $skip = array() ) {
 ladyqr_remove_dir( $out );
 ladyqr_copy_dir( $root . '/site', $out );
 
-// The live demo.
-ladyqr_copy_dir( $root . '/assets', $out . '/try/assets', array( 'icon-full.png', 'icon-vector.ai' ) );
+// The editor's files, and the images that only the website uses.
+$web_images = array( 'ladyqr-web.webp', 'web-background-kawaii.webp' );
+ladyqr_copy_dir( $root . '/assets', $out . '/assets', array_merge( array( 'icon-full.png', 'icon-vector.ai', 'web-background-kawaii.jpg' ), $web_images ) );
+foreach ( $web_images as $image ) {
+	copy( $root . '/assets/' . $image, $out . '/img/' . $image );
+}
 
-// The page is rendered from a copy of the site with a configuration of its
+// The editor is rendered from a copy of the site with a configuration of its
 // own: without one, index.php sends every visit to the installer and stops,
-// and a local ladyqr-config.php must not change the demo either.
+// and a local ladyqr-config.php must not change the page either.
 $site = sys_get_temp_dir() . '/ladyqr-site-' . bin2hex( random_bytes( 4 ) );
 mkdir( $site, 0755, true );
 foreach ( array( 'index.php', 'includes', 'languages' ) as $name ) {
@@ -78,18 +84,30 @@ require $site . '/index.php'; // Sets $ladyqr_csp.
 $html     = ob_get_clean();
 $rendered = true;
 
-// A <meta> policy cannot use frame-ancestors, so leave it out.
-$meta = str_replace( "; frame-ancestors 'none'", '', $ladyqr_csp );
-$html = str_replace(
-	'<meta charset="utf-8">',
-	'<meta charset="utf-8">' . "\n\t" . '<meta http-equiv="Content-Security-Policy" content="' . htmlspecialchars( $meta, ENT_QUOTES, 'UTF-8' ) . '">',
-	$html,
-	$count
-);
-if ( 1 !== $count || false === strpos( $html, 'id="ladyqr-i18n"' ) ) {
-	fwrite( STDERR, "The demo page did not render as expected.\n" );
+// The editor's markup: the card, the template for its empty preview and the
+// strings for app.js. The help button and dialog and the footer are not used:
+// the landing page has its own. The field is not focused on load, because on
+// a phone that would open the keyboard over the welcome.
+$parts = array();
+if ( ! preg_match( '#<main>\s*(<div class="card editor">.*</div>)\s*</main>#s', $html, $parts['card'] )
+	|| ! preg_match( '#<template id="qr-skeleton">.*?</template>#s', $html, $parts['skeleton'] )
+	|| ! preg_match( '#<script type="application/json" id="ladyqr-i18n">.*?</script>#s', $html, $parts['i18n'] ) ) {
+	fwrite( STDERR, "The editor did not render as expected.\n" );
 	exit( 1 );
 }
-file_put_contents( $out . '/try/index.html', $html );
+$editor = str_replace( ' autofocus', '', $parts['skeleton'][0] . "\n" . $parts['card'][1] . "\n" . $parts['i18n'][0] );
+
+// A <meta> policy cannot use frame-ancestors, so leave it out.
+$meta = '<meta http-equiv="Content-Security-Policy" content="' . htmlspecialchars( str_replace( "; frame-ancestors 'none'", '', $ladyqr_csp ), ENT_QUOTES, 'UTF-8' ) . '">';
+
+$landing = file_get_contents( $out . '/index.html' );
+foreach ( array( '<!-- ladyqr:csp -->' => $meta, '<!-- ladyqr:editor -->' => $editor ) as $marker => $replacement ) {
+	if ( 1 !== substr_count( $landing, $marker ) ) {
+		fwrite( STDERR, "site/index.html must have $marker exactly once.\n" );
+		exit( 1 );
+	}
+	$landing = str_replace( $marker, $replacement, $landing );
+}
+file_put_contents( $out . '/index.html', $landing );
 
 echo "Built $out\n";

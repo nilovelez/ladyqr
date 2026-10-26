@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+	<!-- ladyqr:csp -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="color-scheme" content="light">
-	<meta name="description" content="LadyQR makes QR codes entirely in your browser, as you type. Nothing is uploaded. Free software, with PNG and SVG downloads.">
+	<meta name="description" content="LadyQR makes QR codes entirely in your browser, as you type. Nothing is uploaded. Free software, with PNG and SVG downloads and an optional link shortener.">
 	<title>LadyQR</title>
 	<link rel="icon" type="image/png" href="img/icon-64.png">
 	<link rel="apple-touch-icon" href="img/icon-128.png">
+	<link rel="stylesheet" href="assets/app.css">
 	<link rel="stylesheet" href="site.css">
 </head>
 <body>
@@ -21,8 +22,8 @@
 		<span>LadyQR</span>
 	</a>
 	<nav aria-label="Main">
-		<a href="try/">Try it</a>
 		<a href="#verify">Verify</a>
+		<a href="#shortener">Link shortener</a>
 		<a href="#run-your-own">Run your own</a>
 		<a href="https://github.com/nilovelez/ladyqr">GitHub</a>
 	</nav>
@@ -30,20 +31,26 @@
 
 <main id="main">
 
-	<section class="hero">
-		<div class="hero-text">
-			<h1>QR codes that never leave your browser.</h1>
-			<p class="lead">Type a link and the QR code appears as you type. Download it as a PNG or a vector SVG. Nothing is uploaded, nothing is tracked and there is nothing to install.</p>
+	<section class="hero" aria-labelledby="hello">
+		<div class="stage">
+			<div class="welcome">
+				<img class="bug" src="img/ladyqr-web.webp" alt="" width="640" height="480">
+				<div class="bubble">
+					<h1 id="hello">Hi, I'm LadyQR!</h1>
+					<p>Type a link and I make the QR code right here, in your browser. Nothing is uploaded.</p>
+				</div>
+			</div>
+
+			<!-- ladyqr:editor -->
+
 			<p class="actions">
-				<a class="button primary" href="try/">Try it live</a>
-				<a class="button" href="https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip">Download latest version</a>
+				<a class="button primary" href="https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip">Download latest version</a>
+				<a class="button" href="#verify">How do I know it's private?</a>
 			</p>
 		</div>
-		<figure class="hero-qr">
-			<img src="qr.svg" alt="QR code that opens ladyqr.nilovelez.com" width="240" height="240">
-			<figcaption>Scan me. This code was made with LadyQR.</figcaption>
-		</figure>
 	</section>
+
+	<div class="page">
 
 	<section class="band">
 		<h2>What you get</h2>
@@ -83,12 +90,21 @@
 		</figure>
 	</section>
 
+	<section class="shots" id="shortener" aria-labelledby="shortener-title">
+		<h2 id="shortener-title">Your own short links, if you want them</h2>
+		<p>LadyQR can also be a link shortener for your own domain. It is optional: choose it in the installer and you get a private, single-user admin where you add short links such as <code>example.com/menu</code> that redirect to any address. There is no database; the links are kept in a PHP file, so it still runs on the cheapest shared hosting.</p>
+		<figure>
+			<img src="img/shortener.png" alt="The LadyQR admin: a table of four short links, each with a small QR icon, the address it goes to and its redirect code, and a form below to add a short link." width="728" height="652">
+		</figure>
+		<p>The shortener works together with the generator. The small QR icon before each short link opens the editor with that link already filled in, so a short link becomes a printable QR code in one click. The link travels in the address fragment, which your browser never sends to a server.</p>
+	</section>
+
 	<section class="band" id="verify">
 		<h2>Don't take our word for it</h2>
 		<p>Privacy claims are cheap, so LadyQR makes them easy to check.</p>
 		<ol class="steps">
-			<li>Open the <a href="try/">live editor</a> and your browser's developer tools, on the Network tab.</li>
-			<li>Type anything. No request is made: the page can only load its own files.</li>
+			<li>Open your browser's developer tools, on the Network tab, and type something in the editor at the top of this page.</li>
+			<li>No request is made: the page can only load its own files.</li>
 			<li>Look at the page's policy. <code>connect-src 'none'</code> tells the browser to refuse any connection, whatever the code tries to do:</li>
 		</ol>
 		<pre><code>default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self';
@@ -117,13 +133,16 @@ connect-src 'none'; base-uri 'none'; form-action 'none'</code></pre>
 		<p>The full plan is in <a href="https://github.com/nilovelez/ladyqr/blob/main/docs/PLAN.md">docs/PLAN.md</a>.</p>
 	</section>
 
+	</div>
+
 </main>
 
 <footer class="bottom">
 	<img src="img/ladybug.webp" alt="" width="140" height="90">
 	<p>LadyQR is free software, released under the GPL-2.0-or-later license.<br>
-	<a href="https://github.com/nilovelez/ladyqr">Source code</a> · <a href="https://github.com/nilovelez/ladyqr/issues">Report an issue</a> · <a href="try/">Try it</a></p>
+	<a href="https://github.com/nilovelez/ladyqr">Source code</a> · <a href="https://github.com/nilovelez/ladyqr/issues">Report an issue</a></p>
 </footer>
 
+<script type="module" src="assets/app.js"></script>
 </body>
 </html>
