@@ -65,7 +65,7 @@ The QR code itself needs a modern browser: ES modules, `<dialog>`, and `localSto
 
 1. Download [ladyqr-latest.zip](https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip), the latest release. Unzip it on your computer: you get a folder called `ladyqr`.
 2. Upload what is **inside** the `ladyqr` folder to your site, by FTP or with your hosting's file manager. It can go in the root of your domain or in a folder of it, such as `/qr/`.
-3. Open your site in a browser. The installer starts by itself and asks for the language of the installer, which components you want (the QR code generator alone, or with the link shortener) and the settings for that choice: the site's language and address, and for the shortener a user and a password. If you choose the shortener, write down the user and the password it shows at the end; the password is not shown again.
+3. Open your site in a browser. The installer starts by itself and asks for the language of the installer, which components you want (the QR code generator alone, or with the link shortener) and the settings for that choice: the site's language and address, an optional title and description for the QR code page, and for the shortener a user and a password. If you choose the shortener, write down the user and the password it shows at the end; the password is not shown again.
 
 The installer writes `ladyqr-config.php` (the settings), `ladyqr-data.php` (the short links) and, if there is none, an `.htaccess` with the rules that force your site's address. If PHP cannot write in the site's folder, it shows the content of each file for you to create and upload.
 
@@ -188,7 +188,7 @@ For developers. Create a folder called `theme` next to `index.php` and put in it
 - `header.html` goes inside a `<header>` right after `<body>`, on the generator.
 - `footer.html` replaces what is inside the `<footer>`, on the generator.
 
-The installer is never themed. The Content-Security-Policy is not relaxed, so a theme cannot make the page talk to another server: no inline styles or scripts, no external images, scripts or fonts. [docs/THEME.md](docs/THEME.md) has the full guide, with what you can and cannot include, the CSS variables and class names that are safe to rely on, and examples. The release has an example folder, [theme.zip](https://github.com/nilovelez/ladyqr/releases/latest/download/theme.zip), and an update never touches your `theme` folder. The title and the description of the page are the two settings above.
+The installer is never themed. The Content-Security-Policy is not relaxed, so a theme cannot make the page talk to another server: no inline styles or scripts, and no images, scripts or fonts from other sites (your own fonts are fine). [docs/THEME.md](docs/THEME.md) has the full guide, with what you can and cannot include, the CSS variables and class names that are safe to rely on, and examples. The release has an example folder, [theme.zip](https://github.com/nilovelez/ladyqr/releases/latest/download/theme.zip), and an update never touches your `theme` folder. The title and the description of the page are the two settings above.
 
 ## Translations
 

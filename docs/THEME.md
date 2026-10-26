@@ -35,11 +35,11 @@ Anything in `theme/` can be read by anyone who knows its address, like any other
 
 ## What you can include, and what you cannot
 
-LadyQR promises that the generator never talks to another server, and a strict Content-Security-Policy makes the browser enforce it. The theme does not relax it, so it works inside these rules:
+LadyQR promises that the generator never talks to another server, and a strict Content-Security-Policy makes the browser enforce it. The theme does not relax it, so it works inside these rules (`font-src 'self'` is what lets you use your own fonts, and only your own):
 
 ```
 default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self';
-connect-src 'none'; base-uri 'none'; form-action 'none'
+font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'
 ```
 
 | You can | You cannot |
@@ -48,7 +48,7 @@ connect-src 'none'; base-uri 'none'; form-action 'none'
 | Use images that are files of your own site, in HTML and in CSS (`url(…)`) | Use images from another site, or `data:` images |
 | Link scripts that are files of your own site, with `<script src="…">` | Write inline scripts or `onclick="…"` attributes, or load scripts from another site |
 | Add meta tags, link tags (icons, canonical address, social cards) and `<script type="application/ld+json">` data blocks in `head.html` | Make requests of any kind to another site: no fetch, no analytics, no embedded frames, no forms that send data elsewhere |
-| Use the system fonts | Use web fonts, even if the font files are on your own site |
+| Use fonts that are files of your own site, with `@font-face` in `custom.css`, and the system fonts | Use fonts from another site, such as Google Fonts |
 
 Links in `header.html` and `footer.html` to other sites are fine: the policy stops the page from loading and sending things, not from linking.
 

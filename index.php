@@ -51,7 +51,7 @@ if ( '' !== $ladyqr_path ) {
 }
 
 header( 'Content-Type: text/html; charset=utf-8' );
-$ladyqr_csp = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; " .
+$ladyqr_csp = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; " .
 	"connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
 header( 'Content-Security-Policy: ' . $ladyqr_csp );
 header( 'X-Content-Type-Options: nosniff' );

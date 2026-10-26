@@ -107,7 +107,7 @@
 			<li>Look at the page's policy. <code>connect-src 'none'</code> tells the browser to refuse any connection, whatever the code tries to do:</li>
 		</ol>
 		<pre><code>default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self';
-connect-src 'none'; base-uri 'none'; form-action 'none'</code></pre>
+font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'</code></pre>
 		<p>The encoder is about 450 lines in <a href="https://github.com/nilovelez/ladyqr/blob/main/assets/qr.js"><code>assets/qr.js</code></a>, and the only thing the page remembers is your settings, in your own browser. What you type is never stored.</p>
 	</section>
 

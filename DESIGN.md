@@ -190,7 +190,7 @@ From 900 px up, the card (`.card.editor`) is 940 px wide at most and the setting
 
 Developers can restyle the generator page, the admin pages and the not-found page from a `theme` folder, without touching LadyQR's files. The rules for users are in [docs/THEME.md](docs/THEME.md); these are the rules for us.
 
-- **The theme never relaxes the CSP.** It works inside `default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'`. Inline styles and scripts, other sites' images and scripts, `data:` images and web fonts (`font-src` falls back to `default-src 'none'`) are blocked, and the guide says so. Do not add a way around it without asking.
+- **The theme never relaxes the CSP.** It works inside `default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'`. The one thing added for themes is `font-src 'self'`: your own fonts, never anyone else's. Inline styles and scripts, other sites' images, scripts and fonts, and `data:` images are blocked, and the guide says so. The installer's policy has no `font-src`, because it is not themed. Do not add a way around it without asking.
 - **`custom.css`** is linked after `app.css` (and after `admin.css` on the admin and the not-found page), with `?v=` and its modification time, like the other assets. The installer never gets any theme file.
 - **`head.html`, `header.html` and `footer.html`** are printed as they are, only on the generator. They are HTML: PHP in them does not run.
 - **What themes can rely on** is what `docs/THEME.md` lists: the color and shape tokens, three layout variables and a short list of markup. Anything else is internal. When you change one of the listed things, update that guide and mention it in the changelog.

@@ -114,7 +114,7 @@ function ladyqr_install_route_check( $origin, $base ) {
 /**
  * Returns the text of the configuration file. It is always in English.
  *
- * @param array $values language and shortener; url, user and password (the hash) when there are short links.
+ * @param array $values language and shortener; url, user and password (the hash) when there are short links; site_title and site_description when they were written.
  */
 function ladyqr_install_config_text( array $values ) {
 	$lines   = array();
@@ -133,6 +133,16 @@ function ladyqr_install_config_text( array $values ) {
 	if ( isset( $values['url'] ) ) {
 		$lines[] = '// The address of the site, without a final slash.';
 		$lines[] = "define( 'LADYQR_URL', " . var_export( $values['url'], true ) . ' );';
+		$lines[] = '';
+	}
+	if ( ! empty( $values['site_title'] ) || ! empty( $values['site_description'] ) ) {
+		$lines[] = '// The title and the description (the meta tag) of the page with the QR code generator.';
+		if ( ! empty( $values['site_title'] ) ) {
+			$lines[] = "define( 'LADYQR_SITE_TITLE', " . var_export( $values['site_title'], true ) . ' );';
+		}
+		if ( ! empty( $values['site_description'] ) ) {
+			$lines[] = "define( 'LADYQR_SITE_DESCRIPTION', " . var_export( $values['site_description'], true ) . ' );';
+		}
 		$lines[] = '';
 	}
 	$lines[] = '// Short links. They need .htaccess to send the addresses that are not files';
@@ -425,10 +435,12 @@ foreach ( $ladyqr_checks as $ladyqr_check ) {
 }
 
 $ladyqr_form   = array(
-	'site'     => $ladyqr_origin,
-	'language' => $ladyqr_lang,
-	'user'     => '',
-	'password' => $ladyqr_shortener && $ladyqr_session && function_exists( 'random_int' ) ? ladyqr_suggest_password() : '',
+	'site'             => $ladyqr_origin,
+	'language'         => $ladyqr_lang,
+	'site_title'       => '',
+	'site_description' => '',
+	'user'             => '',
+	'password'         => $ladyqr_shortener && $ladyqr_session && function_exists( 'random_int' ) ? ladyqr_suggest_password() : '',
 );
 $ladyqr_errors = array();
 $ladyqr_done   = null;
@@ -438,6 +450,10 @@ if ( ! $ladyqr_blocked && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 		if ( isset( $_POST[ $ladyqr_key ] ) && is_string( $_POST[ $ladyqr_key ] ) ) {
 			$ladyqr_form[ $ladyqr_key ] = trim( $_POST[ $ladyqr_key ] );
 		}
+	}
+	// One line each: line breaks and other control characters become a space.
+	foreach ( array( 'site_title', 'site_description' ) as $ladyqr_key ) {
+		$ladyqr_form[ $ladyqr_key ] = trim( (string) preg_replace( '/[\x00-\x1f\x7f]+/', ' ', $ladyqr_form[ $ladyqr_key ] ) );
 	}
 
 	if ( $ladyqr_session && ! ladyqr_csrf_valid( isset( $_POST['csrf'] ) ? $_POST['csrf'] : '' ) ) {
@@ -449,6 +465,14 @@ if ( ! $ladyqr_blocked && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	$ladyqr_site = ladyqr_clean_url( $ladyqr_form['site'] );
 	if ( null === $ladyqr_site || '' !== (string) parse_url( $ladyqr_site, PHP_URL_PATH ) ) {
 		$ladyqr_errors['site'] = __( 'Write the address as https://example.com or http://example.com, with no folder after it.', 'ladyqr' );
+	}
+	if ( preg_match_all( '/./us', $ladyqr_form['site_title'] ) > 120 ) {
+		/* translators: %d: the largest number of characters allowed. */
+		$ladyqr_errors['site_title'] = sprintf( __( 'Write up to %d characters.', 'ladyqr' ), 120 );
+	}
+	if ( preg_match_all( '/./us', $ladyqr_form['site_description'] ) > 300 ) {
+		/* translators: %d: the largest number of characters allowed. */
+		$ladyqr_errors['site_description'] = sprintf( __( 'Write up to %d characters.', 'ladyqr' ), 300 );
 	}
 	if ( $ladyqr_shortener ) {
 		if ( '' ===$ladyqr_form['user'] || strlen( $ladyqr_form['user'] ) > 60 || preg_match( '/[\x00-\x20\x7f]/', $ladyqr_form['user'] ) ) {
@@ -489,9 +513,11 @@ if ( ! $ladyqr_blocked && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 			// The configuration, last: once it exists, LadyQR is installed.
 			$ladyqr_config_text = ladyqr_install_config_text(
 				array(
-					'language'  => $ladyqr_form['language'],
-					'url'       => $ladyqr_url,
-					'shortener' => false,
+					'language'         => $ladyqr_form['language'],
+					'url'              => $ladyqr_url,
+					'site_title'       => $ladyqr_form['site_title'],
+					'site_description' => $ladyqr_form['site_description'],
+					'shortener'        => false,
 				)
 			);
 			if ( ! $ladyqr_writable || ! ladyqr_file_replace( $ladyqr_config_file, $ladyqr_config_text ) || file_get_contents( $ladyqr_config_file ) !== $ladyqr_config_text ) {
@@ -515,11 +541,13 @@ if ( ! $ladyqr_blocked && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 				)
 			);
 			$ladyqr_values = array(
-				'language'  => $ladyqr_form['language'],
-				'url'       => $ladyqr_url,
-				'shortener' => true,
-				'user'      => $ladyqr_form['user'],
-				'password'  => password_hash( $ladyqr_form['password'], PASSWORD_DEFAULT ),
+				'language'         => $ladyqr_form['language'],
+				'url'              => $ladyqr_url,
+				'site_title'       => $ladyqr_form['site_title'],
+				'site_description' => $ladyqr_form['site_description'],
+				'shortener'        => true,
+				'user'             => $ladyqr_form['user'],
+				'password'         => password_hash( $ladyqr_form['password'], PASSWORD_DEFAULT ),
 			);
 			$ladyqr_data_exists = is_file( ladyqr_data_file() );
 
@@ -669,6 +697,20 @@ ladyqr_install_page(
 				<?php else : ?>
 					<p class="hint"><?php esc_html_e( 'Where your visitors will find LadyQR. Fix it if it is wrong: with or without www, http or https. Once installed, every visit is sent to this address.', 'ladyqr' ); ?></p>
 				<?php endif; ?>
+			</div>
+
+			<div class="field-row">
+				<label class="label" for="site_title"><?php esc_html_e( 'Page title', 'ladyqr' ); ?></label>
+				<input class="input" id="site_title" name="site_title" type="text" value="<?php echo ladyqr_h( $ladyqr_form['site_title'] ); ?>" placeholder="LadyQR" autocomplete="off" maxlength="120"<?php echo ladyqr_install_invalid( $ladyqr_errors, 'site_title' ); ?>>
+				<?php ladyqr_install_error( $ladyqr_errors, 'site_title' ); ?>
+				<p class="hint"><?php esc_html_e( 'Optional. The title of the page with the QR code generator, in the browser tab and in search results. Left empty, it is LadyQR.', 'ladyqr' ); ?></p>
+			</div>
+
+			<div class="field-row">
+				<label class="label" for="site_description"><?php esc_html_e( 'Page description', 'ladyqr' ); ?></label>
+				<input class="input" id="site_description" name="site_description" type="text" value="<?php echo ladyqr_h( $ladyqr_form['site_description'] ); ?>" autocomplete="off" maxlength="300"<?php echo ladyqr_install_invalid( $ladyqr_errors, 'site_description' ); ?>>
+				<?php ladyqr_install_error( $ladyqr_errors, 'site_description' ); ?>
+				<p class="hint"><?php esc_html_e( 'Optional. A sentence for search engines, which may show it under the title. Left empty, the page has no description.', 'ladyqr' ); ?></p>
 			</div>
 
 			<?php if ( $ladyqr_shortener ) : ?>

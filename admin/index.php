@@ -30,7 +30,7 @@ $ladyqr_config = ladyqr_config();
 ladyqr_load_textdomain( $ladyqr_config['language'] );
 
 header( 'Content-Type: text/html; charset=utf-8' );
-header( "Content-Security-Policy: default-src 'none'; style-src 'self'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'" );
+header( "Content-Security-Policy: default-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'" );
 header( 'X-Content-Type-Options: nosniff' );
 header( 'Referrer-Policy: no-referrer' );
 header( 'Cache-Control: no-store' );

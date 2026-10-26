@@ -101,9 +101,14 @@ test('root install with the shortener, in Spanish, then the admin', { skip }, as
 
 	await page.select('#language', 'es_ES');
 	await page.type('#user', 'admin');
+	await page.type('#site_description', 'Haz un código QR para un enlace.');
 	await page.$eval('#site', (input) => { input.value = 'ftp://nope'; });
+	await page.$eval('#site_title', (input) => { input.value = 'x'.repeat(121); });
 	await submit(page);
 	assert.ok(await page.$('#site-error'), 'a bad address is refused');
+	assert.ok(await page.$('#site_title-error'), 'a title of more than 120 characters is refused');
+	assert.equal(await page.$('#site_description-error'), null, 'and the description is fine');
+	await page.$eval('#site_title', (input) => { input.value = "Códigos QR de O'Brien"; });
 	assert.ok(!fs.existsSync(site.file('ladyqr-config.php')), 'nothing written after an error');
 	await page.$eval('#site', (input, url) => { input.value = url; }, site.url);
 	await page.$eval('#password', (input) => { input.value = 'short'; });
@@ -130,6 +135,9 @@ test('root install with the shortener, in Spanish, then the admin', { skip }, as
 	assert.ok(config.includes(`define( 'LADYQR_URL', '${site.url}' );`));
 	assert.ok(config.includes("define( 'LADYQR_LANGUAGE', 'es_ES' );"));
 	assert.ok(config.includes("define( 'LADYQR_SHORTENER', true );"));
+	assert.ok(config.includes("define( 'LADYQR_SITE_TITLE', 'Códigos QR de O\\'Brien' );"), 'the title is written, quoted');
+	assert.ok(config.includes("define( 'LADYQR_SITE_DESCRIPTION', 'Haz un código QR para un enlace.' );"));
+	assert.match(await (await get('/')).text(), /<title>Códigos QR de O&#039;Brien<\/title>/, 'the generator uses the title');
 	assert.match(read('ladyqr-data.php'), /defined\( 'LADYQR' \) \|\| exit;\n\nreturn array \(\n\);\n$/, 'the data file is a PHP array');
 	const htaccess = read('.htaccess');
 	assert.ok(htaccess.indexOf('RewriteCond %{HTTP_HOST}') < htaccess.indexOf('# BEGIN LadyQR'), '.htaccess: the address rules on top, then the block');
@@ -216,6 +224,7 @@ test('installs in a folder: generator only, with the shortener, by hand, and wit
 	assert.equal(await page.$$eval('.checks li', (items) => items.length), 2, 'generator only: just two checks, PHP and writing');
 	assert.ok(!fs.existsSync(site.file('ladyqr-config.php')), 'nothing written before confirming');
 	assert.ok(await page.$('#site'), 'the address is asked for');
+	assert.ok(await page.$('#site_title') && await page.$('#site_description'), 'and the optional title and description');
 	assert.equal(await page.$('#user'), null, 'but no user');
 	assert.equal(await page.$('#password'), null, 'and no password');
 	assert.doesNotMatch(await page.$eval('#site', (input) => input.closest('.field-row').innerText), /enlaces cortos/, 'the address hint does not mention short links');
@@ -232,6 +241,7 @@ test('installs in a folder: generator only, with the shortener, by hand, and wit
 	assert.ok(config.includes("define( 'LADYQR_SHORTENER', false );"));
 	assert.ok(config.includes(`define( 'LADYQR_URL', '${site.url}/sub' );`));
 	assert.ok(!config.includes('LADYQR_USER'));
+	assert.ok(!config.includes('LADYQR_SITE_TITLE') && !config.includes('LADYQR_SITE_DESCRIPTION'), 'the title and the description are optional and were left empty');
 	assert.ok(!fs.existsSync(site.file('ladyqr-data.php')), 'no data file');
 	const htaccess = read('.htaccess');
 	assert.ok(htaccess.includes(`RewriteCond %{HTTP_HOST} !=${new URL(site.url).host} [NC]`), '.htaccess with the address rules');

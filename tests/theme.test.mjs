@@ -107,6 +107,20 @@ test('the theme does not change the policy of the page', async () => {
 	assert.match(csp, /connect-src 'none'/);
 });
 
+test('fonts from the site itself are allowed on the themed pages, and nothing else changes', async () => {
+	const site = await themedSite();
+	for (const path of ['/', '/admin/', '/no-such-link']) {
+		const csp = (await fetch(site.url + path)).headers.get('content-security-policy');
+		assert.match(csp, /font-src 'self'(;|$)/, `${path} allows fonts from the site`);
+		assert.match(csp, /default-src 'none'/, `${path} still denies the rest`);
+		assert.doesNotMatch(csp, /unsafe-inline|https?:|\*/, `${path} opens nothing else`);
+	}
+	const installer = await startSite();
+	sites.push(installer);
+	const csp = (await fetch(installer.url + '/admin/install.php')).headers.get('content-security-policy');
+	assert.doesNotMatch(csp, /font-src/, 'the installer is not themed and keeps its policy');
+});
+
 test('LADYQR_SITE_TITLE and LADYQR_SITE_DESCRIPTION set the title and the description of the generator only', async () => {
 	const site = await themedSite({}, { SITE_TITLE: 'Codes "by" Me & Co', SITE_DESCRIPTION: 'Make <b>a</b> code.' });
 	const html = await get(site, '/');

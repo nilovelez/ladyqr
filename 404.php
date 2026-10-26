@@ -14,7 +14,7 @@ ladyqr_load_textdomain( $ladyqr_config['language'] );
 
 http_response_code( 404 );
 header( 'Content-Type: text/html; charset=utf-8' );
-header( "Content-Security-Policy: default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" );
+header( "Content-Security-Policy: default-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" );
 header( 'X-Content-Type-Options: nosniff' );
 header( 'Referrer-Policy: no-referrer' );
 header( 'X-Robots-Tag: noindex' );

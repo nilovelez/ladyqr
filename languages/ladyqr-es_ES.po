@@ -506,3 +506,25 @@ msgstr "Las reglas de dirección del archivo .htaccess hicieron que el sitio dej
 #, php-format
 msgid "QR code for %s"
 msgstr "Código QR de %s"
+
+#: admin/install.php
+#. translators: %d: the largest number of characters allowed.
+#, php-format
+msgid "Write up to %d characters."
+msgstr "Escribe un máximo de %d caracteres."
+
+#: admin/install.php
+msgid "Page title"
+msgstr "Título de la página"
+
+#: admin/install.php
+msgid "Optional. The title of the page with the QR code generator, in the browser tab and in search results. Left empty, it is LadyQR."
+msgstr "Opcional. El título de la página con el generador de códigos QR, en la pestaña del navegador y en los resultados de búsqueda. Si lo dejas vacío, es LadyQR."
+
+#: admin/install.php
+msgid "Page description"
+msgstr "Descripción de la página"
+
+#: admin/install.php
+msgid "Optional. A sentence for search engines, which may show it under the title. Left empty, the page has no description."
+msgstr "Opcional. Una frase para los buscadores, que pueden mostrarla bajo el título. Si la dejas vacía, la página no tiene descripción."
