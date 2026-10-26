@@ -183,8 +183,6 @@ main {
    edge instead: it is above the card and overlaps it a little. */
 
 .hero {
-	min-height: 100vh;
-	min-height: 100svh;
 	display: flex;
 	flex-direction: column;
 	background: #bfe6f7 url("img/web-background-kawaii.webp") center bottom / cover no-repeat;
@@ -203,7 +201,6 @@ main {
 }
 
 .hero .card.editor {
-	align-self: center;
 	font-size: 1rem;
 	line-height: 1.5;
 	box-shadow: 0 8px 30px rgba(30, 80, 120, 0.18);
@@ -299,6 +296,8 @@ main {
 
 @media (max-width: 860px) {
 	.hero {
+		min-height: 100vh;
+		min-height: 100svh;
 		background-position: 82% bottom;
 	}
 
@@ -312,7 +311,6 @@ main {
 	.hero .card.editor {
 		position: relative;
 		z-index: 1;
-		align-self: auto;
 	}
 
 	.welcome {
@@ -321,14 +319,13 @@ main {
 		grid-template-columns: 112px minmax(0, 1fr);
 		align-items: end;
 		gap: 6px;
-		margin-bottom: -14px;
 	}
 
 	.bug {
 		grid-column: 1;
 		grid-row: 1;
 		width: 112px;
-		margin-bottom: -28px;
+		margin-bottom: -7px;
 	}
 
 	.bubble {
@@ -497,7 +494,7 @@ pre code {
 		padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));
 	}
 
-	.top nav a:not(:first-child):not(:last-child) {
+	.top nav a:not(:nth-last-child(-n + 2)) {
 		display: none;
 	}
 }
