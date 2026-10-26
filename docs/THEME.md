@@ -67,7 +67,7 @@ Your CSS depends on LadyQR's markup, so these are the parts that will not change
 }
 ```
 
-`--bg`, `--surface`, `--zebra`, `--ink`, `--muted`, `--line`, `--border`, `--accent`, `--accent-ink`, `--accent-deep`, `--primary`, `--primary-ink`, `--primary-deep`, `--warn`, `--radius-sm`, `--radius`, `--radius-lg`, `--control`, `--font` and `--mono`. [DESIGN.md](../DESIGN.md) says what each one is for.
+`--bg`, `--surface`, `--zebra`, `--ink`, `--muted`, `--placeholder`, `--line`, `--border`, `--accent`, `--accent-ink`, `--accent-deep`, `--primary`, `--primary-ink`, `--primary-deep`, `--warn`, `--radius-sm`, `--radius`, `--radius-lg`, `--control`, `--font` and `--mono`. [DESIGN.md](../DESIGN.md) says what each one is for.
 
 **Layout.** Three variables move the page's furniture:
 

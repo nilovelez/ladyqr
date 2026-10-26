@@ -23,7 +23,8 @@ All colors and shapes are CSS custom properties on `:root` in `assets/app.css`. 
 | `--surface` | `#ffffff` | Card, fields, dialog, menus, even table rows |
 | `--zebra` | `#f7f7f8` | Soft gray fills: odd table rows, card headers, the settings column, field add-ons, the QR empty state |
 | `--ink` | `#18181b` | Body text, headings, labels |
-| `--muted` | `#5f5f66` | Secondary text: hints, placeholders, table headers, targets, footer |
+| `--muted` | `#5f5f66` | Secondary text: hints, table headers, targets, footer |
+| `--placeholder` | `#72727b` | The placeholder of the admin and installer fields (`.input`). Lighter than `--muted`, so an empty field does not look filled in, and still above 4.5:1 on the white of the field |
 | `--line` | `#e4e4e7` | Edges of containers (cards, tables, dialog) and dividers inside them |
 | `--border` | `#8a8a93` | Edges of controls (fields, selects, secondary buttons, segmented control, color inputs) |
 | `--accent` | `#d9261c` | The few actions that are the point of a screen (the download button), the selected state, links, focus ring, error text |
@@ -44,6 +45,7 @@ WCAG ratios, measured with `contrastRatio()` from `assets/render.js`. Re-measure
 |---|---|---|---|---|
 | `--ink` | 17.72 | 16.55 | 16.12 | 4.5 |
 | `--muted` | 6.33 | 5.92 | 5.76 | 4.5 |
+| `--placeholder` (only used on `--surface`) | 4.76 | 4.45 | 4.33 | 4.5 |
 | `--accent` (links, error text) | 4.95 | 4.62 | 4.50 | 4.5 |
 | `--warn` | 5.58 | 5.21 | 5.08 | 4.5 |
 | `--border` (control edges) | 3.42 | 3.20 | 3.11 | 3 |

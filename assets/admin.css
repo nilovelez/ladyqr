@@ -469,6 +469,11 @@ pre.code code {
 	border-radius: var(--radius) 0 0 var(--radius);
 }
 
+/* Alone in the group, as the installer's site address is when the site is not in a folder. */
+.input-group .input:only-child {
+	border-radius: var(--radius);
+}
+
 .input.mono {
 	font-family: var(--mono);
 }

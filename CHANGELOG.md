@@ -10,6 +10,7 @@ The notable changes in each version of LadyQR. It is not part of the release zip
 - **Three CSS variables** to move the page's furniture: `--page-top`, `--help-top` and `--help-right`.
 - **`theme` is a reserved name** for short links.
 - **The footer link** of the generator, "Made with LadyQR", goes to https://ladyqr.nilovelez.com/.
+- **Two fixes in the installer and the admin forms**: the site address field has rounded corners all around when the site is not in a folder, and the placeholders are lighter (a new `--placeholder` color, still readable) so an empty field no longer looks filled in.
 - **The installer's screens have a background**: the same drawn meadow as the website's hero, with the card centered on short screens.
 
 ## 1.1.0 — 2026-10-25

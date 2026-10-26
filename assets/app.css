@@ -9,6 +9,7 @@
 	--zebra: #f7f7f8;
 	--ink: #18181b;
 	--muted: #5f5f66;
+	--placeholder: #72727b;
 	--line: #e4e4e7;
 	--border: #8a8a93;
 	--accent: #d9261c;
@@ -116,7 +117,7 @@ select:focus-visible {
 }
 
 .input::placeholder {
-	color: var(--muted);
+	color: var(--placeholder);
 }
 
 .input:focus-visible {
