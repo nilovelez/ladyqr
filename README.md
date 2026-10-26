@@ -188,7 +188,7 @@ For developers. Create a folder called `theme` next to `index.php` and put in it
 - `header.html` goes inside a `<header>` right after `<body>`, on the generator.
 - `footer.html` replaces what is inside the `<footer>`, on the generator.
 
-The installer is never themed. The Content-Security-Policy is not relaxed, so a theme cannot make the page talk to another server: no inline styles or scripts, and no images, scripts or fonts from other sites (your own fonts are fine). [docs/THEME.md](docs/THEME.md) has the full guide, with what you can and cannot include, the CSS variables and class names that are safe to rely on, and examples. The release has an example folder, [theme.zip](https://github.com/nilovelez/ladyqr/releases/latest/download/theme.zip), and an update never touches your `theme` folder. The title and the description of the page are the two settings above.
+The installer is never themed. The Content-Security-Policy is not relaxed, so a theme cannot make the page talk to another server: no inline styles or scripts, and no images, scripts or fonts from other sites (your own fonts are fine). [docs/THEME.md](docs/THEME.md) has the full guide, with what you can and cannot include, the CSS variables and class names that are safe to rely on, and examples. The release has a complete example, [theme.zip](https://github.com/nilovelez/ladyqr/releases/latest/download/theme.zip): unzip it next to `index.php` to try it (a green accent, a top bar with a logo, and a footer that keeps a small "Made with LadyQR" link), then edit it or delete what you do not want. An update never touches your `theme` folder. The title and the description of the page are the two settings above.
 
 ## Translations
 

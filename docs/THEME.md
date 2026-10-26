@@ -16,7 +16,7 @@ your-site/
 └── ...
 ```
 
-The release has an example, `theme.zip`: https://github.com/nilovelez/ladyqr/releases/latest/download/theme.zip. Unzip it in your site's folder, next to `index.php`. It holds the blank `index.html` and a `custom.css` with a few commented lines to start from.
+The release has an example, `theme.zip`: https://github.com/nilovelez/ladyqr/releases/latest/download/theme.zip. Unzip it in your site's folder, next to `index.php`, and you have a working theme: a green accent, a top bar with a logo and a footer. Edit what you want and delete what you do not. It holds all the files above, with the blank `index.html`, and a `logo.png`.
 
 ## The files
 
@@ -111,51 +111,22 @@ body
 
 Selectors that are not in this guide, and the order of the elements inside the cards, are internal: they can change in any version.
 
-## Examples
+## The example theme
 
-A site with its own color and logo, with no change to LadyQR's files:
+The `theme.zip` of every release is the folder [docs/theme](theme/), ready to upload:
 
-`theme/custom.css`
+| File | What it does |
+|---|---|
+| `custom.css` | The green accent (the colors it overrides are the four first lines), the top bar's style, and where the page and the help button start |
+| `header.html` | The top bar: a logo (`logo.png`) and a line of text |
+| `footer.html` | `Privacy · © Example Inc. · Made with LadyQR`, with the last part linking to https://ladyqr.nilovelez.com/ |
+| `head.html` | A `theme-color` meta tag |
+| `logo.png` | The logo, 64 × 60 px |
+| `index.html` | Blank, so a server that lists folders does not list this one |
 
-```css
-:root {
-	--accent: #0b6b3a;
-	--accent-deep: #07522c;
-	--primary: #0b6b3a;
-	--primary-deep: #07522c;
-}
-.site-bar {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	padding: 12px 20px;
-	background: var(--surface);
-	border-bottom: 1px solid var(--line);
-}
-```
+`footer.html` keeps a small "Made with LadyQR" link as a minimal credit. It is yours to keep or to remove: delete that last link from the file, or the whole file to get the usual footer back.
 
-`theme/header.html`
-
-```html
-<div class="site-bar">
-	<a href="https://example.com/"><img src="theme/logo.png" alt="Example Inc." height="32"></a>
-	<span>QR codes</span>
-</div>
-```
-
-`theme/footer.html`
-
-```html
-<p><a href="https://example.com/privacy">Privacy</a> · © Example Inc.</p>
-```
-
-`theme/head.html`
-
-```html
-<meta name="theme-color" content="#0b6b3a">
-<link rel="canonical" href="https://example.com/qr/">
-```
-
+Everything in it says "Example Inc.": change the names, the link of the privacy page and the logo to your own.
 ## Title and description
 
 The title and the meta description of the generator page are settings, in `ladyqr-config.php`:

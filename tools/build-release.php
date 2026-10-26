@@ -76,10 +76,10 @@ foreach ( $list as $path ) {
 }
 $zip->close();
 
-// The example theme: a theme folder to unzip next to index.php. The blank
-// index.html keeps a server that lists folders from listing it. It is a
-// separate zip because the theme is the owner's own and a release must never
-// overwrite it.
+// The example theme (docs/theme/): a complete theme folder to unzip next to
+// index.php, so that anyone can try it by uploading it. The blank index.html
+// keeps a server that lists folders from listing it. It is a separate zip
+// because the theme is the owner's own and a release must never overwrite it.
 $theme_out = dirname( $out ) . '/theme.zip';
 if ( is_file( $theme_out ) ) {
 	unlink( $theme_out );
@@ -89,7 +89,7 @@ if ( true !== $theme->open( $theme_out, ZipArchive::CREATE ) ) {
 	fwrite( STDERR, "Cannot create $theme_out\n" );
 	exit( 1 );
 }
-foreach ( array( 'index.html', 'custom.css' ) as $name ) {
+foreach ( array( 'index.html', 'custom.css', 'head.html', 'header.html', 'footer.html', 'logo.png' ) as $name ) {
 	if ( ! is_file( $root . '/docs/theme/' . $name ) ) {
 		fwrite( STDERR, "Missing: docs/theme/$name\n" );
 		exit( 1 );

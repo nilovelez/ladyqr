@@ -1,23 +1,55 @@
-/* Your own styles for LadyQR.
+/* Example theme for LadyQR: a green accent, a top bar with a logo and a footer
+ * line. Make it yours: change the colors and the logo, or delete what you do
+ * not want. Every file of this folder is optional.
  *
  * This file is loaded after LadyQR's own styles on the page with the QR code
  * generator, on the admin pages and on the not-found page, so what you write
- * here wins. Nothing is needed: delete what you do not use.
+ * here wins.
  *
  * Guide, with the list of colors and class names that are safe to rely on:
  * https://github.com/nilovelez/ladyqr/blob/main/docs/THEME.md
  */
 
-/* The colors. The red is also used for links, the selected state and focus. */
+/* The colors. The accent is also used for links, the selected state and the
+   focus ring. */
 :root {
-	/* --accent: #0b6b3a; */
-	/* --accent-deep: #07522c; */
-	/* --bg: #f0f7f2; */
+	--accent: #0b6b3a;
+	--accent-deep: #07522c;
+	--primary: #0b6b3a;
+	--primary-deep: #07522c;
 }
 
-/* Where the generator's help button and the top of the page start. */
+/* The top of the page, and where the help button sits. The top bar goes in
+   the space above the page: its negative margin makes it reach the edges. */
 :root {
-	/* --page-top: 72px; */
-	/* --help-top: 16px; */
-	/* --help-right: 16px; */
+	--page-top: 24px;
+	--help-top: 14px;
+}
+
+.site-bar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: -24px -16px 24px;
+	padding: 10px 20px;
+	background: var(--surface);
+	border-bottom: 1px solid var(--line);
+	font-weight: 600;
+}
+
+.site-bar img {
+	width: 40px;
+	height: auto;
+}
+
+/* The footer. LadyQR's own footer link is a flex box, so the links of this one
+   go back to plain inline text. */
+footer p {
+	margin: 0;
+	font-size: 0.85rem;
+	color: var(--muted);
+}
+
+footer p a {
+	display: inline;
 }

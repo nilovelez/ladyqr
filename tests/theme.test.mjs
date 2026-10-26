@@ -3,6 +3,7 @@
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { startSite, configFile, REPO } from './lib/site.mjs';
 
@@ -134,6 +135,20 @@ test('without the constants the title is LadyQR and there is no description', as
 	const html = await get(site, '/');
 	assert.match(html, /<title>LadyQR<\/title>/);
 	assert.ok(!html.includes('name="description"'));
+});
+
+test('the example theme of theme.zip (docs/theme) works as it is, and keeps a minimal credit', async () => {
+	const site = await themedSite();
+	fs.cpSync(path.join(REPO, 'docs/theme'), site.file('theme'), { recursive: true });
+	const html = await get(site, '/');
+	assert.match(html, /<meta name="theme-color" content="#0b6b3a">\s*<\/head>/, 'head.html');
+	assert.match(html, /<body>\s*<header>\s*<div class="site-bar">\s*<img src="theme\/logo\.png"/, 'header.html');
+	assert.match(html, /<footer>\s*<p>.*Privacy.*<a href="https:\/\/ladyqr\.nilovelez\.com\/"[^>]*>Made with <b>LadyQR<\/b><\/a><\/p>\s*<\/footer>/s, 'footer.html: a minimal credit');
+	assert.ok(html.includes('theme/custom.css?v='), 'custom.css');
+	for (const file of ['logo.png', 'custom.css', 'index.html']) {
+		assert.equal((await fetch(site.url + '/theme/' + file)).status, 200, file);
+	}
+	assert.equal(fs.statSync(path.join(REPO, 'docs/theme/index.html')).size, 0, 'index.html is blank');
 });
 
 test('theme is a reserved name for short links', () => {
