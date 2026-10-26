@@ -51,8 +51,8 @@ ladyqr_remove_dir( $out );
 ladyqr_copy_dir( $root . '/site', $out );
 
 // The editor's files, and the images that only the website uses.
-$web_images = array( 'ladyqr-web.webp', 'web-background-kawaii.webp' );
-ladyqr_copy_dir( $root . '/assets', $out . '/assets', array_merge( array( 'icon-full.png', 'icon-vector.ai', 'web-background-kawaii_1080.png', 'web-background-kawaii_1080.webp' ), $web_images ) );
+$web_images = array( 'ladyqr-web.webp', 'web-background-kawaii_1080.webp' );
+ladyqr_copy_dir( $root . '/assets', $out . '/assets', array_merge( array( 'icon-full.png', 'icon-vector.ai', 'web-background-kawaii.webp', 'web-background-kawaii_1080.png' ), $web_images ) );
 foreach ( $web_images as $image ) {
 	copy( $root . '/assets/' . $image, $out . '/img/' . $image );
 }

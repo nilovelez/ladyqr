@@ -185,7 +185,7 @@ main {
 .hero {
 	display: flex;
 	flex-direction: column;
-	background: #bfe6f7 url("img/web-background-kawaii.webp") center bottom / cover no-repeat;
+	background: #bfe6f7 url("img/web-background-kawaii_1080.webp") center bottom / cover no-repeat;
 }
 
 .stage {
