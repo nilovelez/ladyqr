@@ -227,7 +227,9 @@ if (dialog) {
 // narrow ones they fold under the QR code, and each size remembers its own state.
 const settingsPanel = document.querySelector('.settings');
 const settingsToggle = settingsPanel.querySelector('summary');
-const wideScreen = window.matchMedia('(min-width: 900px)');
+// A .compact editor (the website's) keeps the narrow layout at every width.
+const compact = settingsPanel.closest('.editor').classList.contains('compact');
+const wideScreen = window.matchMedia(compact ? 'not all' : '(min-width: 900px)');
 let settingsOpenWhenNarrow = settingsPanel.open;
 
 function layoutSettings() {

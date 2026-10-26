@@ -178,97 +178,99 @@ main {
 	padding-right: max(20px, env(safe-area-inset-right, 0px));
 }
 
-/* Hero: the welcome and the real editor over a drawn meadow. The bug stands on
-   the editor's top edge: it is above the card and overlaps it a little. */
+/* Hero: the welcome on the left and the real editor, in its compact layout, on
+   the right, over a drawn meadow. On a phone the bug stands on the editor's top
+   edge instead: it is above the card and overlaps it a little. */
 
 .hero {
 	min-height: 100vh;
 	min-height: 100svh;
 	display: flex;
 	flex-direction: column;
-	padding: 72px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
 	background: #bfe6f7 url("img/web-background-kawaii.webp") center bottom / cover no-repeat;
 }
 
 .stage {
 	flex: 1;
 	width: 100%;
-	max-width: 560px;
+	max-width: 1120px;
 	margin: 0 auto;
-	padding-bottom: 110px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	padding: 72px max(28px, env(safe-area-inset-right, 0px)) 56px max(28px, env(safe-area-inset-left, 0px));
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 400px;
+	gap: 48px;
+	align-items: end;
+}
+
+.hero .card.editor {
+	align-self: center;
+	font-size: 1rem;
+	line-height: 1.5;
+	box-shadow: 0 8px 30px rgba(30, 80, 120, 0.18);
 }
 
 .welcome {
 	position: relative;
-	z-index: 2;
 	display: flex;
-	align-items: flex-end;
-	gap: 6px;
-	margin-bottom: -14px;
-}
-
-.bug {
-	flex: none;
-	width: 112px;
-	height: auto;
-	margin-bottom: -28px;
-	filter: drop-shadow(0 8px 6px rgba(40, 90, 30, 0.25));
+	flex-direction: column;
 }
 
 .bubble {
 	position: relative;
-	margin: 0 0 14px;
-	padding: 12px 14px;
+	order: 1;
+	align-self: flex-start;
+	max-width: 460px;
+	margin: 0 0 22px 24px;
+	padding: 18px 22px;
 	background: var(--surface);
-	border-radius: 18px;
+	border-radius: 22px;
 	box-shadow: 0 4px 18px rgba(30, 80, 120, 0.15);
 }
 
 .bubble::after {
 	content: "";
 	position: absolute;
-	left: -8px;
-	bottom: 14px;
-	width: 18px;
-	height: 18px;
+	left: 60px;
+	bottom: -12px;
+	width: 26px;
+	height: 26px;
 	background: var(--surface);
-	border-radius: 0 0 0 6px;
+	border-radius: 0 0 6px 0;
 	transform: rotate(45deg);
 }
 
 .bubble h1 {
-	margin: 0 0 4px;
-	font-size: 1.3rem;
+	margin: 0 0 6px;
+	font-size: 2rem;
 }
 
 .bubble p {
 	margin: 0;
-	font-size: 0.9rem;
+	font-size: 1.05rem;
 	color: var(--muted);
 }
 
-.hero .card.editor {
-	position: relative;
-	z-index: 1;
-	font-size: 1rem;
-	line-height: 1.5;
-	box-shadow: 0 8px 30px rgba(30, 80, 120, 0.18);
+.bug {
+	order: 2;
+	display: block;
+	width: min(360px, 100%);
+	height: auto;
+	filter: drop-shadow(0 10px 8px rgba(40, 90, 30, 0.25));
 }
 
 .actions {
-	display: none;
+	order: 3;
+	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
-	gap: 12px;
-	margin: 28px 0 0;
+	gap: 10px;
+	margin: 18px 0 0 24px;
 }
 
 .button {
-	display: inline-block;
-	padding: 12px 22px;
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 18px;
 	font-weight: 600;
 	color: var(--ink);
 	text-decoration: none;
@@ -293,44 +295,70 @@ main {
 	border-color: var(--primary-deep);
 }
 
-/* Wide screens: the editor is the wide card of the installed one, with the
-   settings on its right. The welcome sits on its top-left corner. */
+/* Phones: one column, the bug and the bubble first, then the editor */
 
-@media (min-width: 900px) {
+@media (max-width: 860px) {
+	.hero {
+		background-position: 82% bottom;
+	}
+
 	.stage {
-		max-width: 940px;
+		max-width: 560px;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0;
+		padding: 60px max(16px, env(safe-area-inset-right, 0px)) 110px max(16px, env(safe-area-inset-left, 0px));
+	}
+
+	.hero .card.editor {
+		position: relative;
+		z-index: 1;
+		align-self: auto;
 	}
 
 	.welcome {
-		margin-bottom: -10px;
+		z-index: 2;
+		display: grid;
+		grid-template-columns: 112px minmax(0, 1fr);
+		align-items: end;
+		gap: 6px;
+		margin-bottom: -14px;
 	}
 
 	.bug {
-		width: 170px;
-		margin-bottom: 0;
+		grid-column: 1;
+		grid-row: 1;
+		width: 112px;
+		margin-bottom: -28px;
 	}
 
 	.bubble {
-		max-width: 520px;
-		margin-bottom: 20px;
-		padding: 16px 20px;
-		border-radius: 22px;
+		grid-column: 2;
+		grid-row: 1;
+		max-width: none;
+		margin: 0 0 14px;
+		padding: 12px 14px;
+		border-radius: 18px;
 	}
 
 	.bubble::after {
-		bottom: 20px;
+		left: -8px;
+		bottom: 14px;
+		width: 18px;
+		height: 18px;
+		border-radius: 0 0 0 6px;
 	}
 
 	.bubble h1 {
-		font-size: 1.9rem;
+		margin-bottom: 4px;
+		font-size: 1.3rem;
 	}
 
 	.bubble p {
-		font-size: 1.05rem;
+		font-size: 0.9rem;
 	}
 
 	.actions {
-		display: flex;
+		display: none;
 	}
 }
 /* Sections */
@@ -464,16 +492,12 @@ pre code {
 	}
 }
 
-@media (max-width: 899px) {
+@media (max-width: 860px) {
 	.top {
 		padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));
 	}
 
 	.top nav a:not(:first-child):not(:last-child) {
 		display: none;
-	}
-
-	.hero {
-		background-position: 82% bottom;
 	}
 }

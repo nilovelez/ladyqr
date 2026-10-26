@@ -95,7 +95,13 @@ if ( ! preg_match( '#<main>\s*(<div class="card editor">.*</div>)\s*</main>#s', 
 	fwrite( STDERR, "The editor did not render as expected.\n" );
 	exit( 1 );
 }
-$editor = str_replace( ' autofocus', '', $parts['skeleton'][0] . "\n" . $parts['card'][1] . "\n" . $parts['i18n'][0] );
+// The compact class keeps the narrow layout of the editor at every width.
+$card = str_replace( '<div class="card editor">', '<div class="card editor compact">', $parts['card'][1], $count );
+if ( 1 !== $count ) {
+	fwrite( STDERR, "The editor's card did not render as expected.\n" );
+	exit( 1 );
+}
+$editor = str_replace( ' autofocus', '', $parts['skeleton'][0] . "\n" . $card . "\n" . $parts['i18n'][0] );
 
 // A <meta> policy cannot use frame-ancestors, so leave it out.
 $meta = '<meta http-equiv="Content-Security-Policy" content="' . htmlspecialchars( str_replace( "; frame-ancestors 'none'", '', $ladyqr_csp ), ENT_QUOTES, 'UTF-8' ) . '">';

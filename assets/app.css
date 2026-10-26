@@ -324,41 +324,44 @@ select.input {
    The card body's own box steps aside so its parts and the settings share one
    grid; the outer columns are the card's padding. */
 
+/* The website's editor has a .compact class: it keeps the narrow layout at every
+   width, so it can share the screen with the welcome. */
+
 @media (min-width: 900px) {
 	main {
 		max-width: 940px;
 	}
 
-	.card.editor {
+	.card.editor:not(.compact) {
 		display: grid;
 		grid-template-columns: 28px minmax(0, 1fr) 28px 300px;
 		grid-template-rows: auto auto auto 1fr;
 	}
 
-	.card.editor .card-body {
+	.card.editor:not(.compact) .card-body {
 		display: contents;
 	}
 
-	.card.editor .card-body > * {
+	.card.editor:not(.compact) .card-body > * {
 		grid-column: 2;
 		margin-top: 20px;
 	}
 
-	.card.editor .field {
+	.card.editor:not(.compact) .field {
 		margin-top: 28px;
 	}
 
-	.card.editor .qr {
+	.card.editor:not(.compact) .qr {
 		justify-self: center;
 	}
 
-	.card.editor .download {
+	.card.editor:not(.compact) .download {
 		grid-row: 4;
 		align-self: start;
 		margin-bottom: 28px;
 	}
 
-	.card.editor .settings {
+	.card.editor:not(.compact) .settings {
 		grid-column: 4;
 		grid-row: 1 / -1;
 		margin: 0;
@@ -368,18 +371,18 @@ select.input {
 		border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 	}
 
-	.settings summary {
+	.editor:not(.compact) .settings summary {
 		cursor: default;
 		padding: 16px 24px;
 		background: none;
 	}
 
-	.settings summary::after,
-	.settings-state {
+	.editor:not(.compact) .settings summary::after,
+	.editor:not(.compact) .settings-state {
 		display: none;
 	}
 
-	.settings-body {
+	.editor:not(.compact) .settings-body {
 		padding: 20px 24px 22px;
 	}
 }
