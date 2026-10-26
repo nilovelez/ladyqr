@@ -328,7 +328,7 @@ php tools/build-release.php
 
 ## Roadmap
 
-See [docs/PLAN.md](docs/PLAN.md). 1.1.0 brought automated tests, the encoder's numeric and alphanumeric modes, and a QR code for each short link, straight from the admin. The backlog has what may come later, and [CHANGELOG.md](CHANGELOG.md) what each version changed.
+See [docs/PLAN.md](docs/PLAN.md). 1.2.0 brought the customization of the generator page with a `theme` folder, and 1.1.0 brought automated tests, the encoder's numeric and alphanumeric modes, and a QR code for each short link, straight from the admin. The backlog has what may come later, and [CHANGELOG.md](CHANGELOG.md) what each version changed.
 
 ## License
 

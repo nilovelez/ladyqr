@@ -6,15 +6,17 @@ What a new working session needs to pick LadyQR up. The rules for working with N
 
 - Milestones 0 to 6 are done. **1.0.0** is the first release: the README, `INSTALL.txt` and the configuration sample are up to date, and the design is accepted for this version.
 - M7 is done and released as **1.1.0**: automated tests in `tests/`, numeric and alphanumeric encoder modes, and a QR icon for each short link in the admin (with the optional `LADYQR_QR_BASE`).
+- **1.2.0** brought the customization of the generator page: an optional `theme` folder (`docs/THEME.md` is the guide, `docs/theme/` the example that goes in `theme.zip`), `LADYQR_SITE_TITLE` and `LADYQR_SITE_DESCRIPTION` (also asked by the installer), the meadow background of the installer and the CSS variables `--page-top`, `--help-top` and `--help-right`. The CSP only allows fonts from the site itself, besides what it allowed.
+- The website's hero is the welcome (the ladybug and its bubble) with the real editor embedded: `tools/build-site.php` renders `index.php` into `site/index.html`, and the editor has a `compact` class that keeps its narrow layout at every width.
 - `CHANGELOG.md` (in the repository, not in the zip) lists the notable changes of each version, for users. Add to it as changes land, not every detail.
-- 1.0.0 is published on GitHub; `release.yml` attached `ladyqr-latest.zip` to it. Permanent link: https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip
+- Every release has two files, attached by `release.yml`: `ladyqr-latest.zip` and, since 1.2.0, `theme.zip`. Permanent links: https://github.com/nilovelez/ladyqr/releases/latest/download/ladyqr-latest.zip and https://github.com/nilovelez/ladyqr/releases/latest/download/theme.zip
 - Nilo runs LadyQR on his own site, https://1qr.es/. Only he touches that site.
 - The website and demo, https://ladyqr.nilovelez.com/, are deployed by GitHub Pages on every push to `main`.
 
 ## Next
 
 - Whatever Nilo picks next from the backlog in `docs/PLAN.md`.
-- To release a new version: run the tests, move the changes into a new section of `CHANGELOG.md`, then publish a GitHub release with a new tag (such as `v1.1.1`) and the same notes; the workflow attaches the zip.
+- To release a new version: run the tests, move the changes into a new section of `CHANGELOG.md`, then publish a GitHub release with a new tag (such as `v1.2.1`) and the same notes; the workflow attaches the zips.
 
 ## How the code fits together
 

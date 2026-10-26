@@ -3,9 +3,9 @@
   "title": "LadyQR",
   "description": "Privacy-oriented QR code generator and URL shortener.",
   "status": "active",
-  "status_text": "LadyQR 1.1.0 is published on GitHub and the website was redesigned. The generator page can now be customized with an optional theme folder, pending review and a release. Next: the release, then the backlog.",
-  "last_update": "2026-10-26 12:57:36 +0100",
-  "last_update_unix": 1793015856,
+  "status_text": "LadyQR 1.2.0 is published on GitHub: the generator page can be customized with an optional theme folder, and the installer has a new look. The website was redesigned. Next: the backlog.",
+  "last_update": "2026-10-26 13:01:13 +0100",
+  "last_update_unix": 1793016073,
   "url": "https://github.com/nilovelez/ladyqr",
   "status_url": "https://raw.githubusercontent.com/nilovelez/ladyqr/main/guppy/STATUS.md",
   "icon": "https://raw.githubusercontent.com/nilovelez/ladyqr/main/assets/icon-128.png"
