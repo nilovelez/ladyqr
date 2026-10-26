@@ -17,7 +17,7 @@ $out  = $root . '/_release/ladyqr-latest.zip';
 
 $files   = array( 'index.php', '404.php', 'ladyqr-config.sample.php', 'LICENSE', 'INSTALL.txt' );
 $folders = array( 'admin', 'includes', 'assets', 'languages' );
-$skip    = array( 'assets/icon-full.png', 'assets/icon-vector.ai', 'assets/ladyqr-web.webp', 'assets/web-background-kawaii.webp', 'assets/web-background-kawaii_1080.png', 'assets/web-background-kawaii_1080.webp' );
+$skip    = array( 'assets/icon-full.png', 'assets/icon-vector.ai', 'assets/ladyqr-web.webp', 'assets/web-background-kawaii.webp', 'assets/web-background-kawaii_1080.png' );
 
 // Never in a release, wherever they are.
 $forbidden = array( 'ladyqr-config.php', 'ladyqr-data.php', '.htaccess', '.htaccess.bak', 'icon-full.png', 'icon-vector.ai' );

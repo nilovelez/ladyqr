@@ -215,7 +215,7 @@ The landing page at https://ladyqr.nilovelez.com/ (`site/index.html` and `site/s
 - It carries the same `<meta>` CSP as the editor (scripts from its own origin, no connections), because GitHub Pages cannot send headers, and it loads `assets/app.css` and `assets/app.js` for the editor.
 - Layout: a fixed header whose name and logo only appear after scrolling, a hero, a grid of six features, a screenshot of the editor (`site/img/editor.png`, the narrow layout at 560 px), the optional link shortener with a screenshot of the admin (`site/img/shortener.png`), a "verify it yourself" section, a self-hosting section and the roadmap.
 - The hero is the welcome (the speech bubble, the bug and two buttons, over a drawn meadow) and the real editor, built from `index.php` by `tools/build-site.php`. On a wide screen the editor is the narrow layout, in half of the hero: the card has the `compact` class, which keeps that layout at every width (the wide layout, with the settings on the right, is only for the installed editor). On a phone the bug stands on the editor's top edge and the buttons are hidden.
-- The hero's images are `assets/ladyqr-web.webp` (the bug, 640 × 480) and `assets/web-background-kawaii_1080.webp` (the meadow, 1980 × 1080), copied to `img/` by the build. none of the website's images, including the other versions of the meadow in `assets/`, goes in the release zip.
+- The hero's images are `assets/ladyqr-web.webp` (the bug, 640 × 480) and `assets/web-background-kawaii_1080.webp` (the meadow, 1980 × 1080), copied to `img/` by the build. The meadow is also in the release zip, because the installer uses it; the bug and the other versions of the meadow in `assets/` are not.
 
 When the editor's look changes, take a new screenshot: the card alone, 560 px wide, with `LADYQR.NILOVELEZ.COM` typed in (it fits a version 1 code) and the settings closed.
 
@@ -246,6 +246,7 @@ The ladybug with a QR code on its back comes in two shapes. No other sizes are g
 - **Fitted to the drawing, 4:3**, shown in the pages:
   - `assets/ladyqr.png`, 64 × 48 px: the footer of the editor, at 32 × 24.
   - `assets/ladyqr@2X.png`, 128 × 96 px: next to headings. 48 × 36 in the help dialog, the admin bar and the website's header; 64 × 48 on the not-found page; 128 × 96 at the top of the README.
+  - `assets/web-background-kawaii_1080.webp`, 1980 × 1080 px: the background of the installer's screens (`body.installer`: `center bottom / cover`, over `rgb(191, 230, 247)`), the same meadow as the website's hero. The cards stay white on top of it.
   - `assets/ladyqr@4X.png`, 256 × 192 px: the installer's welcome ("Hi! I'm LadyQR"), at 128 × 96.
 - **Square**, for the browser and the system:
   - `assets/icon-64.png`, 64 × 64 px: the favicon.

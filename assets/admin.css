@@ -53,6 +53,12 @@ body.admin.admin-panel main {
 	font-weight: 700;
 }
 
+/* The installer sits on the same meadow as the website's hero. */
+
+body.installer {
+	background: url("web-background-kawaii_1080.webp") center bottom / cover no-repeat rgb(191, 230, 247);
+}
+
 /* The installer: the screen's title inside the card. */
 .card-body h1 {
 	margin: 0;

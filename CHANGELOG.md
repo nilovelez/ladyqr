@@ -2,6 +2,10 @@
 
 The notable changes in each version of LadyQR. It is not part of the release zip.
 
+## Unreleased
+
+- **The installer's screens have a background**: the same drawn meadow as the website's hero.
+
 ## 1.1.0 — 2026-10-25
 
 - **Smaller QR codes.** The encoder now picks the most compact mode for the text: numeric for digits only, alphanumeric for digits, uppercase letters, space and `$%*+-./:`, and byte mode for anything else. Nothing changes in the editor.

@@ -170,7 +170,7 @@ function ladyqr_install_page( $title, $content, $heading = true ) {
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/app.css', '../' ); ?>">
 	<link rel="stylesheet" href="<?php echo ladyqr_asset( 'assets/admin.css', '../' ); ?>">
 </head>
-<body class="admin admin-panel">
+<body class="admin admin-panel installer">
 
 <main>
 	<div class="card">
