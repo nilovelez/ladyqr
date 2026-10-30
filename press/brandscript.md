@@ -1,4 +1,4 @@
-# LadyQR: BrandScript (English)
+# LadyQR: BrandScript
 
 The core message of LadyQR, following the StoryBrand framework (SB7, Donald Miller). The customer is the hero; LadyQR is the guide. The website, the README, the press kit and the author's own writing should all follow this story, each in its own voice.
 
@@ -81,18 +81,3 @@ The author's own instance is the success story and the reference implementation:
   - **Press notes** (English): a mix of the two. The project, who it is for, use cases, requirements, and a simple technical explanation.
   - **The author's website** (Spanish, Projects section): the personal story, the motivation and what he learned.
 - Keep the tone of the product: clear and calm, not hype. The name carries the character: the ladybug. Let it show in small nods at the edges (the greeting, the closing line, the end card), one or two per piece, never in the headline or in the problem.
-
-## Claims: safe and careful
-
-Safe, because the repository proves them:
-
-- The page cannot send what you type anywhere (CSP, checkable).
-- No account, no ads, no analytics, no database.
-- Free and open source, GPL-2.0-or-later.
-- The encoder is verified against an independent implementation.
-- It runs on a minimal shared hosting plan.
-
-Careful:
-
-- **Other generators.** Never name them. Talk about "many free generators" and about what the author lived through.
-- **Small codes with `LADYQR_QR_BASE`.** Most phone cameras open them as a web address, but a code should be tested before it is printed.
