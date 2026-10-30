@@ -94,7 +94,5 @@ Safe, because the repository proves them:
 
 Careful:
 
-- **Browsers.** It has been tested in Chrome only. Do not say it works everywhere.
-- **"Never expires".** A code holds the text it was made with, so it works as long as that link works. Say it that way.
 - **Other generators.** Never name them. Talk about "many free generators" and about what the author lived through.
 - **Small codes with `LADYQR_QR_BASE`.** Most phone cameras open them as a web address, but a code should be tested before it is printed.
